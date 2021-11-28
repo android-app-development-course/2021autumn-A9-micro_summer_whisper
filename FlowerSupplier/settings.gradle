@@ -1,0 +1,9 @@
+rootProject.name = "FlowerSupplier"
+include ':app'
+include ':common'
+include ':order'
+include ':good'
+include ':store'
+include ':chat'
+include ':me'
+include ':login'

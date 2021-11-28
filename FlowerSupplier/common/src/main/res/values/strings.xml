@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">FlowerSupplier</string>
+    <string name="navigation_store">店铺</string>
+    <string name="navigation_order">订单</string>
+    <string name="navigation_chat">聊天</string>
+    <string name="navigation_good">商品</string>
+    <string name="navigation_me">我的</string>
+    <string name="login_account">账号</string>
+    <string name="login_password">密码</string>
+    <string name="login_login">登录</string>
+    <string name="login_register">注册</string>
+    <string name="login_try_login_warning">账号或密码错误，剩余尝试次数：</string>
+    <string name="register_account_or_password_or_email_empty">账号或密码或邮箱为空</string>
+    <string name="register_again_password">确认密码</string>
+    <string name="register_password_not_same">两次输入密码不一致</string>
+    <string name="register_account_rule">账号由8~12个字母或下划线或数字构成</string>
+    <string name="register_password_rule">密码由8~12个字母或下划线或数字构成</string>
+    <string name="register_email_rule">邮箱格式，例如：abc_34@qq.com</string>
+    <string name="register_email">邮箱</string>
+    <string name="register_user_exists">用户已存在</string>
+    <string name="register_register_success">用户注册成功</string>
+    <string name="login_login_success">用户登录成功</string>
+
+</resources>
