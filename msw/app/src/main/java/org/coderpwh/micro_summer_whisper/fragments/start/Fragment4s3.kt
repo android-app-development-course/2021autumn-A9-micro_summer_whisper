@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_fragment4s3.*
 import org.coderpwh.micro_summer_whisper.MainActivity
 import org.coderpwh.micro_summer_whisper.R
-
+import org.coderpwh.micro_summer_whisper.activity.LoginActivity
 
 
 /**
@@ -36,7 +36,7 @@ class Fragment4s3 : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         startm.setOnClickListener {
-            var intent = Intent(activity,MainActivity::class.java)
+            var intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)
             activity?.finish()
         }

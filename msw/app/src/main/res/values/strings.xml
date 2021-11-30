@@ -1,5 +1,9 @@
 <resources>
-    <string name="app_name">micro_summer_whisper</string>
+    <string name="app_name">夏日微语</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">click me to start</string>
+    <string name="home_search">搜索...</string>
+    <string name="home_hot_cate">热销产品</string>
+    <string name="home_recommend">产品推荐</string>
+
 </resources>
