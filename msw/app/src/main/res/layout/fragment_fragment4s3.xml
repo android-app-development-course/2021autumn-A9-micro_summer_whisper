@@ -3,13 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/c"
     tools:context=".fragments.start.Fragment4s3">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/startm"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
+
+    <org.coderpwh.micro_summer_whisper.design.TimerButton
+        android:id="@+id/timerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="300dp"
+        app:cornerRadius="25dp"
+        app:duration="4"
+        app:interval="1"/>
 </FrameLayout>

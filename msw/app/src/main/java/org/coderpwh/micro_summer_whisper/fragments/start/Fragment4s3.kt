@@ -2,6 +2,7 @@ package org.coderpwh.micro_summer_whisper.fragments.start
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -35,10 +36,13 @@ class Fragment4s3 : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        startm.setOnClickListener {
-            var intent = Intent(activity,MainActivity::class.java)
+        timerButton.startTimer()
+        timerButton.setOnClickListener {
+            val intent = Intent(activity,MainActivity::class.java)
             startActivity(intent)
             activity?.finish()
         }
     }
+
+
 }
