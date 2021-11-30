@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Micro_summer_whisper">
         <activity
+            android:name=".activity.TestActivity"
+            android:exported="true" />
+        <activity
             android:name=".activity.LoginActivity"
             android:exported="true" />
         <activity
