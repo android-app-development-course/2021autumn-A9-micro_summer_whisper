@@ -10,16 +10,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Micro_summer_whisper">
         <activity
+            android:name=".activity.TestActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:exported="true" />
+        <activity
             android:name=".activity.GuideActivity"
             android:exported="true" />
         <activity
-            android:name="MainActivity"
+            android:name=".MainActivity"
             android:exported="true" />
         <activity
             android:name=".activity.FirstActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

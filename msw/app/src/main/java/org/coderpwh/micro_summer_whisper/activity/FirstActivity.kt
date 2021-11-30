@@ -10,6 +10,7 @@ import android.view.Window
 import android.widget.EditText
 import org.coderpwh.micro_summer_whisper.MainActivity
 import org.coderpwh.micro_summer_whisper.R
+import org.coderpwh.micro_summer_whisper.utils.LoginCheckUtil
 import java.util.prefs.AbstractPreferences
 
 class FirstActivity : AppCompatActivity() {
@@ -31,7 +32,15 @@ class FirstActivity : AppCompatActivity() {
 
 
             }else{
-                val intent = Intent(this,MainActivity::class.java)
+                var isLogin = LoginCheckUtil.isLogin(this)
+//                var isLogin = false
+                val intent:Intent
+                if(isLogin){
+                    intent = Intent(this,MainActivity::class.java)
+                }else{
+                    intent = Intent(this,LoginActivity::class.java)
+                }
+
                 startActivity(intent)
                 finish()
             }
