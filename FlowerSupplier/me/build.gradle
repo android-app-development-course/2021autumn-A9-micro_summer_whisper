@@ -70,5 +70,5 @@ dependencies {
     implementation 'com.alibaba:arouter-api:1.5.2'
     kapt 'com.alibaba:arouter-compiler:1.5.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
 }

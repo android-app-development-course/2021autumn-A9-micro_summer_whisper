@@ -10,8 +10,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.micro_summer_whisper.flower_supplier.chat.ChatFragment
 import com.micro_summer_whisper.flower_supplier.common.BaseActivity
 import com.micro_summer_whisper.flower_supplier.good.GoodFragment
+import com.micro_summer_whisper.flower_supplier.good.OrderFragment
 import com.micro_summer_whisper.flower_supplier.me.MeFragment
-import com.micro_summer_whisper.flower_supplier.order.OrderFragment
 import com.micro_summer_whisper.flower_supplier.store.StoreFragment
 import com.micro_summer_whisper.flowergiver.databinding.ActivityMainBinding
 
