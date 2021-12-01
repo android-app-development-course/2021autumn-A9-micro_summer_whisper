@@ -3,6 +3,7 @@ package org.coderpwh.micro_summer_whisper
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.Window
 import android.widget.Toast
@@ -17,13 +18,15 @@ import org.coderpwh.micro_summer_whisper.fragments.main.SqFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private var exitTime = 0
+    private var exitTime:Long = 0
     companion object {
         val activityList:ArrayList<Activity> = ArrayList()
         fun exitApp(){
             activityList.forEach {
+                Log.d("test",it.localClassName)
                 it.finish()
             }
+
         }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +71,8 @@ class MainActivity : AppCompatActivity() {
             if (System.currentTimeMillis() - exitTime > 2000) {
                 //弹出提示，可以有多种方式
                 Toast.makeText(applicationContext, "再按一次退出程序", Toast.LENGTH_SHORT).show()
-                exitTime = System.currentTimeMillis().toInt()
+                exitTime = System.currentTimeMillis()
+//                MainActivity.exitApp()
             } else {
                 MainActivity.exitApp()
             }

@@ -93,6 +93,7 @@ class LoginActivity : AppCompatActivity() {
     }
     //登录失败调用
     fun onLoginFailure(msg:String){
-
+        Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
+        btn_login.isEnabled = true
     }
 }
