@@ -12,6 +12,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/activity_test.xml" value="0.35104166666666664" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.34375" />
+        <entry key="app/src/main/res/layout/classify_item.xml" value="0.35104166666666664" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_classify.xml" value="0.1431159420289855" />
         <entry key="app/src/main/res/layout/fragment_fragment4s1.xml" value="0.33695652173913043" />
@@ -21,6 +22,7 @@
         <entry key="app/src/main/res/layout/fragment_me.xml" value="0.35104166666666664" />
         <entry key="app/src/main/res/layout/fragment_sq.xml" value="0.35104166666666664" />
         <entry key="app/src/main/res/layout/gridview_layout.xml" value="0.35104166666666664" />
+        <entry key="app/src/main/res/layout/item_detail.xml" value="0.35104166666666664" />
         <entry key="app/src/main/res/layout/item_gridview.xml" value="0.35104166666666664" />
       </map>
     </option>
