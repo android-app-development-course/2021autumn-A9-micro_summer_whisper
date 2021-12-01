@@ -4,12 +4,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.alibaba.android.arouter.launcher.ARouter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.micro_summer_whisper.flower_supplier.chat.ChatFragment
 import com.micro_summer_whisper.flower_supplier.common.BaseActivity
+import com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication
+import com.micro_summer_whisper.flower_supplier.common.shortToast
 import com.micro_summer_whisper.flower_supplier.good.GoodFragment
+
 import com.micro_summer_whisper.flower_supplier.me.MeFragment
 import com.micro_summer_whisper.flower_supplier.order.OrderFragment
 import com.micro_summer_whisper.flower_supplier.store.StoreFragment
@@ -104,6 +109,15 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
                     fragments[4]?.let { fragmentTran.add(R.id.content, it,"meModule") }
                 }
                 hideAndShow(4,fragmentTran)
+                if (!FlowerSupplierApplication.isLogin){
+                    val notifyLoginDialog = AlertDialog.Builder(this)
+                    notifyLoginDialog.setPositiveButton("去登录") { dialog, which ->
+                        "登录".shortToast()
+                        ARouter.getInstance().build("/login/login_activity").navigation();
+                    }
+                    notifyLoginDialog.show()
+                }
+
                 return true
             }
             else -> {

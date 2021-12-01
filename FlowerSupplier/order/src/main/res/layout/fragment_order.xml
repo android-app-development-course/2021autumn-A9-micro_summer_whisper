@@ -1,14 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OrderFragment">
+    android:orientation="vertical"
+    android:background="#F2F2F2">
 
-
-    <TextView
+    <LinearLayout
+        android:id="@+id/order_navigation"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Order组件" />
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/navigation_ff0"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="全部"/>
+        <TextView
+            android:id="@+id/navigation_ff1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="待付款"/>
+        <TextView
+            android:id="@+id/navigation_ff2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="待发货"/>
+        <TextView
+            android:id="@+id/navigation_ff3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="待收货"/>
+        <TextView
+            android:id="@+id/navigation_ff4"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="待评价"/>
+    </LinearLayout>
 
-</FrameLayout>
+    <FrameLayout
+        android:id="@+id/order_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+    </FrameLayout>
+
+
+
+</LinearLayout>

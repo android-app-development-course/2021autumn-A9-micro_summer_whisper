@@ -11,6 +11,7 @@ class FlowerSupplierApplication: Application() {
         lateinit var context: Context
         val ignoreNetworkFail = true //true，忽略网络请求失败；false，正常
         val isDebug = true
+        var isLogin = false
     }
 
 
