@@ -10,8 +10,9 @@ import com.google.android.material.button.MaterialButton
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
 import org.coderpwh.micro_summer_whisper.MainActivity
 import org.coderpwh.micro_summer_whisper.R
+import org.coderpwh.micro_summer_whisper.activity.LoginActivity
 
-class TimerButton(context: Context, attrs: AttributeSet) : QMUIRoundButton(context, attrs) {
+class TimerButton3(context: Context, attrs: AttributeSet) : QMUIRoundButton(context, attrs) {
     private val duration: Long
     private val interval: Long
     val activity=context as Activity
@@ -31,7 +32,7 @@ class TimerButton(context: Context, attrs: AttributeSet) : QMUIRoundButton(conte
         object : CountDownTimer(duration, interval) {
             override fun onFinish() {
                 isEnabled = false
-                val intent = Intent(activity,MainActivity::class.java)
+                val intent = Intent(activity,LoginActivity::class.java)
                 context.startActivity(intent)
                 activity?.finish()
 

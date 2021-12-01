@@ -30,15 +30,14 @@ class FirstActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
 
-
             }else{
                 var isLogin = LoginCheckUtil.isLogin(this)
 //                var isLogin = false
                 val intent:Intent
                 if(isLogin){
-                    intent = Intent(this,MainActivity::class.java)
+                    intent = Intent(this,Firstshow2Activity::class.java)
                 }else{
-                    intent = Intent(this,LoginActivity::class.java)
+                    intent = Intent(this,FirstshowActivity::class.java)
                 }
 
                 startActivity(intent)

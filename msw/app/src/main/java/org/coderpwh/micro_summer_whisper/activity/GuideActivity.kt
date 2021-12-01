@@ -27,7 +27,6 @@ class GuideActivity : FragmentActivity() {
         fragments.add(Fragment4s3())
         viewpage.setAdapter(object : FragmentPagerAdapter(supportFragmentManager){
             override fun getCount() = fragments.size
-
             override fun getItem(position: Int): Fragment {
                 return fragments.get(position)
             }

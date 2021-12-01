@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.fragment_fragment4s3.*
 import org.coderpwh.micro_summer_whisper.MainActivity
 import org.coderpwh.micro_summer_whisper.R

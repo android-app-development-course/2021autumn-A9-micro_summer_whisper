@@ -22,7 +22,7 @@
     <color name="light_gray">#E0E0E0</color>
 
     <!--登录页面相关-->
-    <color name="certainblue">#ff387ef5</color>
+    <color name="certainblue">#FFC107</color>
     <color name="jet">#222222</color>
     <color name="oil">#333333</color>
     <color name="monsoon">#777777</color>
@@ -64,5 +64,9 @@
     <color name="dialog_btn_color">#00B4C9</color>
 
     <!--购物车界面-->
-    <color name="blue_button">#ff387ef5</color>
+    <color name="blue_button">#FFC107</color>
+
+    <!--社区标题栏-->
+    <color name="sq_title">#FFC107</color>
+    <color name="sq_toptext">#000</color>
 </resources>

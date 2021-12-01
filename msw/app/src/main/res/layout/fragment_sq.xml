@@ -1,13 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <Button
+        android:id="@+id/addDynamic"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="330dp"
+        android:layout_marginTop="500dp"
+        android:background="@drawable/f"/>
+    <RelativeLayout
+        android:id="@+id/sq_title_layout"
         android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/sq_title">
+    <LinearLayout
+        android:id="@+id/detail_title_left"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="sq_fragment" />
+        android:layout_marginStart="175dp"
+        android:gravity="right">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:text="动态"
+            android:textColor="@color/sq_toptext"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="350dp"
+            android:src="@drawable/e" />
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dynamic"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="50dp" />
 
 </FrameLayout>
