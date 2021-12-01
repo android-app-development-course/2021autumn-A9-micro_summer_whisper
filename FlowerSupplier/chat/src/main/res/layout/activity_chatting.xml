@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChattingActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/chatting_recyclerView"
+        android:id="@+id/toolbar"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatting_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/little_gray"
+        app:layout_constraintBottom_toTopOf="@id/chatting_tail"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/chatting_tail"
+        app:layout_constraintTop_toBottomOf="@id/chatting_recyclerView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        >
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/chatting_input"
+            android:text="frdsfsdfrdsfsddfrdsfsdfrdsfsddfrdsfsdfrdsfsdd"
+            android:maxLines="3"
+            android:layout_weight="1"
+            />
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/chatting_send_btn"
+            android:text="@string/chatting_send"
+            />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/chatting_add_picture"
+            android:src="@drawable/picture"
+            />
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

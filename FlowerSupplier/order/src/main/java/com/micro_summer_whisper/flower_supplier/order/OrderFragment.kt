@@ -1,27 +1,20 @@
-package com.micro_summer_whisper.flower_supplier.good
+package com.micro_summer_whisper.flower_supplier.order
 
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentTransaction
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.micro_summer_whisper.flower_supplier.order.*
+import android.widget.Toast
 import com.micro_summer_whisper.flower_supplier.order.databinding.FragmentOrderBinding
 
 
-class OrderFragment : Fragment()
-{
+class OrderFragment : Fragment() {
+
     private var _binding: FragmentOrderBinding? = null
+    // This property is only valid between onCreateView and
+    // onDestroyView.
     private val binding get() = _binding!!
-
-    private val fragments = arrayOfNulls<Fragment>(5)
-    private var currentIndex = 0
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,133 +22,7 @@ class OrderFragment : Fragment()
     ): View? {
         _binding = FragmentOrderBinding.inflate(inflater, container, false)
         val view = binding.root
-        initFragment()
-        binding.navigationFf0.setTextColor(Color.parseColor("#FF5500"))
-        binding.navigationFf0.setTypeface(Typeface.DEFAULT_BOLD)
-
-        binding.navigationFf0.setOnClickListener {
-            activity?.let {
-                binding.navigationFf0.setTextColor(Color.parseColor("#FF5500"))
-                binding.navigationFf0.setTypeface(Typeface.DEFAULT_BOLD)
-
-                val fragmentTran = it.supportFragmentManager.beginTransaction()
-                binding.navigationFf1.setTextColor(Color.parseColor("#000000"))
-                binding.navigationFf2.setTextColor(Color.parseColor("#000000"))
-                binding.navigationFf3.setTextColor(Color.parseColor("#000000"))
-                binding.navigationFf4.setTextColor(Color.parseColor("#000000"))
-                binding.navigationFf1.setTypeface(Typeface.DEFAULT)
-                binding.navigationFf2.setTypeface(Typeface.DEFAULT)
-                binding.navigationFf3.setTypeface(Typeface.DEFAULT)
-                binding.navigationFf4.setTypeface(Typeface.DEFAULT)
-
-                hideAndShow(0, fragmentTran)
-            }
-        }
-        binding.navigationFf1.setOnClickListener {
-            activity?.let {
-                binding.navigationFf1.setTextColor(Color.parseColor("#FF5500"))
-                binding.navigationFf1.setTypeface(Typeface.DEFAULT_BOLD)
-                val fragmentTran = it.supportFragmentManager.beginTransaction()
-                if (fragments[1] == null) {
-                    fragments[1] = Fragment1.newInstance()
-                    fragments[1]?.let { fragmentTran.add(R.id.order_content, it, "Fragment1") }
-                }
-                binding.navigationFf0.setTextColor(Color.parseColor("#000000"))
-                binding.navigationFf2.setTextColor(Color.parseColor("#000000"))
-                binding.navigationFf3.setTextColor(Color.parseColor("#000000"))
-                binding.navigationFf4.setTextColor(Color.parseColor("#000000"))
-                binding.navigationFf0.setTypeface(Typeface.DEFAULT)
-                binding.navigationFf2.setTypeface(Typeface.DEFAULT)
-                binding.navigationFf3.setTypeface(Typeface.DEFAULT)
-                binding.navigationFf4.setTypeface(Typeface.DEFAULT)
-                hideAndShow(1, fragmentTran)
-            }
-        }
-        binding.navigationFf2.setOnClickListener {
-            activity?.let {
-                binding.navigationFf2.setTextColor(Color.parseColor("#FF5500"))
-                binding.navigationFf2.setTypeface(Typeface.DEFAULT_BOLD)
-                val fragmentTran = it.supportFragmentManager.beginTransaction()
-                if (fragments[2] == null) {
-                    fragments[2] = Fragment2.newInstance()
-                    fragments[2]?.let { fragmentTran.add(R.id.order_content, it, "Fragment2") }
-                }
-                binding.navigationFf0.setTextColor(Color.parseColor("#000000"))
-                binding.navigationFf1.setTextColor(Color.parseColor("#000000"))
-                binding.navigationFf3.setTextColor(Color.parseColor("#000000"))
-                binding.navigationFf4.setTextColor(Color.parseColor("#000000"))
-                binding.navigationFf0.setTypeface(Typeface.DEFAULT)
-                binding.navigationFf1.setTypeface(Typeface.DEFAULT)
-                binding.navigationFf3.setTypeface(Typeface.DEFAULT)
-                binding.navigationFf4.setTypeface(Typeface.DEFAULT)
-                hideAndShow(2, fragmentTran)
-            }
-        }
-        binding.navigationFf3.setOnClickListener {
-            activity?.let {
-                binding.navigationFf3.setTextColor(Color.parseColor("#FF5500"))
-                binding.navigationFf3.setTypeface(Typeface.DEFAULT_BOLD)
-                val fragmentTran = it.supportFragmentManager.beginTransaction()
-                if (fragments[3] == null) {
-                    fragments[3] = Fragment3.newInstance()
-                    fragments[3]?.let { fragmentTran.add(R.id.order_content, it, "Fragment3") }
-                }
-                binding.navigationFf0.setTextColor(Color.parseColor("#000000"))
-                binding.navigationFf2.setTextColor(Color.parseColor("#000000"))
-                binding.navigationFf1.setTextColor(Color.parseColor("#000000"))
-                binding.navigationFf4.setTextColor(Color.parseColor("#000000"))
-                binding.navigationFf0.setTypeface(Typeface.DEFAULT)
-                binding.navigationFf2.setTypeface(Typeface.DEFAULT)
-                binding.navigationFf1.setTypeface(Typeface.DEFAULT)
-                binding.navigationFf4.setTypeface(Typeface.DEFAULT)
-                hideAndShow(3, fragmentTran)
-            }
-        }
-        binding.navigationFf4.setOnClickListener {
-            binding.navigationFf4.setTextColor(Color.parseColor("#FF5500"))
-            binding.navigationFf4.setTypeface(Typeface.DEFAULT_BOLD)
-            activity?.let {
-                val fragmentTran = it.supportFragmentManager.beginTransaction()
-                if (fragments[4] == null) {
-                    fragments[4] = Fragment4.newInstance()
-                    fragments[4]?.let { fragmentTran.add(R.id.order_content, it, "Fragment4") }
-                }
-                hideAndShow(4, fragmentTran)
-            }
-            binding.navigationFf0.setTextColor(Color.parseColor("#000000"))
-            binding.navigationFf2.setTextColor(Color.parseColor("#000000"))
-            binding.navigationFf3.setTextColor(Color.parseColor("#000000"))
-            binding.navigationFf1.setTextColor(Color.parseColor("#000000"))
-            binding.navigationFf0.setTypeface(Typeface.DEFAULT)
-            binding.navigationFf2.setTypeface(Typeface.DEFAULT)
-            binding.navigationFf3.setTypeface(Typeface.DEFAULT)
-            binding.navigationFf1.setTypeface(Typeface.DEFAULT)
-        }
-
         return view
-    }
-
-    private fun initFragment(){
-        activity?.let {
-            val fragmentTran = it.supportFragmentManager.beginTransaction()
-            if (fragments[0]==null){
-                fragments[0] = Fragment0.newInstance()
-                fragments[0]?.let { fragmentTran.add(R.id.order_content, it,"Fragment0").commit() }
-            } else {
-                fragments[0]?.let { fragmentTran.show(it) }
-            }
-        }
-    }
-
-    private fun hideAndShow(expectIndex: Int, transaction: FragmentTransaction){
-        for (i in 0 until fragments.size) {
-            if (i != expectIndex && fragments[i] != null) {
-                fragments[i]?.let { transaction.hide(it) }
-            }
-        }
-        fragments[expectIndex]?.let { transaction.show(it) }
-        transaction.commit()
-        currentIndex = expectIndex
     }
 
     override fun onDestroyView() {
@@ -169,5 +36,4 @@ class OrderFragment : Fragment()
 
             }
     }
-
 }

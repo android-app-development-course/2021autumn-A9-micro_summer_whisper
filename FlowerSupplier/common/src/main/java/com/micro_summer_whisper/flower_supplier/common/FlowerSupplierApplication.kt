@@ -2,9 +2,8 @@ package com.micro_summer_whisper.flower_supplier.common
 
 import android.app.Application
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import com.alibaba.android.arouter.launcher.ARouter
+
 
 class FlowerSupplierApplication: Application() {
 

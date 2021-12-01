@@ -20,5 +20,8 @@
     <string name="register_user_exists">用户已存在</string>
     <string name="register_register_success">用户注册成功</string>
     <string name="login_login_success">用户登录成功</string>
+    <string name="chat_title">接待</string>
+    <string name="chat_msg_delete">删除</string>
+    <string name="chatting_send">发送</string>
 
 </resources>
