@@ -1,5 +1,6 @@
 package com.micro_summer_whisper.flower_supplier.good
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,7 @@ import com.micro_summer_whisper.flower_supplier.common.pojo.Good
 
 
 
-class GoodAdapter(val fragment: Fragment, val goodList:ArrayList<Good>): RecyclerView.Adapter<GoodAdapter.GoodViewHolder>() {
+class GoodAdapter(val context: Context, val goodList:ArrayList<Good>): RecyclerView.Adapter<GoodAdapter.GoodViewHolder>() {
 
     inner class GoodViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.good_cover_image)
@@ -21,17 +22,17 @@ class GoodAdapter(val fragment: Fragment, val goodList:ArrayList<Good>): Recycle
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GoodViewHolder {
-        val view = LayoutInflater.from(fragment.context).inflate(R.layout.good_item, parent,false)
+        val view = LayoutInflater.from(context).inflate(R.layout.good_item, parent,false)
         return GoodViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: GoodViewHolder, position: Int) {
         val good = goodList[position]
-        Glide.with(fragment).load(good.coverUri).into(holder.imageView)
+        Glide.with(context).load(good.coverUri).into(holder.imageView)
         holder.titleTV.setText(good.title)
         holder.priceTV.setText(good.price.toString())
         holder.itemView.setOnClickListener {
-            fragment.context?.let {
+            context.let {
                 GoodDetailActivity.actionStart(it, true, good)
             }
         }

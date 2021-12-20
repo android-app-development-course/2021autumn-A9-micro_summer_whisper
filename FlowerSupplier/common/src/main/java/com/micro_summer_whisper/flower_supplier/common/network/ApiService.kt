@@ -20,7 +20,7 @@ interface ApiService {
     fun getGoodCategoryList(): Call<List<String>>
 
     @GET("getGoodList")
-    fun getGoodList(@Query("category") category: String): Call<List<Good>>
+    fun getGoodList(@Query("category") category: String, @Query("keyword") keyword: String = ""): Call<List<Good>>
 
     @POST("newGood")
     fun newGood(@Body body: Good): Call<Map<String,String>>

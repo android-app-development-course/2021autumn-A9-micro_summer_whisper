@@ -25,8 +25,6 @@ class StoreFragment : Fragment() {
     private var _binding: FragmentStoreBinding? = null
     private val binding get() = _binding!!
 
-    private val storeDataList = ArrayList<StoreData>()
-    private lateinit var storeDataAdapter: StoreAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,18 +34,11 @@ class StoreFragment : Fragment() {
         val view = binding.root
         Glide.with(this).load("https://gw.alicdn.com/tps/i3/TB1yeWeIFXXXXX5XFXXuAZJYXXX-210-210.png_50x50.jpg").into(binding.storeHeadImage)
         initStoreDataList()
-        this.activity?.let {
-            storeDataAdapter = StoreAdapter(this ,storeDataList)
-            binding.storeRecyclerview.adapter = storeDataAdapter
-            val layoutManager1 = LinearLayoutManager(it)
-            binding.storeRecyclerview.layoutManager = layoutManager1
-        }
         binding.storeHeadImage.setOnClickListener {
             this.context?.let {
                 StoreSettingActivity.actionStart(it)
             }
         }
-
         return view
     }
 
@@ -58,7 +49,6 @@ class StoreFragment : Fragment() {
     }
 
     companion object {
-
         fun newInstance() =
             StoreFragment().apply {
 
@@ -66,20 +56,6 @@ class StoreFragment : Fragment() {
     }
 
     private fun initStoreDataList(){
-        storeDataList.clear()
-        val data1 = StoreDataBuilder()
-            .setStoreDataType(StoreData.StoreDataType.SIX_TEXT_BOX)
-            .setSixTextBoxTitleList(arrayListOf("今日访问量", "昨日访问量", "今日订单", "昨日订单", "待付款", "待发货"))
-            .setSixTextBoxContentList(arrayListOf("100", "300", "100", "400", "20", "30"))
-            .build()
-        val data2 = StoreDataBuilder()
-            .setStoreDataType(StoreData.StoreDataType.SIX_TEXT_BOX)
-            .setSixTextBoxTitleList(arrayListOf("待确认收货", "待评价", "     ", "     ", "", "     "))
-            .setSixTextBoxContentList(arrayListOf("100", "", "", "", "", ""))
-            .build()
-        storeDataList.add(data1)
-        storeDataList.add(data2)
-
 
     }
 }

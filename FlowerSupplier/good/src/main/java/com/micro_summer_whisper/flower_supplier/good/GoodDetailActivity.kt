@@ -2,34 +2,26 @@ package com.micro_summer_whisper.flower_supplier.good
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+
 import android.view.MenuItem
 import androidx.core.view.drawToBitmap
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.micro_summer_whisper.flower_supplier.common.BaseActivity
 import com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication
 import com.micro_summer_whisper.flower_supplier.common.network.ApiService
 import com.micro_summer_whisper.flower_supplier.common.network.ServiceCreator
 import com.micro_summer_whisper.flower_supplier.common.pojo.Good
-import com.micro_summer_whisper.flower_supplier.common.pojo.GoodDetailNormalItem
 import com.micro_summer_whisper.flower_supplier.common.util.PictureUtils
 import com.micro_summer_whisper.flower_supplier.good.databinding.ActivityGoodDetailBinding
-import kotlin.concurrent.thread
 
 
 class GoodDetailActivity : BaseActivity() {
 
     private lateinit var binding: ActivityGoodDetailBinding
-
-    private val picBitmapList = ArrayList<Bitmap>()
-    private lateinit var goodDetailPictureAdapter: GoodDetailPictureAdapter
     private var isUpdate = false
     private lateinit var good: Good
-    private val goodDetailList = ArrayList<GoodDetailNormalItem>()
-    private lateinit var goodDetailNormalAdapter: GoodDetailNormalAdapter
 
     companion object {
         const val COVER_REQUEST_CODE = 1
@@ -57,23 +49,12 @@ class GoodDetailActivity : BaseActivity() {
             good = intent.getSerializableExtra("good") as Good
             Glide.with(this).load(good.coverUri).into(binding.goodDetailCoverImage)
         } else {
+            good = Good(-1,-1,"",ArrayList<String>(),"",0.0,0,"")
             binding.goodDetailCoverImage.setImageResource(R.drawable.add)
         }
         initPicLinkList()
-        goodDetailPictureAdapter = GoodDetailPictureAdapter(this ,picBitmapList)
-        binding.goodDetailShowpictureRecyclerview.adapter = goodDetailPictureAdapter
-        val layoutManager = LinearLayoutManager(this)
-        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        binding.goodDetailShowpictureRecyclerview.layoutManager = layoutManager
-
         initGoodDetailList()
-        goodDetailNormalAdapter = GoodDetailNormalAdapter(this ,goodDetailList)
-        binding.goodDetailRecyclerview.adapter = goodDetailNormalAdapter
-        val layoutManager1 = LinearLayoutManager(this)
-        layoutManager1.orientation = LinearLayoutManager.VERTICAL
-        binding.goodDetailRecyclerview.layoutManager = layoutManager1
-
-        binding.goodDetailCoverClose.setOnClickListener {
+        binding.goodDetailCoverImage.setOnClickListener {
             val intent = Intent(
                 Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI
@@ -83,22 +64,33 @@ class GoodDetailActivity : BaseActivity() {
 
         binding.goodDetailUpdateGoodBtn.setOnClickListener{
             val apiService = ServiceCreator.create(ApiService::class.java)
-            val pL = arrayListOf<String>()
-            for (bitmap in picBitmapList) {
-                pL.add(PictureUtils.bitmap2String(bitmap,100))
-            }
-            val ss = goodDetailList
             if (isUpdate) {
                 apiService.updateGood(Good(good.goodId, FlowerSupplierApplication.store.storeId,
                     PictureUtils.bitmap2String(binding.goodDetailCoverImage.drawToBitmap(),100),
-                    pL, goodDetailList[0].content, goodDetailList[1].content.toDouble(), goodDetailList[2].content.toLong(),
-                    goodDetailList[3].content
+                    arrayListOf(PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage1.drawToBitmap(),100),
+                        PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage2.drawToBitmap(),100),
+                        PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage3.drawToBitmap(),100),
+                        PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage4.drawToBitmap(),100),
+                        PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage5.drawToBitmap(),100),
+                        PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage6.drawToBitmap(),100)),
+                    binding.goodDetailNormalTitleInput.text.toString(),
+                    binding.goodDetailNormalPriceInput.text.toString().toDouble(),
+                    binding.goodDetailNormalStockInput.text.toString().toLong(),
+                    binding.goodDetailNormalDetailInput.text.toString()
                     ))
             } else {
                 apiService.newGood(Good(-1, FlowerSupplierApplication.store.storeId,
                     PictureUtils.bitmap2String(binding.goodDetailCoverImage.drawToBitmap(),100),
-                    pL, goodDetailList[0].content, goodDetailList[1].content.toDouble(), goodDetailList[2].content.toLong(),
-                    goodDetailList[3].content
+                    arrayListOf(PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage1.drawToBitmap(),100),
+                        PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage2.drawToBitmap(),100),
+                        PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage3.drawToBitmap(),100),
+                        PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage4.drawToBitmap(),100),
+                        PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage5.drawToBitmap(),100),
+                        PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage6.drawToBitmap(),100)),
+                    binding.goodDetailNormalTitleInput.text.toString(),
+                    binding.goodDetailNormalPriceInput.text.toString().toDouble(),
+                    binding.goodDetailNormalStockInput.text.toString().toLong(),
+                    binding.goodDetailNormalDetailInput.text.toString()
                 ))
             }
             finish()
@@ -119,10 +111,14 @@ class GoodDetailActivity : BaseActivity() {
                     val bitmap = getBitmapFormUri(uri)
                     val intExtra = requestCode-SHOW_PICTURE_REQUEST_CODE*10
                     intExtra?.let {
-                        if (bitmap!=null){
-                            picBitmapList[it] = bitmap
+                        when(it) {
+                            1 -> binding.goodDetailShowpictureItemImage1.setImageBitmap(bitmap)
+                            2 ->     binding.goodDetailShowpictureItemImage2.setImageBitmap(bitmap)
+                            3 ->     binding.goodDetailShowpictureItemImage3.setImageBitmap(bitmap)
+                            4 ->     binding.goodDetailShowpictureItemImage4.setImageBitmap(bitmap)
+                            5 ->     binding.goodDetailShowpictureItemImage5.setImageBitmap(bitmap)
+                            6 ->     binding.goodDetailShowpictureItemImage6.setImageBitmap(bitmap)
                         }
-                        goodDetailPictureAdapter.notifyItemChanged(it)
                     }
                 }
             }
@@ -142,49 +138,78 @@ class GoodDetailActivity : BaseActivity() {
 
 
     private fun initPicLinkList(){
-        picBitmapList.clear()
-        thread {
-            if (isUpdate){
-                for (i in 0 until good.pictureUriList.size) {
-                    val myBitmap: Bitmap = Glide.with(this)
-                        .asBitmap()
-                        .load(good.pictureUriList[i])
-                        .submit(100, 100).get()
-                    picBitmapList.add(myBitmap)
+        for (i in 0 until good.pictureUriList.size) {
+            when(i+1) {
+                1 -> {
+                    Glide.with(this).load(good.pictureUriList[i]).into(binding.goodDetailShowpictureItemImage1)
                 }
-                for (i in good.pictureUriList.size until 6){
-
-                    val myBitmap: Bitmap = Glide.with(this)
-                        .asBitmap()
-                        .load(R.drawable.add)
-                        .submit(100, 100).get()
-                    picBitmapList.add(myBitmap)
+                2 -> {
+                    Glide.with(this).load(good.pictureUriList[i]).into(binding.goodDetailShowpictureItemImage2)
                 }
-            } else {
-                repeat(6) {
-                    val myBitmap: Bitmap = Glide.with(this)
-                        .asBitmap()
-                        .load(R.drawable.add)
-                        .submit(100, 100).get()
-                    picBitmapList.add(myBitmap)
+                3 -> {
+                    Glide.with(this).load(good.pictureUriList[i]).into(binding.goodDetailShowpictureItemImage3)
+                }
+                4 -> {
+                    Glide.with(this).load(good.pictureUriList[i]).into(binding.goodDetailShowpictureItemImage4)
+                }
+                5 -> {
+                    Glide.with(this).load(good.pictureUriList[i]).into(binding.goodDetailShowpictureItemImage5)
+                }
+                6 -> {
+                    Glide.with(this).load(good.pictureUriList[i]).into(binding.goodDetailShowpictureItemImage6)
                 }
             }
+        }
+        for (i in good.pictureUriList.size until 6){
+            when(i+1) {
+                1 -> {
+                    Glide.with(this).load(R.drawable.add).into(binding.goodDetailShowpictureItemImage1)
+                }
+                2 -> {
+                    Glide.with(this).load(    R.drawable.add).into(binding.goodDetailShowpictureItemImage2)
+                }
+                3 -> {
+                    Glide.with(this).load(    R.drawable.add).into(binding.goodDetailShowpictureItemImage3)
+                }
+                4 -> {
+                    Glide.with(this).load(    R.drawable.add).into(binding.goodDetailShowpictureItemImage4)
+                }
+                5 -> {
+                    Glide.with(this).load(    R.drawable.add).into(binding.goodDetailShowpictureItemImage5)
+                }
+                6 -> {
+                    Glide.with(this).load(    R.drawable.add).into(binding.goodDetailShowpictureItemImage6)
+                }
+            }
+        }
+        val intent = Intent(
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
+        binding.goodDetailShowpictureItemImage1.setOnClickListener {
+            startActivityForResult(intent, SHOW_PICTURE_REQUEST_CODE*10+1)
+        }
+        binding.goodDetailShowpictureItemImage2.setOnClickListener {
+            startActivityForResult(intent, SHOW_PICTURE_REQUEST_CODE*10+2)
+        }
+        binding.goodDetailShowpictureItemImage3.setOnClickListener {
+            startActivityForResult(intent, SHOW_PICTURE_REQUEST_CODE*10+3)
+        }
+        binding.goodDetailShowpictureItemImage4.setOnClickListener {
+            startActivityForResult(intent, SHOW_PICTURE_REQUEST_CODE*10+4)
+        }
+        binding.goodDetailShowpictureItemImage5.setOnClickListener {
+            startActivityForResult(intent, SHOW_PICTURE_REQUEST_CODE*10+5)
+        }
+        binding.goodDetailShowpictureItemImage6.setOnClickListener {
+            startActivityForResult(intent, SHOW_PICTURE_REQUEST_CODE*10+6)
         }
     }
 
     private fun initGoodDetailList(){
-        goodDetailList.clear()
-        if (isUpdate){
-            goodDetailList.add(GoodDetailNormalItem("标题", good.title,60))
-            goodDetailList.add(GoodDetailNormalItem("价格",good.price.toString(),60))
-            goodDetailList.add(GoodDetailNormalItem("数量",good.stock.toString(),60))
-            goodDetailList.add(GoodDetailNormalItem("详情",good.detail,300))
-        } else {
-            goodDetailList.add(GoodDetailNormalItem("标题","",60))
-            goodDetailList.add(GoodDetailNormalItem("价格","",60))
-            goodDetailList.add(GoodDetailNormalItem("数量","",60))
-            goodDetailList.add(GoodDetailNormalItem("详情","",300))
-
-        }
+        binding.goodDetailNormalTitleInput.setText(good.title)
+        binding.goodDetailNormalPriceInput.setText(good.price.toString())
+        binding.goodDetailNormalStockInput.setText(good.stock.toString())
+        binding.goodDetailNormalDetailInput.setText(good.detail)
     }
 }

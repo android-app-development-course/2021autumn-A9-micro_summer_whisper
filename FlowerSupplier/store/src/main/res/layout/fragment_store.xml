@@ -7,25 +7,238 @@
     android:background="@color/little_gray"
     tools:context=".StoreFragment">
 
-    <com.qmuiteam.qmui.widget.QMUIRadiusImageView
-        app:qmui_corner_radius="5dp"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:id="@+id/store_head_image"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:src="@drawable/picture"/>
-
-    <androidx.recyclerview.widget.RecyclerView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/store_head_image"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:id="@+id/store_recyclerview"/>
+        app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                android:id="@+id/store_head_image"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="100dp"
+                android:src="@drawable/picture"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:qmui_corner_radius="5dp" />
+
+            <TextView
+                android:id="@+id/store_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="xx花店"
+                android:gravity="center"
+                android:textSize="40sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/store_head_image" />
+
+            <com.micro_summer_whisper.flower_supplier.common.QMUIRoundConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginHorizontal="40dp"
+                app:qmui_backgroundColor="@color/white"
+                android:padding="20dp"
+                app:qmui_radius="10dp"
+                app:layout_constraintTop_toBottomOf="@id/store_name"
+                android:id="@+id/store_data_part1"
+                >
+<!--                con1-->
+                <com.micro_summer_whisper.flower_supplier.common.QMUIRoundConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:qmui_radius="5dp"
+                    android:id="@+id/store_data_item_cons1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/store_data_item_cons2"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="昨日访问量"
+                        android:id="@+id/store_data_yesterday_visit_a"
+                        app:layout_constraintHorizontal_chainStyle="spread"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/store_data_today_visit_a"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="今日访问量"
+                        android:id="@+id/store_data_today_visit_a"
+                        app:layout_constraintLeft_toRightOf="@id/store_data_yesterday_visit_a"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/store_data_yesterday_order_a"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="昨日订单"
+                        android:id="@+id/store_data_yesterday_order_a"
+                        app:layout_constraintLeft_toRightOf="@id/store_data_today_visit_a"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100"
+                        android:id="@+id/store_data_yesterday_visit_b"
+                        app:layout_constraintLeft_toLeftOf="@id/store_data_yesterday_visit_a"
+                        app:layout_constraintRight_toRightOf="@id/store_data_yesterday_visit_a"
+                        app:layout_constraintTop_toBottomOf="@id/store_data_yesterday_visit_a"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="200"
+                        android:id="@+id/store_data_today_visit_b"
+                        app:layout_constraintLeft_toLeftOf="@id/store_data_today_visit_a"
+                        app:layout_constraintRight_toRightOf="@id/store_data_today_visit_a"
+                        app:layout_constraintTop_toBottomOf="@id/store_data_today_visit_a"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="300"
+                        android:id="@+id/store_data_yesterday_order_b"
+                        app:layout_constraintLeft_toLeftOf="@id/store_data_yesterday_order_a"
+                        app:layout_constraintRight_toRightOf="@id/store_data_yesterday_order_a"
+                        app:layout_constraintTop_toBottomOf="@id/store_data_yesterday_order_a"
+                        />
+                </com.micro_summer_whisper.flower_supplier.common.QMUIRoundConstraintLayout>
+<!--                con2-->
+                <com.micro_summer_whisper.flower_supplier.common.QMUIRoundConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/store_data_item_cons1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/store_data_item_cons3"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/store_data_item_cons2"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="今日订单"
+                        android:id="@+id/store_data_today_order_a"
+                        app:layout_constraintHorizontal_chainStyle="spread"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/store_data_wait_pay_a"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="待付款"
+                        android:id="@+id/store_data_wait_pay_a"
+                        app:layout_constraintLeft_toRightOf="@id/store_data_today_order_a"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/store_data_wait_send_good_a"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="待发货"
+                        android:id="@+id/store_data_wait_send_good_a"
+                        app:layout_constraintLeft_toRightOf="@id/store_data_wait_pay_a"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100"
+                        android:id="@+id/store_data_today_order_b"
+                        app:layout_constraintLeft_toLeftOf="@id/store_data_today_order_a"
+                        app:layout_constraintRight_toRightOf="@id/store_data_today_order_a"
+                        app:layout_constraintTop_toBottomOf="@id/store_data_today_order_a"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="200"
+                        android:id="@+id/store_data_wait_pay_b"
+                        app:layout_constraintLeft_toLeftOf="@id/store_data_wait_pay_a"
+                        app:layout_constraintRight_toRightOf="@id/store_data_wait_pay_a"
+                        app:layout_constraintTop_toBottomOf="@id/store_data_wait_pay_a"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="300"
+                        android:id="@+id/store_data_wait_send_good_b"
+                        app:layout_constraintLeft_toLeftOf="@id/store_data_wait_send_good_a"
+                        app:layout_constraintRight_toRightOf="@id/store_data_wait_send_good_a"
+                        app:layout_constraintTop_toBottomOf="@id/store_data_wait_send_good_a"
+                        />
+                </com.micro_summer_whisper.flower_supplier.common.QMUIRoundConstraintLayout>
+<!--                con3-->
+                <com.micro_summer_whisper.flower_supplier.common.QMUIRoundConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:qmui_radius="5dp"
+                    android:id="@+id/store_data_item_cons3"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/store_data_item_cons2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="待确认收货"
+                        android:id="@+id/store_data_wait_confirm_receive_a"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_marginLeft="30dp"
+                        />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100"
+                        android:id="@+id/store_data_wait_confirm_receive_b"
+                        app:layout_constraintLeft_toLeftOf="@id/store_data_wait_confirm_receive_a"
+                        app:layout_constraintRight_toRightOf="@id/store_data_wait_confirm_receive_a"
+                        app:layout_constraintTop_toBottomOf="@id/store_data_wait_confirm_receive_a"
+                        />
+
+
+                </com.micro_summer_whisper.flower_supplier.common.QMUIRoundConstraintLayout>
+
+
+            </com.micro_summer_whisper.flower_supplier.common.QMUIRoundConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

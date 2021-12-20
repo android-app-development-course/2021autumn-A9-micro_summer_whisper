@@ -52,18 +52,19 @@ class GoodFragment : Fragment()
         _binding = FragmentGoodBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        initGoodCategoryList()
         activity?.let {
-            goodAdapter = GoodAdapter(this ,goodList)
-            binding.goodListRecyclerview.adapter = goodAdapter
-            val layoutManager = LinearLayoutManager(it)
-            binding.goodListRecyclerview.layoutManager = layoutManager
+            this.context?.let {
+                goodAdapter = GoodAdapter(it ,goodList)
+                binding.goodListRecyclerview.adapter = goodAdapter
+                val layoutManager = LinearLayoutManager(it)
+                binding.goodListRecyclerview.layoutManager = layoutManager
 
-            goodCategoryAdapter = GoodCategoryAdapterImpl(this ,goodCategoryList)
-            binding.goodCategoryRecyclerview.adapter = goodCategoryAdapter
-            val layoutManager1 = LinearLayoutManager(it)
-            binding.goodCategoryRecyclerview.layoutManager = layoutManager1
+                goodCategoryAdapter = GoodCategoryAdapterImpl(this ,goodCategoryList)
+                binding.goodCategoryRecyclerview.adapter = goodCategoryAdapter
+                val layoutManager1 = LinearLayoutManager(it)
+                binding.goodCategoryRecyclerview.layoutManager = layoutManager1
 
+            }
         }
 
         binding.goodAddBtn.setOnClickListener {
@@ -86,6 +87,10 @@ class GoodFragment : Fragment()
         super.onActivityCreated(savedInstanceState)
     }
 
+    override fun onResume() {
+        super.onResume()
+        initGoodCategoryList()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.good_toolbar,menu);
