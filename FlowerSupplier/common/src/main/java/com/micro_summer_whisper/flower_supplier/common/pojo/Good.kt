@@ -1,4 +1,4 @@
-package com.micro_summer_whisper.flower_supplier.common
+package com.micro_summer_whisper.flower_supplier.common.pojo
 
 
 import java.io.Serializable

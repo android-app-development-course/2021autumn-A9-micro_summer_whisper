@@ -2,12 +2,10 @@ package com.micro_summer_whisper.flower_supplier.good
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import com.micro_summer_whisper.flower_supplier.common.BaseActivity
-import com.micro_summer_whisper.flower_supplier.common.Good
-import com.micro_summer_whisper.flower_supplier.good.databinding.ActivityGoodDetailBinding
 import com.micro_summer_whisper.flower_supplier.good.databinding.ActivityGoodSearchBinding
 
 class GoodSearchActivity : BaseActivity() {
@@ -33,6 +31,15 @@ class GoodSearchActivity : BaseActivity() {
             it.setDisplayShowCustomEnabled(true)
             it.setCustomView(searchView)
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> {
+                finish()
+            }
+        }
+        return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

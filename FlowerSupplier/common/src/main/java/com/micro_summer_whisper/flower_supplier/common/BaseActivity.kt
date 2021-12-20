@@ -5,6 +5,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +31,11 @@ open class BaseActivity: AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.d("BaseActivity","${javaClass.simpleName} onresume")
+    }
+
+    fun getBitmapFormUri(imageUri: Uri) = contentResolver
+        .openFileDescriptor(imageUri,"r")?.use {
+            BitmapFactory.decodeFileDescriptor(it.fileDescriptor)
     }
 
 

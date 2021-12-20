@@ -8,26 +8,26 @@
 
     >
 
-    <ImageView
+    <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+        app:qmui_corner_radius="5dp"
         android:layout_width="60dp"
         android:layout_height="0dp"
         android:id="@+id/chatting_right_image"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="10dp"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="250dp"
         android:background="@drawable/message_right_original"
-        android:text="dfsdfsdfsddfsdfsdfsddfsdfsdfsddfsdfsdfsddfsdfsdfsddfsdfsdfsddfsdfsdfsddfsdfsdfsddfsdfsdfsd"
+        android:text="dfsddsdfsdfsdfdfsddsdfsdfsdfdfsddsdfsdfsdfdfsddsdfsdfsdfdfsddsdfsdfsdfdfsddsdfsdfsdfdfsddsdfsdfsdf"
         android:textColor="@color/black"
         app:layout_constraintRight_toLeftOf="@id/chatting_right_image"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="60dp"
-        app:layout_constrainedWidth="true"
         android:id="@+id/chatting_right_text"
         />
 

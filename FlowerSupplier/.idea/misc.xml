@@ -13,17 +13,20 @@
         <entry key="chat/src/main/res/layout/activity_main.xml" value="0.1671875" />
         <entry key="chat/src/main/res/layout/chat_msg_item.xml" value="0.4" />
         <entry key="chat/src/main/res/layout/chatting_left_msg_item.xml" value="0.264" />
+        <entry key="chat/src/main/res/layout/chatting_left_msg_picture_item.xml" value="0.3140625" />
         <entry key="chat/src/main/res/layout/chatting_msg_item.xml" value="0.2453125" />
         <entry key="chat/src/main/res/layout/chatting_right_msg_item.xml" value="0.2453125" />
+        <entry key="chat/src/main/res/layout/chatting_right_msg_picture_item.xml" value="0.3140625" />
         <entry key="chat/src/main/res/layout/chatting_tailer.xml" value="0.3140625" />
         <entry key="chat/src/main/res/layout/chatting_toolbar_custom_view.xml" value="0.3140625" />
         <entry key="chat/src/main/res/layout/fragment_chat.xml" value="0.2" />
+        <entry key="chat/src/main/res/layout/fragment_chatting_option_navigation.xml" value="0.264" />
         <entry key="chat/src/main/res/layout/left_msg_item.xml" value="0.2453125" />
         <entry key="chat/src/main/res/layout/right_msg_item.xml" value="0.2453125" />
         <entry key="chat/src/main/res/menu/char_toolbar.xml" value="0.3140625" />
         <entry key="chat/src/main/res/menu/chatting_toolbar.xml" value="0.3140625" />
         <entry key="common/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.24739583333333334" />
-        <entry key="good/src/main/res/layout/activity_good_detail.xml" value="0.264" />
+        <entry key="good/src/main/res/layout/activity_good_detail.xml" value="0.2" />
         <entry key="good/src/main/res/layout/activity_good_search.xml" value="0.18478260869565216" />
         <entry key="good/src/main/res/layout/activity_main.xml" value="0.3140625" />
         <entry key="good/src/main/res/layout/fragment_good.xml" value="0.264" />
@@ -36,6 +39,7 @@
         <entry key="good/src/main/res/layout/good_section_header.xml" value="0.24270833333333333" />
         <entry key="good/src/main/res/layout/good_section_item.xml" value="0.24270833333333333" />
         <entry key="good/src/main/res/menu/chatting_toolbar.xml" value="0.3140625" />
+        <entry key="good/src/main/res/menu/good_detail_toolbar.xml" value="0.3140625" />
         <entry key="good/src/main/res/menu/good_search_toolbar.xml" value="0.3140625" />
         <entry key="good/src/main/res/menu/good_toolbar.xml" value="0.3140625" />
         <entry key="login/src/main/res/layout/activity_login.xml" value="0.2390625" />
@@ -44,13 +48,15 @@
         <entry key="me/src/main/res/layout/activity_un_login.xml" value="0.3140625" />
         <entry key="me/src/main/res/layout/fragment_me.xml" value="0.3140625" />
         <entry key="me/src/main/res/layout/view_dialog_custom.xml" value="0.3140625" />
+        <entry key="order/src/main/res/drawable/bac_shape.xml" value="0.334375" />
         <entry key="order/src/main/res/layout/activity_main.xml" value="0.18385416666666668" />
         <entry key="order/src/main/res/layout/fragment_order.xml" value="0.29322916666666665" />
+        <entry key="order/src/main/res/layout/order_item.xml" value="0.3140625" />
         <entry key="store/src/main/res/layout/activity_1.xml" value="0.2921875" />
         <entry key="store/src/main/res/layout/activity_main.xml" value="0.3140625" />
         <entry key="store/src/main/res/layout/activity_store_setting.xml" value="0.24547101449275363" />
         <entry key="store/src/main/res/layout/fragment_store.xml" value="0.2" />
-        <entry key="store/src/main/res/layout/store_data_item.xml" value="0.264" />
+        <entry key="store/src/main/res/layout/store_data_item.xml" value="0.4" />
         <entry key="store/src/main/res/layout/store_setting_item.xml" value="0.264" />
         <entry key="store/src/main/res/layout/store_setting_item_image.xml" value="0.24547101449275363" />
         <entry key="store/src/main/res/layout/store_setting_item_text.xml" value="0.24547101449275363" />

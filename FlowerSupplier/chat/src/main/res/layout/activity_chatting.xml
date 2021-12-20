@@ -23,14 +23,14 @@
         android:background="@color/little_gray"
         app:layout_constraintBottom_toTopOf="@id/chatting_tail"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        />
+        tools:layout_editor_absoluteX="78dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/chatting_tail"
         app:layout_constraintTop_toBottomOf="@id/chatting_recyclerView"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/chatting_option_navigation"
         android:background="@android:color/white"
         android:orientation="horizontal"
         >
@@ -41,23 +41,39 @@
             android:text="frdsfsdfrdsfsddfrdsfsdfrdsfsddfrdsfsdfrdsfsdd"
             android:maxLines="3"
             android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             />
 
-        <Button
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
             android:layout_width="60dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:id="@+id/chatting_send_btn"
             android:text="@string/chatting_send"
+            app:qmui_backgroundColor="@color/green"
+            android:textColor="@color/white"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
             />
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/chatting_add_picture"
-            android:src="@drawable/picture"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/round_add"
+            android:id="@+id/chatting_to_option_navigation"
+            android:layout_marginRight="5dp"
             />
 
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/chatting_option_navigation"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 
 

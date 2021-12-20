@@ -6,14 +6,23 @@
     android:layout_marginTop="20dp"
     >
 
-    <TextView
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundLinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/good_category_name"
-        android:ems="1"
-        android:text="男装"
-        android:textSize="20sp"
+        app:qmui_backgroundColor="@color/white"
+        app:qmui_radius="5dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintLeft_toLeftOf="parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/good_category_name"
+            android:ems="1"
+            android:text="男装"
+            android:textSize="20sp"
+            />
+    </com.qmuiteam.qmui.widget.roundwidget.QMUIRoundLinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

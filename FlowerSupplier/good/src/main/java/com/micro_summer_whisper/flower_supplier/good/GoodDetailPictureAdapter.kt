@@ -1,18 +1,19 @@
 package com.micro_summer_whisper.flower_supplier.good
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.micro_summer_whisper.flower_supplier.common.Good
 
-class GoodDetailPictureAdapter(val context: Context, val picLinkList:ArrayList<String>): RecyclerView.Adapter<GoodDetailPictureAdapter.GoodDetailPictureViewHolder>() {
+class GoodDetailPictureAdapter(val context: Context, val picBitmapList:ArrayList<Bitmap>): RecyclerView.Adapter<GoodDetailPictureAdapter.GoodDetailPictureViewHolder>() {
 
     inner class GoodDetailPictureViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.good_detail_showpicture_item_image)
@@ -27,16 +28,22 @@ class GoodDetailPictureAdapter(val context: Context, val picLinkList:ArrayList<S
     }
 
     override fun onBindViewHolder(holder: GoodDetailPictureViewHolder, position: Int) {
-        val pic = picLinkList[position]
-        if ("".equals(pic)){
-            holder.imageView.setImageResource(R.drawable.add)
-        } else {
-            Glide.with(context).load(Uri.parse(pic)).into(holder.imageView)
+        val pic = picBitmapList[position]
+        Glide.with(context).load(pic).into(holder.imageView)
+        holder.closeImageView.setOnClickListener {
+            val intent = Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
+            val c = context as Activity
+            c.let {
+                it.startActivityForResult(intent, GoodDetailActivity.SHOW_PICTURE_REQUEST_CODE*10+position)
+            }
         }
     }
 
     override fun getItemCount(): Int {
-        return picLinkList.size
+        return picBitmapList.size
     }
 
 

@@ -15,6 +15,8 @@
         app:layout_constraintBaseline_toBaselineOf="@id/good_detail_normal_text2"
         />
 
+
+
     <EditText
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -22,7 +24,8 @@
         app:layout_constraintLeft_toRightOf="@id/good_detail_normal_text1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/good_detail_normal_text2"/>
+        android:id="@+id/good_detail_normal_text2"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

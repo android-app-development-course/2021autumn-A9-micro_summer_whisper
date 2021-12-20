@@ -4,11 +4,11 @@
     <color name="colorPrimaryDark">#E70977B6</color>
     <color name="colorAccent">#FF4081</color>
     <color name="textColorPrimary">#232323</color>
-    <color name="windowBackground">#FFFFFF</color>
+    <color name="windowBackground">#F1F2F6</color>
     <color name="navigationBarColor">#E70977B6</color>
+
     <color name="little_gray">#F1F2F6</color>
     <color name="gray">#AEAEAE</color>
-
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>

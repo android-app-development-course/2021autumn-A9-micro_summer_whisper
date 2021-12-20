@@ -1,17 +1,11 @@
 package com.micro_summer_whisper.flower_supplier.good
 
-import android.content.DialogInterface
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.micro_summer_whisper.flower_supplier.common.Good
-
 
 
 abstract class GoodCategoryAdapter(val fragment: Fragment, val goodCategoryList:ArrayList<String>): RecyclerView.Adapter<GoodCategoryAdapter.GoodCategoryViewHolder>() {

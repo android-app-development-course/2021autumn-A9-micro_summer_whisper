@@ -8,7 +8,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.micro_summer_whisper.flower_supplier.common.network.ApiService
+import com.micro_summer_whisper.flower_supplier.common.network.ServiceCreator
 import com.micro_summer_whisper.flower_supplier.store.databinding.FragmentStoreBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.random.Random
 
 
@@ -40,8 +47,10 @@ class StoreFragment : Fragment() {
                 StoreSettingActivity.actionStart(it)
             }
         }
+
         return view
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -60,16 +69,17 @@ class StoreFragment : Fragment() {
         storeDataList.clear()
         val data1 = StoreDataBuilder()
             .setStoreDataType(StoreData.StoreDataType.SIX_TEXT_BOX)
-            .setSixTextBoxTitleList(arrayListOf("今日访问量", "昨日访问量", "今日订单", "昨日订单", "未付款", "未评价"))
+            .setSixTextBoxTitleList(arrayListOf("今日访问量", "昨日访问量", "今日订单", "昨日订单", "待付款", "待发货"))
             .setSixTextBoxContentList(arrayListOf("100", "300", "100", "400", "20", "30"))
             .build()
         val data2 = StoreDataBuilder()
             .setStoreDataType(StoreData.StoreDataType.SIX_TEXT_BOX)
-            .setSixTextBoxTitleList(arrayListOf("未确认收货", "     ", "     ", "     ", "", "     "))
+            .setSixTextBoxTitleList(arrayListOf("待确认收货", "待评价", "     ", "     ", "", "     "))
             .setSixTextBoxContentList(arrayListOf("100", "", "", "", "", ""))
             .build()
         storeDataList.add(data1)
         storeDataList.add(data2)
+
 
     }
 }

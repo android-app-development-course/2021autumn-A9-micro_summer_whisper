@@ -11,11 +11,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.micro_summer_whisper.flower_supplier.common.shortToast
+import com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication
+import com.micro_summer_whisper.flower_supplier.common.MyDatabaseHelper
+import com.micro_summer_whisper.flower_supplier.common.pojo.ChattingMsg
+import java.util.*
 
 
-
-class ChatMsgAdapter(val fragment: Fragment ,val chatList:ArrayList<ChatMsg>): RecyclerView.Adapter<ChatMsgAdapter.ChatMsgViewHolder>() {
+class ChatMsgAdapter(val recyclerView: RecyclerView, val fragment: Fragment ,val chatList:LinkedList<ChattingMsg>): RecyclerView.Adapter<ChatMsgAdapter.ChatMsgViewHolder>() {
 
     inner class ChatMsgViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.chat_msg_head_image)
@@ -31,9 +33,9 @@ class ChatMsgAdapter(val fragment: Fragment ,val chatList:ArrayList<ChatMsg>): R
 
     override fun onBindViewHolder(holder: ChatMsgViewHolder, position: Int) {
         val data = chatList[position]
-        Glide.with(fragment).load(data.imageUri).into(holder.imageView)
-        holder.titleTV.setText(data.title)
-        holder.shortConTV.setText(data.shortContent)
+        Glide.with(fragment).load(data.headImageLink).into(holder.imageView)
+        holder.titleTV.setText(data.nickName)
+        holder.shortConTV.setText(if (data.isText){data.content.toString(Charsets.UTF_8)} else {"图片"})
         holder.itemView.setOnLongClickListener {
             fragment.context?.let {
                 val dialog = AlertDialog.Builder(it)
@@ -41,11 +43,21 @@ class ChatMsgAdapter(val fragment: Fragment ,val chatList:ArrayList<ChatMsg>): R
                     when(i){
                         0 -> {
                             val pos = holder.adapterPosition
-                            chatList.removeAt(pos)
+                            val removed = chatList.removeAt(pos)
                             notifyItemRemoved(pos)
+                            val db = MyDatabaseHelper(FlowerSupplierApplication.context,"flower_supplier",1).writableDatabase
+                            db.let {
+                                it.delete("latest_chats","b_id = ?", arrayOf("${removed.bId}"))
+                                it.delete("chats","b_id = ?", arrayOf("${removed.bId}"))
+                            }
                         }
                         1 -> {
-                            "点击置顶".shortToast()
+                            val pos = holder.adapterPosition
+                            val removeAt = chatList.removeAt(pos)
+                            notifyItemRemoved(pos)
+                            recyclerView.smoothScrollToPosition(0)
+                            chatList.addFirst(removeAt)
+                            notifyItemInserted(0)
                         }
                     }
                 })
@@ -55,7 +67,8 @@ class ChatMsgAdapter(val fragment: Fragment ,val chatList:ArrayList<ChatMsg>): R
         }
         holder.itemView.setOnClickListener {
             fragment.activity?.let {
-                ChattingActivity.actionStart(it)
+                val cm = chatList[holder.adapterPosition]
+                ChattingActivity.actionStart(it,cm.bId,cm.nickName)
             }
         }
     }

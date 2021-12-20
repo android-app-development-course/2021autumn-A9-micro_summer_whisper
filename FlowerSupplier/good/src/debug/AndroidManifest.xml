@@ -3,7 +3,6 @@
     package="com.micro_summer_whisper.flower_supplier.good">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:name="com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication"
         android:allowBackup="true"

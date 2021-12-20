@@ -16,6 +16,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.provider.MediaStore
 
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
@@ -64,7 +65,14 @@ class StoreSettingAdapter(val context: Context ,val storeSettingItemList:ArrayLi
             is StoreSettingImageViewHolder -> {
                 Glide.with(context).load(storeSettingItem.imageLink).into(holder.image2)
                 holder.image1.setOnClickListener {
-                    "修改图片".shortToast()
+                    val intent = Intent(
+                        Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    )
+                    context.let {
+                        val c = context as Activity
+                        c.startActivityForResult(intent, StoreSettingActivity.IMAGE_REQUEST_CODE)
+                    }
                 }
             }
         }

@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.micro_summer_whisper.flower_supplier.chat">
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name="com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication"
@@ -11,8 +12,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar"
-        >
+        android:theme="@style/AppTheme.NoActionBar">
+        <service
+            android:name=".ChatService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity
             android:name=".ChattingActivity"
             android:exported="false" />
