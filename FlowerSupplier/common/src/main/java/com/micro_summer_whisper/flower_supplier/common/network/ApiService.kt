@@ -11,10 +11,10 @@ interface ApiService {
     fun getStoreDash(): Call<Map<String,String>>
 
     @GET("getStoreInfo")
-    fun getStoreInfo(): Call<Map<String,String>>
+    fun getStoreInfo(): Call<Store>
 
     @POST("updateStoreInfo")
-    fun updateStoreInfo(@Body body: Map<String,ByteArray>): Call<Map<String,String>>
+    fun updateStoreInfo(@Body body: Store): Call<Store>
 
     @GET("getGoodCategoryList")
     fun getGoodCategoryList(): Call<List<String>>

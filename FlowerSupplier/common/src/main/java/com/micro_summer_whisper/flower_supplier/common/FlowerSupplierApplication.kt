@@ -39,7 +39,7 @@ class FlowerSupplierApplication: Application() {
         if (isModuleDevelop) {
             userAccount = UserAccount("",1000)
             userInfo = UserInfo("nickname1000")
-            store = Store(1)
+            store = Store(1,"https://gw.alicdn.com/tps/i3/TB1yeWeIFXXXXX5XFXXuAZJYXXX-210-210.png_50x50.jpg","花尖","广州天河中山大道")
         }
         ARouter.init(this); // 尽可能早，推荐在Application中初始化
         QMUISwipeBackActivityManager.init(this)
