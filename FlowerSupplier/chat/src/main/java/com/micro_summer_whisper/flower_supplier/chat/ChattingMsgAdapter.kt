@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.micro_summer_whisper.flower_supplier.common.pojo.ChattingMsg
 import java.lang.RuntimeException
-import java.nio.charset.Charset
 
 class ChattingMsgAdapter(val msgList:ArrayList<ChattingMsg>): RecyclerView.Adapter<ChattingMsgViewHolder>() {
 
@@ -48,19 +47,19 @@ class ChattingMsgAdapter(val msgList:ArrayList<ChattingMsg>): RecyclerView.Adapt
         when(holder){
             is ChattingRightTextViewHolder -> {
                 Glide.with(holder.itemView).load(msg.headImageLink).into(holder.headImage)
-                holder.rightText.setText(String(msg.content, Charset.forName("UTF-8")) )
+                holder.rightText.setText(msg.content)
             }
             is ChattingRightPictureViewHolder -> {
                 Glide.with(holder.itemView).load(msg.headImageLink).into(holder.headImage)
-                Glide.with(holder.itemView).load(String(msg.content,Charset.forName("UTF-8"))).into(holder.rightPic)
+                Glide.with(holder.itemView).load(PictureUtils.string2Bitmap(msg.content)).into(holder.rightPic)
             }
             is ChattingLeftTextViewHolder -> {
                 Glide.with(holder.itemView).load(msg.headImageLink).into(holder.headImage)
-                holder.leftText.setText(String(msg.content, Charset.forName("UTF-8")) )
+                holder.leftText.setText(msg.content)
             }
             is ChattingLeftPictureViewHolder -> {
                 Glide.with(holder.itemView).load(msg.headImageLink).into(holder.headImage)
-                Glide.with(holder.itemView).load(String(msg.content,Charset.forName("UTF-8"))).into(holder.leftPic)
+                Glide.with(holder.itemView).load(PictureUtils.string2Bitmap(msg.content)).into(holder.leftPic)
             }
         }
 

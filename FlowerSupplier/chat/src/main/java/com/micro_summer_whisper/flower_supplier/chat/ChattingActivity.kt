@@ -10,9 +10,7 @@ import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.micro_summer_whisper.flower_supplier.chat.databinding.ActivityChattingBinding
 import com.micro_summer_whisper.flower_supplier.common.BaseActivity
-import com.micro_summer_whisper.flower_supplier.common.randomTimes
 import java.lang.Exception
-import kotlin.random.Random
 
 import android.database.Cursor
 import android.net.Uri
@@ -80,7 +78,7 @@ class ChattingActivity : BaseActivity() {
         }
         binding.chattingSendBtn.setOnClickListener {
             chattingMsgList.add(
-                ChattingMsg("https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",binding.chattingInput.text.toString().toByteArray(),
+                ChattingMsg("https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",binding.chattingInput.text.toString(),
                     ChattingMsg.TYPE_SEND_TEXT,FlowerSupplierApplication.userAccount.userId,bid,FlowerSupplierApplication.userInfo.nickName,true)
             )
             adapter.notifyItemInserted(chattingMsgList.size-1)
@@ -116,13 +114,13 @@ class ChattingActivity : BaseActivity() {
                             val bitmap = BitmapFactory.decodeFile(path)
                             chattingMsgList.add(
                                 ChattingMsg("https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",
-                                "https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg".toByteArray(),
+                                PictureUtils.bitmap2String(bitmap,100),
                                     ChattingMsg.TYPE_SEND_PICTURE,FlowerSupplierApplication.userAccount.userId,bid,FlowerSupplierApplication.userInfo.nickName,false)
                             )
                             adapter.notifyItemInserted(chattingMsgList.size-1)
                             binding.chattingRecyclerView.smoothScrollToPosition(chattingMsgList.size-1)
                             db.insert("chats",null, contentValuesOf(
-                                "a_id" to FlowerSupplierApplication.userAccount.userId,"b_id" to bid, "content" to "https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",
+                                "a_id" to FlowerSupplierApplication.userAccount.userId,"b_id" to bid, "content" to PictureUtils.bitmap2String(bitmap,100),
                                 "type" to ChattingMsg.TYPE_SEND_PICTURE, "created_time" to DateTimeUtils.toStrFromLong(System.currentTimeMillis()),
                                 "head_image_link" to "https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",
                                 "nick_name" to FlowerSupplierApplication.userInfo.nickName, "is_text" to 1)
@@ -187,7 +185,7 @@ class ChattingActivity : BaseActivity() {
             it.query("chats",null,"b_id = ?", arrayOf("$bid"),null,null,"created_time").let {
                 while (it.moveToNext()){
                     chattingMsgList.add(ChattingMsg(it.getString(it.getColumnIndexOrThrow("head_image_link")),
-                    it.getString(it.getColumnIndexOrThrow("content")).toByteArray(),it.getInt(it.getColumnIndexOrThrow("type")),
+                    it.getString(it.getColumnIndexOrThrow("content")),it.getInt(it.getColumnIndexOrThrow("type")),
                         it.getLong(it.getColumnIndexOrThrow("a_id")),it.getLong(it.getColumnIndexOrThrow("b_id")),it.getString(it.getColumnIndexOrThrow("nick_name")),it.getInt(it.getColumnIndexOrThrow("is_text"))==1
                         ))
                 }

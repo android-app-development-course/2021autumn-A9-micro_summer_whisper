@@ -1,19 +1,36 @@
 package com.micro_summer_whisper.flower_supplier.good
 
 import android.content.Context
+import android.content.DialogInterface
+import android.os.Build
+import android.text.style.TtsSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.Fragment
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import cn.hutool.core.math.Money
 import com.bumptech.glide.Glide
-import com.micro_summer_whisper.flower_supplier.common.pojo.Good
+import com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication
+import com.micro_summer_whisper.flower_supplier.common.MyDatabaseHelper
+import com.micro_summer_whisper.flower_supplier.common.network.ApiResponse
+import com.micro_summer_whisper.flower_supplier.common.network.ApiService
+import com.micro_summer_whisper.flower_supplier.common.network.ServiceCreator
+import com.micro_summer_whisper.flower_supplier.common.pojo.ProductVo
+import com.micro_summer_whisper.flower_supplier.common.shortToast
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
+class GoodAdapter(val context: Context, val goodList:ArrayList<ProductVo>): RecyclerView.Adapter<GoodAdapter.GoodViewHolder>() {
 
-class GoodAdapter(val context: Context, val goodList:ArrayList<Good>): RecyclerView.Adapter<GoodAdapter.GoodViewHolder>() {
+    @RequiresApi(Build.VERSION_CODES.O)
+    private val apiService = ServiceCreator.create(ApiService::class.java)
 
     inner class GoodViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.good_cover_image)
@@ -26,15 +43,64 @@ class GoodAdapter(val context: Context, val goodList:ArrayList<Good>): RecyclerV
         return GoodViewHolder(view)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: GoodViewHolder, position: Int) {
-        val good = goodList[position]
-        Glide.with(context).load(good.coverUri).into(holder.imageView)
-        holder.titleTV.setText(good.title)
-        holder.priceTV.setText(good.price.toString())
+        val good = goodList[holder.adapterPosition]
+        Glide.with(context).load(good.imgAddr).into(holder.imageView)
+        holder.titleTV.setText(good.productName)
+        val money = Money((good.normalPrice / 100).toLong(), good.normalPrice % 100)
+        holder.priceTV.setText(money.toString())
         holder.itemView.setOnClickListener {
             context.let {
                 GoodDetailActivity.actionStart(it, true, good)
             }
+        }
+        val thisthis = this
+        holder.itemView.setOnLongClickListener {
+            val dialog = AlertDialog.Builder(context)
+            dialog.setItems(arrayOf("删除"), DialogInterface.OnClickListener { dialogInterface, i ->
+                when(i){
+                    0 -> {
+                        apiService.removeGood(good).enqueue(object : Callback<ApiResponse<Unit>>{
+                            override fun onResponse(
+                                call: Call<ApiResponse<Unit>>,
+                                response: Response<ApiResponse<Unit>>
+                            ) {
+                                if (FlowerSupplierApplication.isDebug){
+                                    val apiResponse = response.body()
+                                    apiResponse?.let {
+                                        Log.d(javaClass.simpleName,"删除商品成功 ${it.toString()}")
+                                        "删除商品成功".shortToast()
+                                        goodList.remove(goodList[holder.adapterPosition])
+                                        thisthis.notifyItemRemoved(holder.adapterPosition)
+                                    }
+                                } else {
+                                    val apiResponse = response.body()
+                                    apiResponse?.let {
+                                        Log.d(javaClass.simpleName,"删除商品成功 ${it.toString()}")
+                                        "删除商品成功".shortToast()
+                                        goodList.remove(goodList[holder.adapterPosition])
+                                        thisthis.notifyItemRemoved(holder.adapterPosition)
+                                    }
+                                }
+                            }
+
+                            override fun onFailure(call: Call<ApiResponse<Unit>>, t: Throwable) {
+                                if (FlowerSupplierApplication.ignoreNetworkFail){
+                                    "删除商品成功".shortToast()
+                                } else {
+                                    "删除商品失败".shortToast()
+                                }
+                            }
+
+                        })
+
+                    }
+                }
+            })
+            dialog.show()
+
+            true
         }
     }
 

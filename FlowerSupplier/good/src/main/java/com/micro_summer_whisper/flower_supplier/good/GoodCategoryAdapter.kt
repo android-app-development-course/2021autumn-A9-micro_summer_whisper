@@ -6,9 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.micro_summer_whisper.flower_supplier.common.pojo.Category
+import com.micro_summer_whisper.flower_supplier.common.pojo.CategoryVo
 
 
-abstract class GoodCategoryAdapter(val fragment: Fragment, val goodCategoryList:ArrayList<String>): RecyclerView.Adapter<GoodCategoryAdapter.GoodCategoryViewHolder>() {
+abstract class GoodCategoryAdapter(val fragment: Fragment, val goodCategoryList:ArrayList<CategoryVo>): RecyclerView.Adapter<GoodCategoryAdapter.GoodCategoryViewHolder>() {
 
     inner class GoodCategoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val nameTV: TextView = itemView.findViewById(R.id.good_category_name)
@@ -22,8 +24,8 @@ abstract class GoodCategoryAdapter(val fragment: Fragment, val goodCategoryList:
     abstract fun nameOnClickListener(holder: GoodCategoryViewHolder): View.OnClickListener
 
     override fun onBindViewHolder(holder: GoodCategoryViewHolder, position: Int) {
-        val categoryName = goodCategoryList[position]
-        holder.nameTV.setText(categoryName)
+        val category = goodCategoryList[position]
+        holder.nameTV.setText(category.categoryName)
         holder.nameTV.setOnClickListener(nameOnClickListener(holder))
     }
 

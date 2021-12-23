@@ -7,50 +7,55 @@ import retrofit2.http.*
 
 interface ApiService {
 
-    @GET("getStoreDash")
-    fun getStoreDash(): Call<Map<String,String>>
+    @GET("shop/getStoreDash/{id}")
+    fun getStoreDash(@Path("id") id: Int): Call<ApiResponse<StoreDash>>
 
-    @GET("getStoreInfo")
-    fun getStoreInfo(): Call<Store>
+    @GET("shop/getStoreInfo/{id}")
+    fun getStoreInfo(@Path("id") id: Int): Call<ApiResponse<Shop>>
 
-    @POST("updateStoreInfo")
-    fun updateStoreInfo(@Body body: Store): Call<Store>
+    @POST("shop/updateStoreInfo")
+    fun updateStoreInfo(@Body body: Shop): Call<ApiResponse<Shop>>
 
-    @GET("getGoodCategoryList")
-    fun getGoodCategoryList(): Call<List<String>>
+    @GET("category/getCategoryList")
+    fun getGoodCategoryList(): Call<ApiResponse<List<CategoryVo>>>
 
-    @GET("getGoodList")
-    fun getGoodList(@Query("category") category: String, @Query("keyword") keyword: String = ""): Call<List<Good>>
+    @GET("product/getProductList")
+    fun getGoodList(@Query("condition_type") condition_type: String, @Query("condition") condition: String): Call<ApiResponse<List<ProductVo>>>
 
-    @POST("newGood")
-    fun newGood(@Body body: Good): Call<Map<String,String>>
 
-    @POST("updateGood")
-    fun updateGood(@Body body: Good): Call<Map<String,String>>
+    @POST("product/saveOrUpdateProduct")
+    fun newGood(@Body body: ProductVo): Call<ApiResponse<ProductVo>>
+
+    @POST("product/saveOrUpdateProduct")
+    fun updateGood(@Body body: ProductVo): Call<ApiResponse<ProductVo>>
+
+    @POST("product/removeProduct")
+    fun removeGood(@Body body: ProductVo): Call<ApiResponse<Unit>>
+
 
     @GET("getChattingMsgxx")
     fun getChattingMsg(): Call<ArrayList<ChattingMsg>>
 
     @POST("sendChattingMsg")
-    fun sendChattingMsg(@Body body: ChattingMsg): Call<Map<String,String>>
+    fun sendChattingMsg(@Body body: ChattingMsg): Call<Int>
 
-    @GET("getOrderList")
-    fun getOrderList(@Query("category") category: String): Call<List<Order>>
+    @GET("productOrder/getOrderList")
+    fun getOrderList(@Query("orderState") orderState: Int,@Query("shopId") shopId: Int): Call<ApiResponse<OrderVo>>
 
-    @POST("updateOrder")
-    fun updateOrder(@Body body: Order): Call<Map<String,String>>
+    @POST("productOrder/updateOrder")
+    fun updateOrder(@Query("orderId") orderId: Int, @Query("orderState") orderState: Int?, @Query("logisticsOrderNumber") logisticsOrderNumber: String?): Call<ApiResponse<OrderVo>>
 
     @POST("login")
-    fun login(@Body body: UserAccount): Call<UserInfo>
+    fun login(@Body body: Account): Call<ApiResponse<Person>>
 
     @POST("register")
-    fun register(@Body body: UserAccount): Call<Map<String,String>>
+    fun register(@Body body: Account): Call<ApiResponse<Account>>
 
     @GET("getUserInfo")
-    fun getUserInfo(): Call<UserInfo>
+    fun getUserInfo(): Call<ApiResponse<Person>>
 
     @POST("updateUserInfo")
-    fun updateUserInfo(@Body body: UserInfo): Call<Map<String,String>>
+    fun updateUserInfo(@Body body: Person): Call<ApiResponse<Person>>
 
 
 }

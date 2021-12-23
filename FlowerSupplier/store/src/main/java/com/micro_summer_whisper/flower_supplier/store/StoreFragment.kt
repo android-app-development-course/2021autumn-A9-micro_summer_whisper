@@ -1,27 +1,25 @@
 package com.micro_summer_whisper.flower_supplier.store
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication
+import com.micro_summer_whisper.flower_supplier.common.network.ApiResponse
 import com.micro_summer_whisper.flower_supplier.common.network.ApiService
 import com.micro_summer_whisper.flower_supplier.common.network.ServiceCreator
-import com.micro_summer_whisper.flower_supplier.common.pojo.Good
-import com.micro_summer_whisper.flower_supplier.common.pojo.Store
+import com.micro_summer_whisper.flower_supplier.common.pojo.Shop
+import com.micro_summer_whisper.flower_supplier.common.pojo.StoreDash
 import com.micro_summer_whisper.flower_supplier.store.databinding.FragmentStoreBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.RuntimeException
-import kotlin.random.Random
 
 
 class StoreFragment : Fragment() {
@@ -29,9 +27,11 @@ class StoreFragment : Fragment() {
 
     private var _binding: FragmentStoreBinding? = null
     private val binding get() = _binding!!
+    @RequiresApi(Build.VERSION_CODES.O)
     private val apiService = ServiceCreator.create(ApiService::class.java)
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,6 +53,7 @@ class StoreFragment : Fragment() {
         _binding = null
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
         init()
@@ -65,69 +66,65 @@ class StoreFragment : Fragment() {
             }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun init(){
         val thisthis = this
-        apiService.getStoreInfo().enqueue(object : Callback<Store>{
-            override fun onResponse(call: Call<Store>, response: Response<Store>) {
-                if (FlowerSupplierApplication.isDebug) {
-                    onFailure(call,RuntimeException())
-                } else {
-                    val store = response.body()
+        apiService.getStoreInfo(FlowerSupplierApplication.store.shopId).enqueue(object : Callback<ApiResponse<Shop>>{
+            override fun onResponse(call: Call<ApiResponse<Shop>>, response: Response<ApiResponse<Shop>>) {
+
+                val apiResponse = response.body() as ApiResponse<Shop>
+                if (apiResponse.success){
+                    val store = apiResponse.data
                     store?.let {
                         FlowerSupplierApplication.store = store
-                        Glide.with(thisthis).load(store.headImageLink).into(binding.storeHeadImage)
-                        binding.storeName.setText(store.name)
+                        Glide.with(thisthis).load(store.shopImg).into(binding.storeHeadImage)
+                        binding.storeName.setText(store.shopName)
                     }
+
+                } else {
+                    Log.d(javaClass.simpleName,apiResponse.message)
                 }
+
             }
 
-            override fun onFailure(call: Call<Store>, t: Throwable) {
-                if (FlowerSupplierApplication.isDebug){
-                    val store = FlowerSupplierApplication.store
-                    Glide.with(thisthis).load(store.headImageLink).into(binding.storeHeadImage)
-                    binding.storeName.setText(store.name)
-                } else {
+            override fun onFailure(call: Call<ApiResponse<Shop>>, t: Throwable) {
+
                     Log.e(javaClass.simpleName,"获取店铺信息失败")
                     Log.e(javaClass.simpleName,t.stackTraceToString())
-                }
+
             }
 
 
         })
-        apiService.getStoreDash().enqueue(object : Callback<Map<String,String>>{
+        apiService.getStoreDash(FlowerSupplierApplication.store.shopId).enqueue(object : Callback<ApiResponse<StoreDash>>{
             override fun onResponse(
-                call: Call<Map<String, String>>,
-                response: Response<Map<String, String>>
+                call: Call<ApiResponse<StoreDash>>,
+                response: Response<ApiResponse<StoreDash>>
             ) {
-                if (FlowerSupplierApplication.isDebug) {
-                    onFailure(call,RuntimeException())
-                } else {
-                    val dashM = response.body()
+                val apiResponse = response.body() as ApiResponse<StoreDash>
+                if (apiResponse.success){
+                    val dashM = apiResponse.data
                     dashM?.let {
-                        binding.storeDataYesterdayVisitB.setText(dashM["yesterdayVisit"])
-                        binding.storeDataTodayVisitB.setText(dashM["todayVisit"])
-                        binding.storeDataYesterdayOrderB.setText(dashM["yesterdayOrder"])
-                        binding.storeDataTodayOrderB.setText(dashM["todayOrder"])
-                        binding.storeDataWaitPayB.setText(dashM["waitPay"])
-                        binding.storeDataWaitConfirmReceiveB.setText(dashM["waitConfirmReceive"])
-                        binding.storeDataWaitSendGoodB.setText(dashM["waitSendGood"])
+                        binding.storeDataYesterdayVisitB.setText(dashM.yesterdayVisit.toString())
+                        binding.storeDataTodayVisitB.setText(dashM.todayVisit.toString())
+                        binding.storeDataYesterdayOrderB.setText(dashM.yesterdayOrder.toString())
+                        binding.storeDataTodayOrderB.setText(dashM.todayOrder.toString())
+                        binding.storeDataWaitPayB.setText(dashM.waitPay.toString())
+                        binding.storeDataWaitConfirmReceiveB.setText(dashM.waitConfirmGood.toString())
+                        binding.storeDataWaitSendGoodB.setText(dashM.waitSendGood.toString())
                     }
+                } else {
+                    Log.d(javaClass.simpleName,apiResponse.message)
                 }
+
+
             }
 
-            override fun onFailure(call: Call<Map<String, String>>, t: Throwable) {
-                if (FlowerSupplierApplication.isDebug){
-                    binding.storeDataYesterdayVisitB.setText("101")
-                    binding.storeDataTodayVisitB.setText("102")
-                    binding.storeDataYesterdayOrderB.setText("103")
-                    binding.storeDataTodayOrderB.setText("104")
-                    binding.storeDataWaitPayB.setText("105")
-                    binding.storeDataWaitConfirmReceiveB.setText("106")
-                    binding.storeDataWaitSendGoodB.setText("107")
-                } else {
+            override fun onFailure(call: Call<ApiResponse<StoreDash>>, t: Throwable) {
+
                     Log.e(javaClass.simpleName,"获取店铺仪表信息失败")
                     Log.e(javaClass.simpleName,t.stackTraceToString())
-                }
+
             }
 
         })

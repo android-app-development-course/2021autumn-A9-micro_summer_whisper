@@ -35,7 +35,7 @@ class ChatMsgAdapter(val recyclerView: RecyclerView, val fragment: Fragment ,val
         val data = chatList[position]
         Glide.with(fragment).load(data.headImageLink).into(holder.imageView)
         holder.titleTV.setText(data.nickName)
-        holder.shortConTV.setText(if (data.isText){data.content.toString(Charsets.UTF_8)} else {"图片"})
+        holder.shortConTV.setText(if (data.isText){data.content} else {"图片"})
         holder.itemView.setOnLongClickListener {
             fragment.context?.let {
                 val dialog = AlertDialog.Builder(it)

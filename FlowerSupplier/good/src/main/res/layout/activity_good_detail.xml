@@ -55,7 +55,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:id="@+id/good_detail_cover_image"
-                    android:src="@drawable/plate"
+                    android:src="@drawable/add"
                     app:qmui_corner_radius="10dp"
                     app:layout_constraintTop_toBottomOf="@id/good_detail_cover_text"
                     app:layout_constraintLeft_toRightOf="@id/good_detail_cover_text"
@@ -81,13 +81,24 @@
                 app:qmui_backgroundColor="@color/white"
                 >
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:text="展示图片"
+                    android:id="@+id/good_detail_showpicture_text"
+                    android:textSize="20sp"/>
+
                 <com.qmuiteam.qmui.widget.QMUIRadiusImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     app:qmui_corner_radius="10dp"
                     android:id="@+id/good_detail_showpicture_item_image1"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/good_detail_showpicture_text"
                     app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/add"
                     />
 
 
@@ -97,8 +108,10 @@
                     app:qmui_corner_radius="10dp"
                     android:id="@+id/good_detail_showpicture_item_image2"
                     android:layout_marginLeft="40dp"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/good_detail_showpicture_text"
                     app:layout_constraintLeft_toRightOf="@id/good_detail_showpicture_item_image1"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/add"
                     />
 
 
@@ -113,6 +126,7 @@
                     app:layout_constraintTop_toBottomOf="@id/good_detail_showpicture_item_image1"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginTop="10dp"
+                    android:src="@drawable/add"
                     />
 
 
@@ -125,6 +139,7 @@
                     android:layout_marginTop="10dp"
                     app:layout_constraintTop_toBottomOf="@id/good_detail_showpicture_item_image2"
                     app:layout_constraintLeft_toRightOf="@id/good_detail_showpicture_item_image3"
+                    android:src="@drawable/add"
                     />
 
 
@@ -138,6 +153,7 @@
                     android:layout_marginTop="10dp"
                     app:layout_constraintTop_toBottomOf="@id/good_detail_showpicture_item_image3"
                     app:layout_constraintLeft_toLeftOf="parent"
+                    android:src="@drawable/add"
                     />
 
 
@@ -151,6 +167,7 @@
                     android:layout_marginTop="10dp"
                     app:layout_constraintLeft_toRightOf="@id/good_detail_showpicture_item_image5"
                     app:layout_constraintTop_toBottomOf="@id/good_detail_showpicture_item_image4"
+                    android:src="@drawable/add"
                     />
 
 
@@ -264,6 +281,29 @@
                     app:layout_constraintTop_toBottomOf="@id/good_detail_normal_stock_input"
                     app:layout_constraintRight_toRightOf="parent"
                     android:id="@+id/good_detail_normal_detail_input"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="分类"
+                    android:id="@+id/good_detail_normal_category"
+                    app:layout_constraintRight_toLeftOf="@id/good_detail_normal_category_input"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginHorizontal="20dp"
+                    app:layout_constraintBaseline_toBaselineOf="@id/good_detail_normal_category_input"
+                    />
+
+
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="详情"
+                    app:layout_constraintLeft_toRightOf="@id/good_detail_normal_category"
+                    app:layout_constraintTop_toBottomOf="@id/good_detail_normal_detail_input"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:id="@+id/good_detail_normal_category_input"
                     />
 
             </com.micro_summer_whisper.flower_supplier.common.QMUIRoundConstraintLayout>

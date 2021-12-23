@@ -1,32 +1,27 @@
 package com.micro_summer_whisper.flower_supplier.store
 
-import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.database.Cursor
-import android.graphics.BitmapFactory
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.MenuItem
 import android.widget.EditText
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.drawToBitmap
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.micro_summer_whisper.flower_supplier.common.BaseActivity
 import com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication
+import com.micro_summer_whisper.flower_supplier.common.network.ApiResponse
 import com.micro_summer_whisper.flower_supplier.common.network.ApiService
 import com.micro_summer_whisper.flower_supplier.common.network.ServiceCreator
-import com.micro_summer_whisper.flower_supplier.common.pojo.Store
+import com.micro_summer_whisper.flower_supplier.common.pojo.Shop
 import com.micro_summer_whisper.flower_supplier.common.shortToast
 import com.micro_summer_whisper.flower_supplier.common.util.PictureUtils
-import com.micro_summer_whisper.flower_supplier.store.databinding.ActivityMainBinding
 import com.micro_summer_whisper.flower_supplier.store.databinding.ActivityStoreSettingBinding
-import okhttp3.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,6 +30,7 @@ import java.lang.RuntimeException
 
 class StoreSettingActivity : BaseActivity() {
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private val apiService = ServiceCreator.create(ApiService::class.java)
 
     companion object {
@@ -47,6 +43,7 @@ class StoreSettingActivity : BaseActivity() {
 
     private lateinit var binding: ActivityStoreSettingBinding
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStoreSettingBinding.inflate(layoutInflater)
@@ -60,25 +57,26 @@ class StoreSettingActivity : BaseActivity() {
         binding.storeSettingNameC.setOnClickListener {
             val editText = EditText(this)
             val store = FlowerSupplierApplication.store
-            editText.setText(store.name.toString())
+            editText.setText(store.shopName.toString())
             val inputDialog = AlertDialog.Builder(this)
             inputDialog.setTitle("输入新的店铺名称").setView(editText)
             inputDialog.setPositiveButton("保存",
                 DialogInterface.OnClickListener { dialog, which ->
                     val gStore = FlowerSupplierApplication.store
-                    updateStoreInfo(Store(gStore.storeId,"https://gw.alicdn.com/tps/i3/TB1yeWeIFXXXXX5XFXXuAZJYXXX-210-210.png_50x50.jpg",editText.text.toString(),gStore.address))
+                    updateStoreInfo(Shop(gStore.shopId,gStore.ownerId,editText.text.toString(),null,null))
                 }).show()
         }
         binding.storeSettingAddressC.setOnClickListener {
             val editText = EditText(this)
             val store = FlowerSupplierApplication.store
-            editText.setText(store.address.toString())
+            editText.setText(store.shopAddress.toString())
             val inputDialog = AlertDialog.Builder(this)
             inputDialog.setTitle("输入新的店铺地址").setView(editText)
             inputDialog.setPositiveButton("保存",
                 DialogInterface.OnClickListener { dialog, which ->
                     val gStore = FlowerSupplierApplication.store
-                    updateStoreInfo(Store(gStore.storeId,"https://gw.alicdn.com/tps/i3/TB1yeWeIFXXXXX5XFXXuAZJYXXX-210-210.png_50x50.jpg",gStore.name,editText.text.toString()))
+                    updateStoreInfo(Shop(gStore.shopId,gStore.ownerId,null,editText.text.toString(),
+                        null))
                 }).show()
         }
         binding.storeSettingHeadImageC.setOnClickListener {
@@ -90,29 +88,31 @@ class StoreSettingActivity : BaseActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initStoreSetting(){
         val thisthis = this
-        apiService.getStoreInfo().enqueue(object : Callback<Store> {
-            override fun onResponse(call: Call<Store>, response: Response<Store>) {
+        apiService.getStoreInfo(FlowerSupplierApplication.store.shopId).enqueue(object : Callback<ApiResponse<Shop>> {
+            override fun onResponse(call: Call<ApiResponse<Shop>>, response: Response<ApiResponse<Shop>>) {
                 if (FlowerSupplierApplication.isDebug) {
                     onFailure(call, RuntimeException())
                 } else {
-                    val store = response.body()
+                    val apiResponse = response.body() as ApiResponse<Shop>
+                    val store = apiResponse.data
                     store?.let {
                         FlowerSupplierApplication.store = store
-                        Glide.with(thisthis).load(store.headImageLink).into(binding.storeSettingHeadImageB)
-                        binding.storeSettingNameB.setText(store.name)
-                        binding.storeSettingAddressB.setText(store.address)
+                        Glide.with(thisthis).load(store.shopImg).into(binding.storeSettingHeadImageB)
+                        binding.storeSettingNameB.setText(store.shopName)
+                        binding.storeSettingAddressB.setText(store.shopAddress)
                     }
                 }
             }
 
-            override fun onFailure(call: Call<Store>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponse<Shop>>, t: Throwable) {
                 if (FlowerSupplierApplication.isDebug){
                     val store = FlowerSupplierApplication.store
-                    Glide.with(thisthis).load(store.headImageLink).into(binding.storeSettingHeadImageB)
-                    binding.storeSettingNameB.setText(store.name)
-                    binding.storeSettingAddressB.setText(store.address)
+                    Glide.with(thisthis).load(store.shopImg).into(binding.storeSettingHeadImageB)
+                    binding.storeSettingNameB.setText(store.shopName)
+                    binding.storeSettingAddressB.setText(store.shopAddress)
                 } else {
                     Log.e(javaClass.simpleName,"获取店铺信息失败")
                     Log.e(javaClass.simpleName,t.stackTraceToString())
@@ -134,6 +134,7 @@ class StoreSettingActivity : BaseActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -142,7 +143,9 @@ class StoreSettingActivity : BaseActivity() {
                     data?.data?.let {  uri ->
                         val bitmap = getBitmapFormUri(uri)
                         val gStore = FlowerSupplierApplication.store
-                        updateStoreInfo(Store(gStore.storeId,"https://cdn2.jianshu.io/assets/default_avatar/2-9636b13945b9ccf345bc98d0d81074eb.jpg",gStore.name,gStore.address))
+                        binding.storeSettingHeadImageB.setImageBitmap(bitmap)
+                        updateStoreInfo(Shop(gStore.shopId,null,null,null,
+                            PictureUtils.bitmap2String(binding.storeSettingHeadImageB.drawToBitmap(),100)))
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -151,34 +154,33 @@ class StoreSettingActivity : BaseActivity() {
         }
     }
 
-    private fun updateStoreInfo(store: Store){
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun updateStoreInfo(store: Shop){
         val thisthis = this
-        apiService.updateStoreInfo(store).enqueue(object : Callback<Store>{
-            override fun onResponse(call: Call<Store>, response: Response<Store>) {
-                if (FlowerSupplierApplication.isDebug) {
-                    onFailure(call,RuntimeException())
-                } else {
-                    val newStore = response.body()
+        apiService.updateStoreInfo(store).enqueue(object : Callback<ApiResponse<Shop>>{
+            override fun onResponse(call: Call<ApiResponse<Shop>>, response: Response<ApiResponse<Shop>>) {
+                val apiResponse = response.body() as ApiResponse<Shop>
+                if (apiResponse.success){
+                    val newStore = apiResponse.data
                     newStore?.let {
                         FlowerSupplierApplication.store = newStore
-                        binding.storeSettingNameB.setText(newStore.name)
-                        Glide.with(thisthis).load(newStore.headImageLink).into(binding.storeSettingHeadImageB)
-                        binding.storeSettingAddressB.setText(newStore.address)
+                        binding.storeSettingNameB.setText(newStore.shopName)
+                        Glide.with(thisthis).load(newStore.shopImg).into(binding.storeSettingHeadImageB)
+                        binding.storeSettingAddressB.setText(newStore.shopAddress)
                     }
+                } else {
+                    Log.d(javaClass.simpleName,apiResponse.message)
                 }
+
+
+
             }
 
-            override fun onFailure(call: Call<Store>, t: Throwable) {
-                if (FlowerSupplierApplication.isDebug){
-                    FlowerSupplierApplication.store = store
-                    binding.storeSettingNameB.setText(store.name)
-                    Glide.with(thisthis).load(store.headImageLink).into(binding.storeSettingHeadImageB)
-                    binding.storeSettingAddressB.setText(store.address)
-                } else {
+            override fun onFailure(call: Call<ApiResponse<Shop>>, t: Throwable) {
+
                     Log.e(javaClass.simpleName,"更新店铺信息失败")
                     Log.e(javaClass.simpleName,t.stackTraceToString())
                     "更新店铺信息失败".shortToast()
-                }
             }
         })
     }

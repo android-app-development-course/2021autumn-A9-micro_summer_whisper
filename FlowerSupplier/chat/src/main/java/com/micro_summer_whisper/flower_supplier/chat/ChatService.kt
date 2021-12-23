@@ -17,6 +17,7 @@ import android.content.Context
 import android.content.IntentFilter
 import android.util.Log
 import androidx.core.content.contentValuesOf
+import com.bumptech.glide.Glide
 import com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication
 import com.micro_summer_whisper.flower_supplier.common.MyDatabaseHelper
 import com.micro_summer_whisper.flower_supplier.common.network.ApiService
@@ -26,9 +27,8 @@ import com.micro_summer_whisper.flower_supplier.common.util.DateTimeUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.Serializable
 import java.lang.RuntimeException
-import java.time.format.DateTimeFormatter
+import kotlin.concurrent.thread
 import kotlin.random.Random
 
 
@@ -100,40 +100,45 @@ class ChatService : Service() {
                         }
                     }
                     override fun onFailure(call: Call<ArrayList<ChattingMsg>>, t: Throwable) {
-                        if (FlowerSupplierApplication.isDebug){
-                            val along = Random.nextLong(6)
-                            val blong = Random.nextLong(6)
-                            val chattingMsgList = arrayListOf(ChattingMsg("https://lupic.cdn.bcebos.com/20210629/2000322189_14.jpg",
-                                "新的客户消息${System.currentTimeMillis()}".toByteArray(),ChattingMsg.TYPE_RECEIVE_TEXT,
-                                FlowerSupplierApplication.userAccount.userId,along,"nickname${along}",true),
-                                ChattingMsg("https://cdn2.jianshu.io/assets/default_avatar/7-0993d41a595d6ab6ef17b19496eb2f21.jpg",
-                                    "https://cdn2.jianshu.io/assets/default_avatar/7-0993d41a595d6ab6ef17b19496eb2f21.jpg".toByteArray(),ChattingMsg.TYPE_RECEIVE_PICTURE,
-                                    FlowerSupplierApplication.userAccount.userId,blong,"nickname${blong}",false
-                                )
-                            )
-                            val intent = Intent(ChatFragment.UPDATE_CHAT_MSG_ACTION)
-                            intent.putExtra("chattingMsgList",chattingMsgList)
-                            sendBroadcast(intent)
+                            thread {
+                                if (FlowerSupplierApplication.isDebug){
+                                    val along = Random.nextLong(6)
+                                    val blong = Random.nextLong(6)
+                                    val mbitmap = Glide.with(FlowerSupplierApplication.context)
+                                        .asBitmap()
+                                        .load("https://cdn2.jianshu.io/assets/default_avatar/7-0993d41a595d6ab6ef17b19496eb2f21.jpg")
+                                        .submit().get()
+                                    val chattingMsgList = arrayListOf(ChattingMsg("https://lupic.cdn.bcebos.com/20210629/2000322189_14.jpg",
+                                        "新的客户消息${System.currentTimeMillis()}",ChattingMsg.TYPE_RECEIVE_TEXT,
+                                        FlowerSupplierApplication.userAccount.userId,along,"nickname${along}",true),
+                                        ChattingMsg("https://cdn2.jianshu.io/assets/default_avatar/7-0993d41a595d6ab6ef17b19496eb2f21.jpg",
+                                            PictureUtils.bitmap2String(mbitmap,100),ChattingMsg.TYPE_RECEIVE_PICTURE,
+                                            FlowerSupplierApplication.userAccount.userId,blong,"nickname${blong}",false
+                                        )
+                                    )
+                                    val intent = Intent(ChatFragment.UPDATE_CHAT_MSG_ACTION)
+                                    intent.putExtra("chattingMsgList",chattingMsgList)
+                                    sendBroadcast(intent)
 
-                            val db = MyDatabaseHelper(FlowerSupplierApplication.context,"flower_supplier",1).writableDatabase
-                            db.let {
-                                for (chattingMsg in chattingMsgList) {
-                                    it.delete("latest_chats","b_id = ?", arrayOf("${chattingMsg.bId}"))
-                                    it.insert("latest_chats",null, contentValuesOf(
-                                        "a_id" to chattingMsg.aId,"b_id" to chattingMsg.bId, "content" to chattingMsg.content.toString(Charsets.UTF_8),
-                                        "type" to if (chattingMsg.isText) {ChattingMsg.TYPE_RECEIVE_TEXT} else {ChattingMsg.TYPE_RECEIVE_PICTURE}, "created_time" to DateTimeUtils.toStrFromLong(System.currentTimeMillis()),
-                                        "head_image_link" to chattingMsg.headImageLink, "nick_name" to chattingMsg.nickName, "is_text" to 1))
-                                    it.insert("chats",null, contentValuesOf(
-                                        "a_id" to chattingMsg.aId,"b_id" to chattingMsg.bId, "content" to chattingMsg.content.toString(Charsets.UTF_8),
-                                        "type" to if (chattingMsg.isText) {ChattingMsg.TYPE_RECEIVE_TEXT} else {ChattingMsg.TYPE_RECEIVE_PICTURE}, "created_time" to DateTimeUtils.toStrFromLong(System.currentTimeMillis()),
-                                        "head_image_link" to chattingMsg.headImageLink, "is_text" to 0, "nick_name" to chattingMsg.nickName))
-                                }
+                                    val db = MyDatabaseHelper(FlowerSupplierApplication.context,"flower_supplier",1).writableDatabase
+                                    db.let {
+                                        for (chattingMsg in chattingMsgList) {
+                                            it.delete("latest_chats","b_id = ?", arrayOf("${chattingMsg.bId}"))
+                                            it.insert("latest_chats",null, contentValuesOf(
+                                                "a_id" to chattingMsg.aId,"b_id" to chattingMsg.bId, "content" to chattingMsg.content,
+                                                "type" to if (chattingMsg.isText) {ChattingMsg.TYPE_RECEIVE_TEXT} else {ChattingMsg.TYPE_RECEIVE_PICTURE}, "created_time" to DateTimeUtils.toStrFromLong(System.currentTimeMillis()),
+                                                "head_image_link" to chattingMsg.headImageLink, "nick_name" to chattingMsg.nickName, "is_text" to 1))
+                                            it.insert("chats",null, contentValuesOf(
+                                                "a_id" to chattingMsg.aId,"b_id" to chattingMsg.bId, "content" to chattingMsg.content,
+                                                "type" to if (chattingMsg.isText) {ChattingMsg.TYPE_RECEIVE_TEXT} else {ChattingMsg.TYPE_RECEIVE_PICTURE}, "created_time" to DateTimeUtils.toStrFromLong(System.currentTimeMillis()),
+                                                "head_image_link" to chattingMsg.headImageLink, "is_text" to 0, "nick_name" to chattingMsg.nickName))
+                                        }
+                                    }
+                            } else {
+                                Log.e(javaClass.simpleName,"获取聊天信息失败")
+                                Log.e(javaClass.simpleName,t.stackTraceToString())
                             }
-                        } else {
-                            Log.e(javaClass.simpleName,"获取聊天信息失败")
-                            Log.e(javaClass.simpleName,t.stackTraceToString())
                         }
-
                     }
                 })
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

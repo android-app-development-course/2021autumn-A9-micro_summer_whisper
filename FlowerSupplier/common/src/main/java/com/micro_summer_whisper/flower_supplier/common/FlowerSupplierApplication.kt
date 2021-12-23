@@ -2,33 +2,37 @@ package com.micro_summer_whisper.flower_supplier.common
 
 import android.app.Application
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.alibaba.android.arouter.launcher.ARouter
-import com.micro_summer_whisper.flower_supplier.common.pojo.Store
-import com.micro_summer_whisper.flower_supplier.common.pojo.UserAccount
-import com.micro_summer_whisper.flower_supplier.common.pojo.UserInfo
+import com.micro_summer_whisper.flower_supplier.common.pojo.Account
+import com.micro_summer_whisper.flower_supplier.common.pojo.Person
+import com.micro_summer_whisper.flower_supplier.common.pojo.Shop
 import com.qmuiteam.qmui.arch.QMUISwipeBackActivityManager
+import java.time.LocalDateTime
 
 
 class FlowerSupplierApplication: Application() {
 
     companion object {
         lateinit var context: Context
-        val ignoreNetworkFail = true //true，忽略网络请求失败；false，正常
+        val ignoreNetworkFail = false //true，忽略网络请求失败；false，正常
         val isDebug = true
         val isModuleDevelop= true
         var isLogin = false
-        lateinit var userAccount: UserAccount
-        lateinit var userInfo: UserInfo
-        lateinit var store: Store
+        lateinit var userAccount: Account
+        lateinit var userInfo: Person
+        lateinit var store: Shop
+        lateinit var TOKEN: String
         fun getBitmapFormUri(imageUri: Uri) = context.contentResolver.openFileDescriptor(imageUri,"r")?.use {
             BitmapFactory.decodeFileDescriptor(it.fileDescriptor)
         }
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
@@ -37,9 +41,10 @@ class FlowerSupplierApplication: Application() {
             ARouter.openDebug();   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
         }
         if (isModuleDevelop) {
-            userAccount = UserAccount("",1000)
-            userInfo = UserInfo("nickname1000")
-            store = Store(1,"https://gw.alicdn.com/tps/i3/TB1yeWeIFXXXXX5XFXXuAZJYXXX-210-210.png_50x50.jpg","花尖","广州天河中山大道")
+            userAccount = Account(12,12,"username","password", LocalDateTime.now(), LocalDateTime.now(),0)
+            userInfo = Person("nickname1000")
+            store = Shop(12,12,"花尖","广州天河中山大道","https://gw.alicdn.com/tps/i3/TB1yeWeIFXXXXX5XFXXuAZJYXXX-210-210.png_50x50.jpg")
+            TOKEN = "hello_zhangsan_1"
         }
         ARouter.init(this); // 尽可能早，推荐在Application中初始化
         QMUISwipeBackActivityManager.init(this)

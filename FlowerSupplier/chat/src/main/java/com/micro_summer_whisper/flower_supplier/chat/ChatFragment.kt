@@ -93,7 +93,7 @@ class ChatFragment : Fragment() {
                     val type = it.getInt(it.getColumnIndexOrThrow("is_text"))
                     chatMsgList.add(
                         ChattingMsg(it.getString(it.getColumnIndexOrThrow("head_image_link")),
-                            it.getString(it.getColumnIndexOrThrow("content")).toByteArray(),it.getInt(it.getColumnIndexOrThrow("type")),
+                            it.getString(it.getColumnIndexOrThrow("content")),it.getInt(it.getColumnIndexOrThrow("type")),
                             it.getLong(it.getColumnIndexOrThrow("a_id")),it.getLong(it.getColumnIndexOrThrow("b_id")),it.getString(it.getColumnIndexOrThrow("nick_name")),it.getInt(it.getColumnIndexOrThrow("is_text"))==1
                         )
                     )

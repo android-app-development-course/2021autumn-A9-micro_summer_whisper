@@ -10,7 +10,7 @@
     <EditText
         android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:text="aaaa"
+        android:text=""
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/good_search_input"/>
