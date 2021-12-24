@@ -112,6 +112,9 @@ public class CategoryVo implements Serializable {
         "}";
     }
 
+    public CategoryVo() {
+    }
+
     public CategoryVo(Integer categoryId, String categoryName, String categoryDesc, Integer priority, LocalDateTime createTime, LocalDateTime lastEditTime, Integer shopId, Integer isDeleted) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;

@@ -51,28 +51,7 @@ public class ProductVo implements Serializable {
     private String pictureE;
     private String pictureF;
 
-    public ProductVo(Integer productId, Integer categoryId, String categoryName, String productName, String productDesc, String imgAddr, Integer normalPrice, Integer promotionPrice, Integer priority, LocalDateTime createTime, LocalDateTime lastEditTime, Integer enableStatus, Integer shopId, Integer isDeleted, Integer stock, String pictureA, String pictureB, String pictureC, String pictureD, String pictureE, String pictureF) {
-        this.productId = productId;
-        this.categoryId = categoryId;
-        this.categoryName = categoryName;
-        this.productName = productName;
-        this.productDesc = productDesc;
-        this.imgAddr = imgAddr;
-        this.normalPrice = normalPrice;
-        this.promotionPrice = promotionPrice;
-        this.priority = priority;
-        this.createTime = createTime;
-        this.lastEditTime = lastEditTime;
-        this.enableStatus = enableStatus;
-        this.shopId = shopId;
-        this.isDeleted = isDeleted;
-        this.stock = stock;
-        this.pictureA = pictureA;
-        this.pictureB = pictureB;
-        this.pictureC = pictureC;
-        this.pictureD = pictureD;
-        this.pictureE = pictureE;
-        this.pictureF = pictureF;
+    public ProductVo() {
     }
 
     public static long getSerialVersionUID() {

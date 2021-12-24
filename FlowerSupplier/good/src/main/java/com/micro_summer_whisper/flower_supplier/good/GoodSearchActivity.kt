@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.micro_summer_whisper.flower_supplier.common.BaseActivity
 import com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication
+import com.micro_summer_whisper.flower_supplier.common.conditon.ProductCondition
 import com.micro_summer_whisper.flower_supplier.common.network.ApiResponse
 import com.micro_summer_whisper.flower_supplier.common.network.ApiService
 import com.micro_summer_whisper.flower_supplier.common.network.ServiceCreator
@@ -65,7 +66,9 @@ class GoodSearchActivity : BaseActivity() {
             }
             R.id.good_search_search -> {
                 goodList.clear()
-                apiService.getGoodList("keyword",searchInput.text.toString()).enqueue(object : Callback<ApiResponse<List<ProductVo>>> {
+                val proCondition = ProductCondition()
+                proCondition.productName = searchInput.text.toString()
+                apiService.getGoodList(proCondition).enqueue(object : Callback<ApiResponse<List<ProductVo>>> {
                     @RequiresApi(Build.VERSION_CODES.O)
                     override fun onResponse(
                         call: Call<ApiResponse<List<ProductVo>>>,

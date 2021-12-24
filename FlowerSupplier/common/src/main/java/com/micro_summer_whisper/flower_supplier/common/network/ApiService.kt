@@ -1,6 +1,8 @@
 package com.micro_summer_whisper.flower_supplier.common.network
 
 import com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication
+import com.micro_summer_whisper.flower_supplier.common.conditon.OrderCondition
+import com.micro_summer_whisper.flower_supplier.common.conditon.ProductCondition
 import com.micro_summer_whisper.flower_supplier.common.pojo.*
 import retrofit2.Call
 import retrofit2.http.*
@@ -19,18 +21,15 @@ interface ApiService {
     @GET("category/getCategoryList")
     fun getGoodCategoryList(): Call<ApiResponse<List<CategoryVo>>>
 
-    @GET("product/getProductList")
-    fun getGoodList(@Query("condition_type") condition_type: String, @Query("condition") condition: String): Call<ApiResponse<List<ProductVo>>>
+    @POST("product/getProductList")
+    fun getGoodList(@Body body:ProductCondition): Call<ApiResponse<List<ProductVo>>>
 
 
     @POST("product/saveOrUpdateProduct")
-    fun newGood(@Body body: ProductVo): Call<ApiResponse<ProductVo>>
+    fun saveOrUpdateGood(@Body body: ProductVo): Call<ApiResponse<ProductVo>>
 
-    @POST("product/saveOrUpdateProduct")
-    fun updateGood(@Body body: ProductVo): Call<ApiResponse<ProductVo>>
-
-    @POST("product/removeProduct")
-    fun removeGood(@Body body: ProductVo): Call<ApiResponse<Unit>>
+    @POST("product/removeProduct/{id}")
+    fun removeGood(@Path("id") id: Int): Call<ApiResponse<Any>>
 
 
     @GET("getChattingMsgxx")
@@ -39,8 +38,8 @@ interface ApiService {
     @POST("sendChattingMsg")
     fun sendChattingMsg(@Body body: ChattingMsg): Call<Int>
 
-    @GET("productOrder/getOrderList")
-    fun getOrderList(@Query("orderState") orderState: Int,@Query("shopId") shopId: Int): Call<ApiResponse<OrderVo>>
+    @POST("productOrder/getOrderList")
+    fun getOrderList(@Body orderCondition: OrderCondition): Call<ApiResponse<List<OrderVo>>>
 
     @POST("productOrder/updateOrder")
     fun updateOrder(@Query("orderId") orderId: Int, @Query("orderState") orderState: Int?, @Query("logisticsOrderNumber") logisticsOrderNumber: String?): Call<ApiResponse<OrderVo>>
@@ -49,10 +48,10 @@ interface ApiService {
     fun login(@Body body: Account): Call<ApiResponse<Person>>
 
     @POST("register")
-    fun register(@Body body: Account): Call<ApiResponse<Account>>
+    fun register(@Body body: Account): Call<ApiResponse<Person>>
 
-    @GET("getUserInfo")
-    fun getUserInfo(): Call<ApiResponse<Person>>
+    @GET("getUserInfo/{userId}")
+    fun getUserInfo(@Path("userId") userId: Int): Call<ApiResponse<Person>>
 
     @POST("updateUserInfo")
     fun updateUserInfo(@Body body: Person): Call<ApiResponse<Person>>

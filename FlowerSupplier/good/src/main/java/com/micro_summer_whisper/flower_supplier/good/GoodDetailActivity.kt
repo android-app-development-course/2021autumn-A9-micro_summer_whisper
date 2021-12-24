@@ -61,8 +61,14 @@ class GoodDetailActivity : BaseActivity() {
             good = intent.getSerializableExtra("good") as ProductVo
             Glide.with(this).load(good.imgAddr).into(binding.goodDetailCoverImage)
         } else {
-            good = ProductVo(-1,-1,"","","","",0,0,0, LocalDateTime.now(), LocalDateTime.now(),
-            0,0,0,0,"","","","","","")
+            good = ProductVo()
+            good.createTime = LocalDateTime.now()
+            good.lastEditTime = LocalDateTime.now()
+            good.normalPrice = 0
+            good.productName = ""
+            good.categoryName = ""
+            good.productDesc = ""
+            good.stock = 0
             binding.goodDetailCoverImage.setImageResource(R.drawable.add)
         }
         initPicLinkList()
@@ -78,20 +84,35 @@ class GoodDetailActivity : BaseActivity() {
         binding.goodDetailUpdateGoodBtn.setOnClickListener{
             val apiService = ServiceCreator.create(ApiService::class.java)
             if (isUpdate) {
-                apiService.updateGood(
-                    ProductVo(good.productId,null,binding.goodDetailNormalCategoryInput.text.toString(),binding.goodDetailNormalTitleInput.text.toString(),
-                    binding.goodDetailNormalDetailInput.text.toString(),
-                    if(pictureUpdatedArr[0]){PictureUtils.bitmap2String(binding.goodDetailCoverImage.drawToBitmap(),100)} else {null},
-                    Money(binding.goodDetailNormalPriceInput.text.toString()).cent.toInt(),
-                    null,null, null, LocalDateTime.now(),null,
-                        null,null,binding.goodDetailNormalStockInput.text.toString().toInt(),
-                    if (pictureUpdatedArr[1]){PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage1.drawToBitmap(),100)} else {null},
-                    if (pictureUpdatedArr[2]){PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage2.drawToBitmap(),100)} else {null},
-                    if (pictureUpdatedArr[3]){PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage3.drawToBitmap(),100)} else {null},
-                    if (pictureUpdatedArr[4]){PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage4.drawToBitmap(),100)} else {null},
-                    if (pictureUpdatedArr[5]){PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage5.drawToBitmap(),100)} else {null},
-                    if (pictureUpdatedArr[6]){PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage6.drawToBitmap(),100)} else {null})
-                ).enqueue(object : Callback<ApiResponse<ProductVo>>{
+                val pv = ProductVo()
+                pv.productId = good.productId
+                pv.categoryName = binding.goodDetailNormalCategoryInput.text.toString()
+                pv.productName = binding.goodDetailNormalTitleInput.text.toString()
+                pv.productDesc = binding.goodDetailNormalDetailInput.text.toString()
+                pv.stock = binding.goodDetailNormalStockInput.text.toString().toInt()
+                pv.normalPrice = Money(binding.goodDetailNormalPriceInput.text.toString()).cent.toInt()
+                if(pictureUpdatedArr[0]){
+                    pv.imgAddr = PictureUtils.bitmap2String(binding.goodDetailCoverImage.drawToBitmap(),100)
+                }
+                if (pictureUpdatedArr[1]){
+                    pv.pictureA = PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage1.drawToBitmap(),100)
+                }
+                if (pictureUpdatedArr[2]){
+                    pv.pictureB = PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage2.drawToBitmap(),100)
+                }
+                if (pictureUpdatedArr[3]){
+                    pv.pictureC = PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage3.drawToBitmap(),100)
+                }
+                if (pictureUpdatedArr[4]){
+                    pv.pictureD = PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage4.drawToBitmap(),100)
+                }
+                if (pictureUpdatedArr[5]){
+                    pv.pictureE = PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage5.drawToBitmap(),100)
+                }
+                if (pictureUpdatedArr[6]){
+                    pv.pictureF = PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage6.drawToBitmap(),100)
+                }
+                apiService.saveOrUpdateGood(pv).enqueue(object : Callback<ApiResponse<ProductVo>>{
                     override fun onResponse(
                         call: Call<ApiResponse<ProductVo>>,
                         response: Response<ApiResponse<ProductVo>>
@@ -117,19 +138,35 @@ class GoodDetailActivity : BaseActivity() {
                 })
 
             } else {
-                apiService.newGood(ProductVo(null,null,binding.goodDetailNormalCategoryInput.text.toString(),binding.goodDetailNormalTitleInput.text.toString(),
-                    binding.goodDetailNormalDetailInput.text.toString(),
-                    if(pictureUpdatedArr[0]){PictureUtils.bitmap2String(binding.goodDetailCoverImage.drawToBitmap(),100)} else {null},
-                    Money(binding.goodDetailNormalPriceInput.text.toString()).cent.toInt(),
-                    0,0, LocalDateTime.now(), LocalDateTime.now(),0,
-                    FlowerSupplierApplication.store.shopId,0,binding.goodDetailNormalStockInput.text.toString().toInt(),
-                    if (pictureUpdatedArr[1]){PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage1.drawToBitmap(),100)} else {null},
-                    if (pictureUpdatedArr[2]){PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage2.drawToBitmap(),100)} else {null},
-                    if (pictureUpdatedArr[3]){PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage3.drawToBitmap(),100)} else {null},
-                    if (pictureUpdatedArr[4]){PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage4.drawToBitmap(),100)} else {null},
-                    if (pictureUpdatedArr[5]){PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage5.drawToBitmap(),100)} else {null},
-                    if (pictureUpdatedArr[6]){PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage6.drawToBitmap(),100)} else {null}
-                    )).enqueue(object : Callback<ApiResponse<ProductVo>>{
+                val pv = ProductVo()
+                pv.categoryName = binding.goodDetailNormalCategoryInput.text.toString()
+                pv.productName = binding.goodDetailNormalTitleInput.text.toString()
+                pv.productDesc = binding.goodDetailNormalDetailInput.text.toString()
+                pv.shopId = FlowerSupplierApplication.store.shopId
+                pv.stock = binding.goodDetailNormalStockInput.text.toString().toInt()
+                pv.normalPrice = Money(binding.goodDetailNormalPriceInput.text.toString()).cent.toInt()
+                if(pictureUpdatedArr[0]){
+                    pv.imgAddr = PictureUtils.bitmap2String(binding.goodDetailCoverImage.drawToBitmap(),100)
+                }
+                if (pictureUpdatedArr[1]){
+                    pv.pictureA = PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage1.drawToBitmap(),100)
+                }
+                if (pictureUpdatedArr[2]){
+                    pv.pictureB = PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage2.drawToBitmap(),100)
+                }
+                if (pictureUpdatedArr[3]){
+                    pv.pictureC = PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage3.drawToBitmap(),100)
+                }
+                if (pictureUpdatedArr[4]){
+                    pv.pictureD = PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage4.drawToBitmap(),100)
+                }
+                if (pictureUpdatedArr[5]){
+                    pv.pictureE = PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage5.drawToBitmap(),100)
+                }
+                if (pictureUpdatedArr[6]){
+                    pv.pictureF = PictureUtils.bitmap2String(binding.goodDetailShowpictureItemImage6.drawToBitmap(),100)
+                }
+                apiService.saveOrUpdateGood(pv).enqueue(object : Callback<ApiResponse<ProductVo>>{
                     override fun onResponse(
                         call: Call<ApiResponse<ProductVo>>,
                         response: Response<ApiResponse<ProductVo>>

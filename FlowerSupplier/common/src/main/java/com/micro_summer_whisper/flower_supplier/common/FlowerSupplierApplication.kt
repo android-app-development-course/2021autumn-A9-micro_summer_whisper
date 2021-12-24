@@ -44,7 +44,7 @@ class FlowerSupplierApplication: Application() {
             userAccount = Account(12,12,"username","password", LocalDateTime.now(), LocalDateTime.now(),0)
             userInfo = Person("nickname1000")
             store = Shop(12,12,"花尖","广州天河中山大道","https://gw.alicdn.com/tps/i3/TB1yeWeIFXXXXX5XFXXuAZJYXXX-210-210.png_50x50.jpg")
-            TOKEN = "hello_zhangsan_1"
+            TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI2NjY2NjYiLCJzdWIiOiJoaSIsImlhdCI6MTY0MDI2NDczOSwiZXhwIjozNzY0MDI2NDczOSwicm9sZXMiOiJtZXJjaGFudCIsInVpZCI6MTJ9.7PuaxdcsckkNw5kN2gDHcroVituMxs-HIbZPfsHvvDo"
         }
         ARouter.init(this); // 尽可能早，推荐在Application中初始化
         QMUISwipeBackActivityManager.init(this)

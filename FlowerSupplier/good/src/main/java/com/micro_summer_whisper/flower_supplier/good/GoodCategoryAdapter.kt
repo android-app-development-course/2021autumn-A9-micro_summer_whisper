@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.micro_summer_whisper.flower_supplier.common.pojo.Category
 import com.micro_summer_whisper.flower_supplier.common.pojo.CategoryVo
 
 

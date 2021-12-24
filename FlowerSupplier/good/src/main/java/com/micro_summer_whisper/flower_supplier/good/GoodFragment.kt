@@ -13,18 +13,15 @@ import com.micro_summer_whisper.flower_supplier.good.databinding.FragmentGoodBin
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication
+import com.micro_summer_whisper.flower_supplier.common.conditon.ProductCondition
 import com.micro_summer_whisper.flower_supplier.common.network.ApiResponse
 import com.micro_summer_whisper.flower_supplier.common.network.ApiService
 import com.micro_summer_whisper.flower_supplier.common.network.ServiceCreator
-import com.micro_summer_whisper.flower_supplier.common.pojo.Category
 import com.micro_summer_whisper.flower_supplier.common.pojo.CategoryVo
 import com.micro_summer_whisper.flower_supplier.common.pojo.ProductVo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.RuntimeException
-import java.time.LocalDateTime
 
 
 class GoodFragment : Fragment()
@@ -131,7 +128,9 @@ class GoodFragment : Fragment()
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initGoodList(category: String){
         goodList.clear()
-        apiService.getGoodList("category",category).enqueue(object : Callback<ApiResponse<List<ProductVo>>>{
+        val proCondition = ProductCondition()
+        proCondition.categoryName = category
+        apiService.getGoodList(proCondition).enqueue(object : Callback<ApiResponse<List<ProductVo>>>{
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onResponse(call: Call<ApiResponse<List<ProductVo>>>, response: Response<ApiResponse<List<ProductVo>>>) {
                 val apiResponse = response.body() as ApiResponse<List<ProductVo>>
@@ -176,10 +175,8 @@ class GoodFragment : Fragment()
 
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onFailure(call: Call<ApiResponse<List<CategoryVo>>>, t: Throwable) {
-
                     Log.e(javaClass.simpleName,"获取商品分类失败")
                     Log.e(javaClass.simpleName,t.stackTraceToString())
-
             }
 
         })

@@ -61,13 +61,13 @@ class GoodAdapter(val context: Context, val goodList:ArrayList<ProductVo>): Recy
             dialog.setItems(arrayOf("删除"), DialogInterface.OnClickListener { dialogInterface, i ->
                 when(i){
                     0 -> {
-                        apiService.removeGood(good).enqueue(object : Callback<ApiResponse<Unit>>{
+                        apiService.removeGood(good.productId).enqueue(object : Callback<ApiResponse<Any>>{
                             override fun onResponse(
-                                call: Call<ApiResponse<Unit>>,
-                                response: Response<ApiResponse<Unit>>
+                                call: Call<ApiResponse<Any>>,
+                                response: Response<ApiResponse<Any>>
                             ) {
-                                if (FlowerSupplierApplication.isDebug){
-                                    val apiResponse = response.body()
+                                val apiResponse = response.body() as ApiResponse<Any>
+                                if (apiResponse.success){
                                     apiResponse?.let {
                                         Log.d(javaClass.simpleName,"删除商品成功 ${it.toString()}")
                                         "删除商品成功".shortToast()
@@ -75,24 +75,14 @@ class GoodAdapter(val context: Context, val goodList:ArrayList<ProductVo>): Recy
                                         thisthis.notifyItemRemoved(holder.adapterPosition)
                                     }
                                 } else {
-                                    val apiResponse = response.body()
-                                    apiResponse?.let {
-                                        Log.d(javaClass.simpleName,"删除商品成功 ${it.toString()}")
-                                        "删除商品成功".shortToast()
-                                        goodList.remove(goodList[holder.adapterPosition])
-                                        thisthis.notifyItemRemoved(holder.adapterPosition)
-                                    }
+                                    Log.d(javaClass.simpleName,"删除商品失败")
                                 }
+
                             }
 
-                            override fun onFailure(call: Call<ApiResponse<Unit>>, t: Throwable) {
-                                if (FlowerSupplierApplication.ignoreNetworkFail){
-                                    "删除商品成功".shortToast()
-                                } else {
+                            override fun onFailure(call: Call<ApiResponse<Any>>, t: Throwable) {
                                     "删除商品失败".shortToast()
-                                }
                             }
-
                         })
 
                     }
