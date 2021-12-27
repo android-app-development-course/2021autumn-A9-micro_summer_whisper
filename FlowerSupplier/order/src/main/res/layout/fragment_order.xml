@@ -47,7 +47,7 @@
             android:layout_weight="1"
             android:layout_height="40dp"
             android:gravity="center"
-            android:text="待评价"/>
+            android:text="交易成功"/>
     </LinearLayout>
 
     <FrameLayout

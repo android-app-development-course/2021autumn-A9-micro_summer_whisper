@@ -2,16 +2,27 @@ package com.micro_summer_whisper.flower_supplier.order
 
 import android.graphics.Color
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.micro_summer_whisper.flower_supplier.common.conditon.OrderCondition
+import com.micro_summer_whisper.flower_supplier.common.network.ApiResponse
+import com.micro_summer_whisper.flower_supplier.common.network.ApiService
+import com.micro_summer_whisper.flower_supplier.common.network.ServiceCreator
+import com.micro_summer_whisper.flower_supplier.common.pojo.OrderVo
 import com.micro_summer_whisper.flower_supplier.order.*
 import com.micro_summer_whisper.flower_supplier.order.databinding.FragmentOrderBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class OrderFragment : Fragment()
@@ -23,6 +34,7 @@ class OrderFragment : Fragment()
     private var currentIndex = 0
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,10 +55,10 @@ class OrderFragment : Fragment()
                 binding.navigationFf2.setTextColor(Color.parseColor("#000000"))
                 binding.navigationFf3.setTextColor(Color.parseColor("#000000"))
                 binding.navigationFf4.setTextColor(Color.parseColor("#000000"))
+                binding.navigationFf4.setTypeface(Typeface.DEFAULT)
                 binding.navigationFf1.setTypeface(Typeface.DEFAULT)
                 binding.navigationFf2.setTypeface(Typeface.DEFAULT)
                 binding.navigationFf3.setTypeface(Typeface.DEFAULT)
-                binding.navigationFf4.setTypeface(Typeface.DEFAULT)
 
                 hideAndShow(0, fragmentTran)
             }
@@ -64,10 +76,10 @@ class OrderFragment : Fragment()
                 binding.navigationFf2.setTextColor(Color.parseColor("#000000"))
                 binding.navigationFf3.setTextColor(Color.parseColor("#000000"))
                 binding.navigationFf4.setTextColor(Color.parseColor("#000000"))
+                binding.navigationFf4.setTypeface(Typeface.DEFAULT)
                 binding.navigationFf0.setTypeface(Typeface.DEFAULT)
                 binding.navigationFf2.setTypeface(Typeface.DEFAULT)
                 binding.navigationFf3.setTypeface(Typeface.DEFAULT)
-                binding.navigationFf4.setTypeface(Typeface.DEFAULT)
                 hideAndShow(1, fragmentTran)
             }
         }
@@ -84,10 +96,10 @@ class OrderFragment : Fragment()
                 binding.navigationFf1.setTextColor(Color.parseColor("#000000"))
                 binding.navigationFf3.setTextColor(Color.parseColor("#000000"))
                 binding.navigationFf4.setTextColor(Color.parseColor("#000000"))
+                binding.navigationFf4.setTypeface(Typeface.DEFAULT)
                 binding.navigationFf0.setTypeface(Typeface.DEFAULT)
                 binding.navigationFf1.setTypeface(Typeface.DEFAULT)
                 binding.navigationFf3.setTypeface(Typeface.DEFAULT)
-                binding.navigationFf4.setTypeface(Typeface.DEFAULT)
                 hideAndShow(2, fragmentTran)
             }
         }
@@ -104,36 +116,69 @@ class OrderFragment : Fragment()
                 binding.navigationFf2.setTextColor(Color.parseColor("#000000"))
                 binding.navigationFf1.setTextColor(Color.parseColor("#000000"))
                 binding.navigationFf4.setTextColor(Color.parseColor("#000000"))
+                binding.navigationFf4.setTypeface(Typeface.DEFAULT)
                 binding.navigationFf0.setTypeface(Typeface.DEFAULT)
                 binding.navigationFf2.setTypeface(Typeface.DEFAULT)
                 binding.navigationFf1.setTypeface(Typeface.DEFAULT)
-                binding.navigationFf4.setTypeface(Typeface.DEFAULT)
                 hideAndShow(3, fragmentTran)
             }
         }
         binding.navigationFf4.setOnClickListener {
-            binding.navigationFf4.setTextColor(Color.parseColor("#FF5500"))
-            binding.navigationFf4.setTypeface(Typeface.DEFAULT_BOLD)
             activity?.let {
+                binding.navigationFf4.setTextColor(Color.parseColor("#FF5500"))
+                binding.navigationFf4.setTypeface(Typeface.DEFAULT_BOLD)
                 val fragmentTran = it.supportFragmentManager.beginTransaction()
                 if (fragments[4] == null) {
                     fragments[4] = Fragment4.newInstance()
                     fragments[4]?.let { fragmentTran.add(R.id.order_content, it, "Fragment4") }
                 }
+                binding.navigationFf0.setTextColor(Color.parseColor("#000000"))
+                binding.navigationFf2.setTextColor(Color.parseColor("#000000"))
+                binding.navigationFf1.setTextColor(Color.parseColor("#000000"))
+                binding.navigationFf3.setTextColor(Color.parseColor("#000000"))
+                binding.navigationFf3.setTypeface(Typeface.DEFAULT)
+                binding.navigationFf0.setTypeface(Typeface.DEFAULT)
+                binding.navigationFf2.setTypeface(Typeface.DEFAULT)
+                binding.navigationFf1.setTypeface(Typeface.DEFAULT)
                 hideAndShow(4, fragmentTran)
             }
-            binding.navigationFf0.setTextColor(Color.parseColor("#000000"))
-            binding.navigationFf2.setTextColor(Color.parseColor("#000000"))
-            binding.navigationFf3.setTextColor(Color.parseColor("#000000"))
-            binding.navigationFf1.setTextColor(Color.parseColor("#000000"))
-            binding.navigationFf0.setTypeface(Typeface.DEFAULT)
-            binding.navigationFf2.setTypeface(Typeface.DEFAULT)
-            binding.navigationFf3.setTypeface(Typeface.DEFAULT)
-            binding.navigationFf1.setTypeface(Typeface.DEFAULT)
         }
-
+        testGertOrderList();
         return view
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun testGertOrderList(){
+        val apiService = ServiceCreator.create(ApiService::class.java)
+        val oc = OrderCondition()
+        oc.shopId = 12
+        apiService.getOrderList(oc).enqueue(object : Callback<ApiResponse<List<OrderVo>>> {
+            override fun onResponse(
+                call: Call<ApiResponse<List<OrderVo>>>,
+                response: Response<ApiResponse<List<OrderVo>>>
+            ) {
+                val apiResponse = response.body() as ApiResponse<List<OrderVo>>
+                if (apiResponse.success){
+                    apiResponse.data?.let {
+                        //更新ui
+
+                        Log.d(javaClass.simpleName, it.toString())
+                    }
+                } else {
+                    Log.d(javaClass.simpleName,apiResponse.message)
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse<List<OrderVo>>>, t: Throwable) {
+                Log.e(javaClass.simpleName,"获取订单失败")
+                Log.e(javaClass.simpleName,t.stackTraceToString())
+            }
+
+
+        })
+
+    }
+
 
     private fun initFragment(){
         activity?.let {

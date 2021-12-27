@@ -12,7 +12,11 @@ import java.time.LocalDateTime;
 
 public class OrderCondition implements Serializable {
 
-
+    public static final Integer ALL = 0;
+    public static final Integer WAIT_PAY = 1;
+    public static final Integer WAIT_SEND_GOOD = 2;
+    public static final Integer WAIT_CONFIRM_RECEIVE = 3;
+    public static final Integer FINISHED = 4;
 
     private Integer orderId;
 

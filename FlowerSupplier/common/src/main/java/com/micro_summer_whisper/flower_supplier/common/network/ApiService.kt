@@ -29,7 +29,7 @@ interface ApiService {
     fun getGoodCategoryList(): Call<ApiResponse<List<CategoryVo>>>
 
     @POST("product/getProductList")
-    fun getGoodList(@Body body:ProductCondition): Call<ApiResponse<List<ProductVo>>>
+    fun getGoodList(@Body body: ProductCondition): Call<ApiResponse<List<ProductVo>>>
 
 
     @POST("product/saveOrUpdateProduct")
@@ -49,7 +49,11 @@ interface ApiService {
     fun getOrderList(@Body orderCondition: OrderCondition): Call<ApiResponse<List<OrderVo>>>
 
     @POST("productOrder/updateOrder")
-    fun updateOrder(@Query("orderId") orderId: Int, @Query("orderState") orderState: Int?, @Query("logisticsOrderNumber") logisticsOrderNumber: String?): Call<ApiResponse<OrderVo>>
+    fun updateOrder(
+        @Query("orderId") orderId: Int,
+        @Query("orderState") orderState: Int?,
+        @Query("logisticsOrderNumber") logisticsOrderNumber: String?
+    ): Call<ApiResponse<OrderVo>>
 
     @POST("account/login")
     fun login(@Body body: Account): Call<ApiResponse<Person>>
@@ -63,5 +67,18 @@ interface ApiService {
     @POST("updateUserInfo")
     fun updateUserInfo(@Body body: Person): Call<ApiResponse<Person>>
 
+    @POST("account/code")
+    fun getCode(@Body account: Map<String, String>): Call<ApiResponse<Person>>
 
+    @POST("account/register")
+    fun register(@Body account: Map<String, String>): Call<ApiResponse<Person>>
+
+    @POST("account/login")
+    fun login(@Body account: Map<String, String>): Call<ApiResponse<Person>>
+
+    @GET("person/info")
+    fun info(@Query("id") id: Int): Call<ApiResponse<Person>>
+
+    @POST("person/update")
+    fun update(@Body account: Person): Call<ApiResponse<String>>
 }

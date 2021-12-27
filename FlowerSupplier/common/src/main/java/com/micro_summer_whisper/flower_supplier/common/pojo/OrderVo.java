@@ -35,8 +35,8 @@ public class OrderVo {
 
     private LocalDateTime createTime;
 
-    private String shopName;
-    private String shopImg;
+    private String productName;
+    private String productImg;
     private Integer onePrice;
     private Integer totalPrice;
     private Integer amount;
@@ -131,20 +131,20 @@ public class OrderVo {
         this.createTime = createTime;
     }
 
-    public String getShopName() {
-        return shopName;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setShopName(String shopName) {
-        this.shopName = shopName;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public String getShopImg() {
-        return shopImg;
+    public String getProductImg() {
+        return productImg;
     }
 
-    public void setShopImg(String shopImg) {
-        this.shopImg = shopImg;
+    public void setProductImg(String productImg) {
+        this.productImg = productImg;
     }
 
     public Integer getOnePrice() {
@@ -230,8 +230,8 @@ public class OrderVo {
                 ", userId=" + userId +
                 ", isDeleted=" + isDeleted +
                 ", createTime=" + createTime +
-                ", shopName='" + shopName + '\'' +
-                ", shopImg='" + shopImg + '\'' +
+                ", shopName='" + productName + '\'' +
+                ", shopImg='" + productImg + '\'' +
                 ", onePrice=" + onePrice +
                 ", totalPrice=" + totalPrice +
                 ", amount=" + amount +
@@ -256,8 +256,8 @@ public class OrderVo {
         this.userId = userId;
         this.isDeleted = isDeleted;
         this.createTime = createTime;
-        this.shopName = shopName;
-        this.shopImg = shopImg;
+        this.productName = shopName;
+        this.productImg = shopImg;
         this.onePrice = onePrice;
         this.totalPrice = totalPrice;
         this.amount = amount;
