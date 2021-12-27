@@ -42,6 +42,9 @@ public class Shop implements Serializable {
 
     private Integer isDeleted;
 
+    public Shop() {
+    }
+
     public Shop(Integer shopId, Integer ownerId, String shopName, String shopAddress, String shopImg) {
         this.shopId = shopId;
         this.ownerId = ownerId;

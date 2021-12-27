@@ -15,6 +15,13 @@ interface ApiService {
     @GET("shop/getStoreInfo/{id}")
     fun getStoreInfo(@Path("id") id: Int): Call<ApiResponse<Shop>>
 
+    @GET("shop/hasStore/{userId}")
+    fun hasStore(@Path("userId") userId: Int): Call<ApiResponse<Shop>>
+
+    @POST("shop/createStore")
+    fun createStore(@Body body: Shop): Call<ApiResponse<Shop>>
+
+
     @POST("shop/updateStoreInfo")
     fun updateStoreInfo(@Body body: Shop): Call<ApiResponse<Shop>>
 
