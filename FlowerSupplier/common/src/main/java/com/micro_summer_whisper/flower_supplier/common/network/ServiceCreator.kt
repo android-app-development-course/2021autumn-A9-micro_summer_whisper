@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceCreator {
 
-    private const val BASE_URL = "http://10.242.101.94:8080/"
+    private const val BASE_URL = "http://10.242.104.32:8080/"
 
 
     @RequiresApi(Build.VERSION_CODES.O)

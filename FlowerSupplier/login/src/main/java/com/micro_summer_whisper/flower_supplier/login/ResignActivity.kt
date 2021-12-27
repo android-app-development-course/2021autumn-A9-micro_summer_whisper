@@ -2,19 +2,36 @@ package com.micro_summer_whisper.flower_supplier.login
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.core.widget.addTextChangedListener
 import com.micro_summer_whisper.flower_supplier.common.BaseActivity
+import com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication
+import com.micro_summer_whisper.flower_supplier.common.network.ApiResponse
+import com.micro_summer_whisper.flower_supplier.common.network.ApiService
+import com.micro_summer_whisper.flower_supplier.common.network.ServiceCreator
+import com.micro_summer_whisper.flower_supplier.common.pojo.Account
+import com.micro_summer_whisper.flower_supplier.common.pojo.OrderVo
+import com.micro_summer_whisper.flower_supplier.common.pojo.Person
 import com.micro_summer_whisper.flower_supplier.common.shortToast
 import com.micro_summer_whisper.flower_supplier.login.databinding.ActivityResignBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.regex.Pattern
 
 class ResignActivity : BaseActivity() {
     private lateinit var binding: ActivityResignBinding
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private val apiService = ServiceCreator.create(ApiService::class.java)
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityResignBinding.inflate(layoutInflater)
@@ -28,23 +45,23 @@ class ResignActivity : BaseActivity() {
         var flag3 = false          //是否勾选阅读协议的标志
         var flag4 = false          //是否输入验证码的标志
 
-        binding.resignPhone.addTextChangedListener {
+        binding.resignEmail.addTextChangedListener {
             flag2 = false
-            _username = binding.resignPhone.text.toString()//获取输入
-            val compile_phone =
-                Pattern.compile("^1[3|4|5|7|8][0-9]{9}\$")   //手机号
-            if (compile_phone.matcher(_username).matches()) {
+            _username = binding.resignEmail.text.toString()//获取输入
+            val compile_email =
+                Pattern.compile("^(\\w)+(\\.\\w+)*@(\\w)+((\\.\\w{2,3}){1,3})\$")   //手机号
+            if (compile_email.matcher(_username).matches()) {
                 flag2 = true
                 binding.resignDelete1.isEnabled = true
                 binding.resignDelete1.visibility = View.VISIBLE
             } else if (_username.isNotEmpty()) {
                 binding.resignDelete1.isEnabled = true
                 binding.resignDelete1.visibility = View.VISIBLE
-                binding.resignPhone.setError("请输入正确的11位手机号码")
+                binding.resignEmail.setError("请输入正确的邮箱")
             } else {
                 binding.resignDelete1.isEnabled = false
                 binding.resignDelete1.visibility = View.INVISIBLE
-                binding.resignPhone.setError("请输入正确的11位手机号码")
+                binding.resignEmail.setError("请输入正确的邮箱")
             }
             binding.resignResign.isEnabled = flag && flag2 && flag3 && flag4
             if (binding.resignResign.isEnabled) {
@@ -54,9 +71,9 @@ class ResignActivity : BaseActivity() {
             }
         }
 
-        //清空手机号
+        //清空邮箱
         binding.resignDelete1.setOnClickListener {
-            binding.resignPhone.setText("")
+            binding.resignEmail.setText("")
         }
 
         //验证码
@@ -74,8 +91,34 @@ class ResignActivity : BaseActivity() {
             }
         }
 
+        //916819054@qq.com
         binding.resignGetVerification.setOnClickListener {
-            "获取验证码".shortToast()
+            val ac = mapOf("userName" to binding.resignEmail.text.toString())
+            apiService.getCode(ac).enqueue(object :
+                Callback<ApiResponse<Person>> {
+                override fun onResponse(
+                    call: Call<ApiResponse<Person>>,
+                    response: Response<ApiResponse<Person>>
+                ) {
+                    val apiResponse = response.body() as ApiResponse<Person>
+                    if (apiResponse.success) {
+                        apiResponse.data?.let {
+                            Log.d(javaClass.simpleName, "获取验证码成功 ${it.toString()}")
+                            "获取验证码成功".shortToast()
+                        }
+
+                    } else {
+                        Log.d(javaClass.simpleName, apiResponse.message)
+                    }
+                }
+
+                override fun onFailure(call: Call<ApiResponse<Person>>, t: Throwable) {
+                    "获取验证码失败".shortToast()
+                    Log.e(javaClass.simpleName, t.stackTraceToString())
+                }
+            })
+
+
         }
 
         //密码框：得到焦点时的显示内容
@@ -87,7 +130,7 @@ class ResignActivity : BaseActivity() {
         }
 
         //密码框：输入变化时判断密码是否符合规定
-        binding.resignPassword.addTextChangedListener{
+        binding.resignPassword.addTextChangedListener {
             flag = false
             _password = binding.resignPassword.text.toString()//获取输入
             val compile = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}\$")
@@ -156,7 +199,34 @@ class ResignActivity : BaseActivity() {
 
         //注册按钮
         binding.resignResign.setOnClickListener {
-            "注册成功".shortToast()
+            val ac = mapOf(
+                "userName" to binding.resignEmail.text.toString(),
+                "cd" to binding.resignVerification.text.toString(),
+                "password" to binding.resignPassword.text.toString()
+            )
+            apiService.register(ac).enqueue(object :
+                Callback<ApiResponse<Person>> {
+                override fun onResponse(
+                    call: Call<ApiResponse<Person>>,
+                    response: Response<ApiResponse<Person>>
+                ) {
+                    val apiResponse = response.body() as ApiResponse<Person>
+                    if (apiResponse.success) {
+                        apiResponse.data?.let {
+                            Log.d(javaClass.simpleName, "获取验证码成功 ${it.toString()}")
+//                            "获取验证码成功".shortToast()
+                        }
+
+                    } else {
+                        Log.d(javaClass.simpleName, apiResponse.message)
+                    }
+                }
+
+                override fun onFailure(call: Call<ApiResponse<Person>>, t: Throwable) {
+                    "获取验证码失败".shortToast()
+                    Log.e(javaClass.simpleName, t.stackTraceToString())
+                }
+            })
             finish()
         }
     }

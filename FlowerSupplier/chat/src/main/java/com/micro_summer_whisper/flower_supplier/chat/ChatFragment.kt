@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -14,12 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.micro_summer_whisper.flower_supplier.chat.databinding.FragmentChatBinding
 import com.micro_summer_whisper.flower_supplier.common.MyDatabaseHelper
 import com.micro_summer_whisper.flower_supplier.common.pojo.ChattingMsg
-import com.micro_summer_whisper.flower_supplier.common.randomTimes
 import kotlinx.android.synthetic.main.fragment_chat.*
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
-import kotlin.random.Random
 
 
 class ChatFragment : Fragment() {

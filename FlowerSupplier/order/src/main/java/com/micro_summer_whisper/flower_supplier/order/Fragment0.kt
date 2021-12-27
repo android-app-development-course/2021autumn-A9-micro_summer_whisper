@@ -1,35 +1,66 @@
 package com.micro_summer_whisper.flower_supplier.order
 
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.micro_summer_whisper.flower_supplier.common.conditon.OrderCondition
+import com.micro_summer_whisper.flower_supplier.common.longToast
+import com.micro_summer_whisper.flower_supplier.common.network.ApiResponse
+import com.micro_summer_whisper.flower_supplier.common.network.ApiService
+import com.micro_summer_whisper.flower_supplier.common.network.ServiceCreator
+import com.micro_summer_whisper.flower_supplier.common.pojo.CategoryVo
+import com.micro_summer_whisper.flower_supplier.common.pojo.OrderVo
+import com.micro_summer_whisper.flower_supplier.common.shortToast
 
 import com.micro_summer_whisper.flower_supplier.order.databinding.Fragment0Binding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class Fragment0 : Fragment() {
 
     private var _binding: Fragment0Binding? = null
     private val binding get() = _binding!!
-    private val orderList = ArrayList<Order>()
+    private val orderList = ArrayList<OrderVo>()
+    private lateinit var orderAdapter: OrderAdapter
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private val apiService = ServiceCreator.create(ApiService::class.java)
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        initOrders()
-
         _binding = Fragment0Binding.inflate(inflater, container, false)
         val view = binding.root
-        val layoutManager = LinearLayoutManager(this.context)
-        binding.orderRecyclerview0.layoutManager = layoutManager
-        val adapter = OrderAdapter(orderList)
-        binding.orderRecyclerview0.adapter = adapter
+
+        activity?.let {
+            this.context?.let {
+                orderAdapter = OrderAdapter(it, orderList)
+                binding.orderRecyclerview0.adapter = orderAdapter
+                val layoutManager = LinearLayoutManager(it)
+                binding.orderRecyclerview0.layoutManager = layoutManager
+            }
+        }
+
         return view
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onResume() {
+        super.onResume()
+        initOrders()
     }
 
     companion object {
@@ -41,16 +72,35 @@ class Fragment0 : Fragment() {
             }
     }
 
+
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initOrders() {
-        orderList.add(Order("洋甘菊", (0..4).random(), "1.23", "3", R.drawable.f1))
-        orderList.add(Order("玫瑰", (0..4).random(), "1.23", "300", R.drawable.f2))
-        orderList.add(Order("鸡冠花", (0..4).random(), "1.23", "3", R.drawable.f3))
-        orderList.add(Order("牡丹", (0..4).random(), "1.23", "3", R.drawable.f4))
-        orderList.add(Order("康乃馨", (0..4).random(), "1.23", "3", R.drawable.f5))
-        orderList.add(Order("菊花", (0..4).random(), "1.23", "3", R.drawable.f6))
-        orderList.add(Order("虞美人", (0..4).random(), "1.23", "3", R.drawable.f7))
-        orderList.add(Order("山药", (0..4).random(), "1.23", "3", R.drawable.f8))
-        orderList.add(Order("荷花", (0..4).random(), "1.23", "3", R.drawable.f9))
-        orderList.add(Order("芍药", (0..4).random(), "1.23", "3", R.drawable.f10))
+        orderList.clear()
+        val oc = OrderCondition()
+        oc.shopId = 12
+        apiService.getOrderList(oc).enqueue(object : Callback<ApiResponse<List<OrderVo>>> {
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun onResponse(
+                call: Call<ApiResponse<List<OrderVo>>>,
+                response: Response<ApiResponse<List<OrderVo>>>
+            ) {
+                val apiResponse = response.body() as ApiResponse<List<OrderVo>>
+                if (apiResponse.success) {
+                    apiResponse.data?.let {
+                        orderList.addAll(it)
+                        orderList.size.toString().shortToast()
+                        orderAdapter.notifyDataSetChanged()
+                        Log.d(javaClass.simpleName, it.toString())
+                    }
+                } else {
+                    Log.d(javaClass.simpleName, apiResponse.message)
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse<List<OrderVo>>>, t: Throwable) {
+                Log.e(javaClass.simpleName, "获取订单失败")
+                Log.e(javaClass.simpleName, t.stackTraceToString())
+            }
+        })
     }
 }

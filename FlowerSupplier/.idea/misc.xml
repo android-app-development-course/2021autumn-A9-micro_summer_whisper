@@ -3,69 +3,73 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="../../../../../../../layout/custom_preview.xml" value="0.26510416666666664" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/good/src/main/res/layout/activity_good_detail.xml" value="0.24139492753623187" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/good/src/main/res/layout/fragment_good.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/login/src/main/res/drawable/button_circle_shape.xml" value="0.3472931562819203" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/login/src/main/res/drawable/button_circle_shape2.xml" value="0.3472931562819203" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/login/src/main/res/drawable/button_circle_shape3.xml" value="0.3472931562819203" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/login/src/main/res/drawable/button_circle_shape4.xml" value="0.3472931562819203" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/login/src/main/res/drawable/button_circle_shape_gray.xml" value="0.30833333333333335" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/login/src/main/res/drawable/text_underline.xml" value="0.3472931562819203" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/login/src/main/res/layout/activity_login.xml" value="0.5" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/login/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/login/src/main/res/layout/activity_resign.xml" value="0.4127708095781072" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/login/src/main/res/layout/activity_verification.xml" value="0.24003623188405798" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/login/src/main/res/layout/login_verification.xml" value="0.27807971014492755" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/me/src/main/res/drawable/alert.xml" value="0.3472931562819203" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/me/src/main/res/drawable/body.xml" value="0.3472931562819203" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/me/src/main/res/drawable/btn_selctor_exit.xml" value="0.3472931562819203" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/me/src/main/res/drawable/button_circle_shape.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/me/src/main/res/drawable/button_circle_shape4.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/me/src/main/res/drawable/head_name.xml" value="0.3472931562819203" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/me/src/main/res/drawable/no.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/me/src/main/res/layout/activity_account_update.xml" value="0.23596014492753623" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/me/src/main/res/layout/activity_main.xml" value="0.27807971014492755" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/me/src/main/res/layout/fragment_me.xml" value="0.33" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/me/src/main/res/layout/header.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/me/src/main/res/layout/view_dialog_custom.xml" value="0.27807971014492755" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/order/src/main/res/drawable/bac_shape.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/order/src/main/res/drawable/button_circle_shape.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/order/src/main/res/drawable/button_shape.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/order/src/main/res/layout/activity_main.xml" value="0.29528985507246375" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/order/src/main/res/layout/activity_order_detail.xml" value="0.33" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/order/src/main/res/layout/content_order_detail.xml" value="0.24139492753623187" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/order/src/main/res/layout/fragment_0.xml" value="0.291213768115942" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/order/src/main/res/layout/fragment_1.xml" value="0.291213768115942" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/order/src/main/res/layout/fragment_2.xml" value="0.2552083333333333" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/order/src/main/res/layout/fragment_3.xml" value="0.23697916666666666" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/order/src/main/res/layout/fragment_4.xml" value="0.2552083333333333" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/order/src/main/res/layout/fragment_first.xml" value="0.2046875" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/order/src/main/res/layout/fragment_order.xml" value="0.394413407821229" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/order/src/main/res/layout/fragment_second.xml" value="0.24139492753623187" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/order/src/main/res/layout/main.xml" value="0.29528985507246375" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/order/src/main/res/layout/order_item.xml" value="0.29528985507246375" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/order/src/main/res/menu/navigation.xml" value="0.3338541666666667" />
+        <entry key="..\:/Users/yacht/Desktop/2021autumn-A9-micro_summer_whisper/FlowerSupplier/store/src/main/res/layout/activity_main.xml" value="0.29528985507246375" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.3140625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1921875" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.3140625" />
         <entry key="app/src/main/res/menu/navigation.xml" value="0.165625" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.24739583333333334" />
-        <entry key="chat/src/main/res/layout/activity_chatting.xml" value="0.264" />
         <entry key="chat/src/main/res/layout/activity_main.xml" value="0.1671875" />
-        <entry key="chat/src/main/res/layout/chat_msg_item.xml" value="0.4" />
-        <entry key="chat/src/main/res/layout/chatting_left_msg_item.xml" value="0.264" />
-        <entry key="chat/src/main/res/layout/chatting_left_msg_picture_item.xml" value="0.3140625" />
-        <entry key="chat/src/main/res/layout/chatting_msg_item.xml" value="0.2453125" />
-        <entry key="chat/src/main/res/layout/chatting_right_msg_item.xml" value="0.2453125" />
-        <entry key="chat/src/main/res/layout/chatting_right_msg_picture_item.xml" value="0.3140625" />
-        <entry key="chat/src/main/res/layout/chatting_tailer.xml" value="0.3140625" />
-        <entry key="chat/src/main/res/layout/chatting_toolbar_custom_view.xml" value="0.3140625" />
-        <entry key="chat/src/main/res/layout/fragment_chat.xml" value="0.2" />
-        <entry key="chat/src/main/res/layout/fragment_chatting_option_navigation.xml" value="0.264" />
-        <entry key="chat/src/main/res/layout/left_msg_item.xml" value="0.2453125" />
-        <entry key="chat/src/main/res/layout/right_msg_item.xml" value="0.2453125" />
-        <entry key="chat/src/main/res/menu/char_toolbar.xml" value="0.3140625" />
-        <entry key="chat/src/main/res/menu/chatting_toolbar.xml" value="0.3140625" />
+        <entry key="chat/src/main/res/layout/fragment_chat.xml" value="0.3140625" />
         <entry key="common/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.24739583333333334" />
-        <entry key="good/src/main/res/layout/activity_good_detail.xml" value="0.2" />
-        <entry key="good/src/main/res/layout/activity_good_search.xml" value="0.18478260869565216" />
         <entry key="good/src/main/res/layout/activity_main.xml" value="0.3140625" />
-        <entry key="good/src/main/res/layout/fragment_good.xml" value="0.264" />
-        <entry key="good/src/main/res/layout/good_category_item.xml" value="0.6" />
-        <entry key="good/src/main/res/layout/good_detail_cover_item.xml" value="0.28489583333333335" />
-        <entry key="good/src/main/res/layout/good_detail_normal_item.xml" value="0.3786707882534776" />
-        <entry key="good/src/main/res/layout/good_detail_normal_layout.xml" value="0.28489583333333335" />
-        <entry key="good/src/main/res/layout/good_detail_picture_item.xml" value="0.3140625" />
-        <entry key="good/src/main/res/layout/good_detail_showpicture_item.xml" value="0.264" />
-        <entry key="good/src/main/res/layout/good_item.xml" value="0.3140625" />
-        <entry key="good/src/main/res/layout/good_search_input.xml" value="0.24909420289855072" />
-        <entry key="good/src/main/res/layout/good_section_header.xml" value="0.24270833333333333" />
-        <entry key="good/src/main/res/layout/good_section_item.xml" value="0.24270833333333333" />
-        <entry key="good/src/main/res/menu/chatting_toolbar.xml" value="0.3140625" />
-        <entry key="good/src/main/res/menu/good_detail_toolbar.xml" value="0.3140625" />
-        <entry key="good/src/main/res/menu/good_search_toolbar.xml" value="0.3140625" />
-        <entry key="good/src/main/res/menu/good_toolbar.xml" value="0.3140625" />
+        <entry key="good/src/main/res/layout/fragment_good.xml" value="0.3140625" />
         <entry key="login/src/main/res/layout/activity_login.xml" value="0.2390625" />
         <entry key="login/src/main/res/layout/activity_main.xml" value="0.19270833333333334" />
         <entry key="me/src/main/res/layout/activity_main.xml" value="0.18385416666666668" />
-        <entry key="me/src/main/res/layout/activity_un_login.xml" value="0.3140625" />
         <entry key="me/src/main/res/layout/fragment_me.xml" value="0.3140625" />
-        <entry key="me/src/main/res/layout/view_dialog_custom.xml" value="0.3140625" />
-        <entry key="order/src/main/res/drawable/bac_shape.xml" value="0.334375" />
         <entry key="order/src/main/res/layout/activity_main.xml" value="0.18385416666666668" />
         <entry key="order/src/main/res/layout/fragment_order.xml" value="0.29322916666666665" />
-        <entry key="order/src/main/res/layout/order_item.xml" value="0.3140625" />
         <entry key="store/src/main/res/layout/activity_1.xml" value="0.2921875" />
         <entry key="store/src/main/res/layout/activity_main.xml" value="0.3140625" />
-        <entry key="store/src/main/res/layout/activity_store_setting.xml" value="0.24547101449275363" />
-        <entry key="store/src/main/res/layout/fragment_store.xml" value="0.4" />
-        <entry key="store/src/main/res/layout/store_data_item.xml" value="0.4" />
-        <entry key="store/src/main/res/layout/store_setting_item.xml" value="0.264" />
-        <entry key="store/src/main/res/layout/store_setting_item_image.xml" value="0.24547101449275363" />
-        <entry key="store/src/main/res/layout/store_setting_item_text.xml" value="0.24547101449275363" />
+        <entry key="store/src/main/res/layout/fragment_store.xml" value="0.3140625" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

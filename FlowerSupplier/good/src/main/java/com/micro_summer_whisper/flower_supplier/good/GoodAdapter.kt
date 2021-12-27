@@ -27,19 +27,20 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class GoodAdapter(val context: Context, val goodList:ArrayList<ProductVo>): RecyclerView.Adapter<GoodAdapter.GoodViewHolder>() {
+class GoodAdapter(val context: Context, val goodList: ArrayList<ProductVo>) :
+    RecyclerView.Adapter<GoodAdapter.GoodViewHolder>() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private val apiService = ServiceCreator.create(ApiService::class.java)
 
-    inner class GoodViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class GoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.good_cover_image)
         val titleTV: TextView = itemView.findViewById(R.id.good_title)
         val priceTV: TextView = itemView.findViewById(R.id.good_price)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GoodViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.good_item, parent,false)
+        val view = LayoutInflater.from(context).inflate(R.layout.good_item, parent, false)
         return GoodViewHolder(view)
     }
 
@@ -59,31 +60,32 @@ class GoodAdapter(val context: Context, val goodList:ArrayList<ProductVo>): Recy
         holder.itemView.setOnLongClickListener {
             val dialog = AlertDialog.Builder(context)
             dialog.setItems(arrayOf("删除"), DialogInterface.OnClickListener { dialogInterface, i ->
-                when(i){
+                when (i) {
                     0 -> {
-                        apiService.removeGood(good.productId).enqueue(object : Callback<ApiResponse<Any>>{
-                            override fun onResponse(
-                                call: Call<ApiResponse<Any>>,
-                                response: Response<ApiResponse<Any>>
-                            ) {
-                                val apiResponse = response.body() as ApiResponse<Any>
-                                if (apiResponse.success){
-                                    apiResponse?.let {
-                                        Log.d(javaClass.simpleName,"删除商品成功 ${it.toString()}")
-                                        "删除商品成功".shortToast()
-                                        goodList.remove(goodList[holder.adapterPosition])
-                                        thisthis.notifyItemRemoved(holder.adapterPosition)
+                        apiService.removeGood(good.productId)
+                            .enqueue(object : Callback<ApiResponse<Any>> {
+                                override fun onResponse(
+                                    call: Call<ApiResponse<Any>>,
+                                    response: Response<ApiResponse<Any>>
+                                ) {
+                                    val apiResponse = response.body() as ApiResponse<Any>
+                                    if (apiResponse.success) {
+                                        apiResponse?.let {
+                                            Log.d(javaClass.simpleName, "删除商品成功 ${it.toString()}")
+                                            "删除商品成功".shortToast()
+                                            goodList.remove(goodList[holder.adapterPosition])
+                                            thisthis.notifyItemRemoved(holder.adapterPosition)
+                                        }
+                                    } else {
+                                        Log.d(javaClass.simpleName, "删除商品失败")
                                     }
-                                } else {
-                                    Log.d(javaClass.simpleName,"删除商品失败")
+
                                 }
 
-                            }
-
-                            override fun onFailure(call: Call<ApiResponse<Any>>, t: Throwable) {
+                                override fun onFailure(call: Call<ApiResponse<Any>>, t: Throwable) {
                                     "删除商品失败".shortToast()
-                            }
-                        })
+                                }
+                            })
 
                     }
                 }

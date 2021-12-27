@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="新用户名："
+        android:textSize="16dp" />
+
+    <EditText
+        android:id="@+id/me_newName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_circle_shape4"
+        android:text="1651651"
+        android:textSize="16dp" />
+
+   <!-- <View
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:background="@color/gray" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="新密码："
+        android:textSize="16dp" />
+    <EditText
+        android:id="@+id/me_newPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_circle_shape4"
+        android:text="1651651"
+        android:inputType="textPassword"
+        android:textSize="16dp" />-->
+
+    <Button
+        android:id="@+id/me_saveAccountUpdate"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:background="@drawable/button_circle_shape"
+        android:text="保存修改"/>
+
+</LinearLayout>
