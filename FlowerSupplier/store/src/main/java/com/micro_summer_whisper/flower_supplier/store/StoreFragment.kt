@@ -105,8 +105,6 @@ class StoreFragment : Fragment() {
                 if (apiResponse.success){
                     val dashM = apiResponse.data
                     dashM?.let {
-                        binding.storeDataYesterdayVisitB.setText(dashM.yesterdayVisit.toString())
-                        binding.storeDataTodayVisitB.setText(dashM.todayVisit.toString())
                         binding.storeDataYesterdayOrderB.setText(dashM.yesterdayOrder.toString())
                         binding.storeDataTodayOrderB.setText(dashM.todayOrder.toString())
                         binding.storeDataWaitPayB.setText(dashM.waitPay.toString())

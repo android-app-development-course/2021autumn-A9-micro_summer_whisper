@@ -13,11 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication
 import com.micro_summer_whisper.flower_supplier.common.MyDatabaseHelper
+import com.micro_summer_whisper.flower_supplier.common.pojo.ChatMessageVo
 import com.micro_summer_whisper.flower_supplier.common.pojo.ChattingMsg
 import java.util.*
 
 
-class ChatMsgAdapter(val recyclerView: RecyclerView, val fragment: Fragment ,val chatList:LinkedList<ChattingMsg>): RecyclerView.Adapter<ChatMsgAdapter.ChatMsgViewHolder>() {
+class ChatMsgAdapter(val recyclerView: RecyclerView, val fragment: Fragment ,val chatList:LinkedList<ChatMessageVo>): RecyclerView.Adapter<ChatMsgAdapter.ChatMsgViewHolder>() {
 
     inner class ChatMsgViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.chat_msg_head_image)
@@ -35,20 +36,19 @@ class ChatMsgAdapter(val recyclerView: RecyclerView, val fragment: Fragment ,val
         val data = chatList[position]
         Glide.with(fragment).load(data.headImageLink).into(holder.imageView)
         holder.titleTV.setText(data.nickName)
-        holder.shortConTV.setText(if (data.isText){data.content} else {"图片"})
+        holder.shortConTV.setText(if (data.isText==1){data.content} else {"图片"})
         holder.itemView.setOnLongClickListener {
             fragment.context?.let {
                 val dialog = AlertDialog.Builder(it)
                 dialog.setItems(arrayOf("删除", "置顶"), DialogInterface.OnClickListener { dialogInterface, i ->
                     when(i){
                         0 -> {
-                            val pos = holder.adapterPosition
-                            val removed = chatList.removeAt(pos)
-                            notifyItemRemoved(pos)
+                            val removed = chatList.removeAt(holder.adapterPosition)
+                            notifyItemRemoved(holder.adapterPosition)
                             val db = MyDatabaseHelper(FlowerSupplierApplication.context,"flower_supplier",1).writableDatabase
                             db.let {
-                                it.delete("latest_chats","b_id = ?", arrayOf("${removed.bId}"))
-                                it.delete("chats","b_id = ?", arrayOf("${removed.bId}"))
+                                it.delete("latest_chats","b_id = ?", arrayOf("${removed.guestId}"))
+                                it.delete("chats","b_id = ?", arrayOf("${removed.guestId}"))
                             }
                         }
                         1 -> {
@@ -68,7 +68,7 @@ class ChatMsgAdapter(val recyclerView: RecyclerView, val fragment: Fragment ,val
         holder.itemView.setOnClickListener {
             fragment.activity?.let {
                 val cm = chatList[holder.adapterPosition]
-                ChattingActivity.actionStart(it,cm.bId,cm.nickName)
+                ChattingActivity.actionStart(it,cm.guestId.toLong(),cm.nickName)
             }
         }
     }

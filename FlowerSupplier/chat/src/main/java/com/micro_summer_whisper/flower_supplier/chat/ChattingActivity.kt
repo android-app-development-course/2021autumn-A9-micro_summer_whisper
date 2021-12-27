@@ -14,12 +14,22 @@ import java.lang.Exception
 
 import android.database.Cursor
 import android.net.Uri
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.content.contentValuesOf
 import com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication
 import com.micro_summer_whisper.flower_supplier.common.MyDatabaseHelper
+import com.micro_summer_whisper.flower_supplier.common.network.ApiResponse
+import com.micro_summer_whisper.flower_supplier.common.network.ApiService
+import com.micro_summer_whisper.flower_supplier.common.network.ServiceCreator
+import com.micro_summer_whisper.flower_supplier.common.pojo.ChatMessageVo
 import com.micro_summer_whisper.flower_supplier.common.pojo.ChattingMsg
 import com.micro_summer_whisper.flower_supplier.common.util.DateTimeUtils
+import com.micro_summer_whisper.flower_supplier.common.util.PictureUtils
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class ChattingActivity : BaseActivity() {
@@ -27,7 +37,7 @@ class ChattingActivity : BaseActivity() {
     private lateinit var binding: ActivityChattingBinding
     private val chattingOptionNavigation = ChattingOptionNavigationFragment.newInstance()
     private var isShowingChattingOptionNavigation = false
-    private val chattingMsgList = ArrayList<ChattingMsg>()
+    private val chattingMsgList = ArrayList<ChatMessageVo>()
     private lateinit var adapter: ChattingMsgAdapter
     private var bid: Long = -1
     val db = MyDatabaseHelper(FlowerSupplierApplication.context,"flower_supplier",1).writableDatabase
@@ -41,6 +51,7 @@ class ChattingActivity : BaseActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChattingBinding.inflate(layoutInflater)
@@ -77,21 +88,42 @@ class ChattingActivity : BaseActivity() {
             }
         }
         binding.chattingSendBtn.setOnClickListener {
-            chattingMsgList.add(
-                ChattingMsg("https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",binding.chattingInput.text.toString(),
-                    ChattingMsg.TYPE_SEND_TEXT,FlowerSupplierApplication.userAccount.userId,bid,FlowerSupplierApplication.userInfo.nickName,true)
-            )
-            adapter.notifyItemInserted(chattingMsgList.size-1)
-            binding.chattingRecyclerView.smoothScrollToPosition(chattingMsgList.size-1)
-            db.insert("chats",null, contentValuesOf(
-                "a_id" to FlowerSupplierApplication.userAccount.userId,"b_id" to bid, "content" to binding.chattingInput.text.toString(),
-                "type" to ChattingMsg.TYPE_SEND_TEXT, "created_time" to DateTimeUtils.toStrFromLong(System.currentTimeMillis()),
-                "head_image_link" to "https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg"
-                , "nick_name" to FlowerSupplierApplication.userInfo.nickName, "is_text" to 1)
-            )
+            val apiService = ServiceCreator.create(ApiService::class.java)
+            apiService.sendChattingMsg(ChatMessageVo("https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",binding.chattingInput.text.toString(),
+                ChatMessageVo.TYPE_RECEIVE_TEXT,bid.toInt(),FlowerSupplierApplication.userAccount.userId,FlowerSupplierApplication.userInfo.name,1)
+            ).enqueue(object : Callback<ApiResponse<Any>>{
+                override fun onResponse(
+                    call: Call<ApiResponse<Any>>,
+                    response: Response<ApiResponse<Any>>
+                ) {
+                    val apiResponse = response.body() as ApiResponse<Any>
+                    if (apiResponse.success){
+                        chattingMsgList.add( ChatMessageVo("https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",binding.chattingInput.text.toString(),
+                            ChatMessageVo.TYPE_SEND_TEXT,FlowerSupplierApplication.userAccount.userId,bid.toInt(),FlowerSupplierApplication.userInfo.name,1))
+                        adapter.notifyItemInserted(chattingMsgList.size-1)
+                        binding.chattingRecyclerView.smoothScrollToPosition(chattingMsgList.size-1)
+                        db.insert("chats",null, contentValuesOf(
+                            "a_id" to FlowerSupplierApplication.userAccount.userId,"b_id" to bid, "content" to binding.chattingInput.text.toString(),
+                            "type" to ChatMessageVo.TYPE_SEND_TEXT, "created_time" to DateTimeUtils.toStrFromLong(System.currentTimeMillis()),
+                            "head_image_link" to "https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg"
+                            , "nick_name" to FlowerSupplierApplication.userInfo.name, "is_text" to 1)
+                        )
+                    } else {
+                        Log.e(javaClass.simpleName,apiResponse.message)
+                    }
+                }
+
+                override fun onFailure(call: Call<ApiResponse<Any>>, t: Throwable) {
+                    Log.e(javaClass.simpleName,"发送聊天信息失败")
+                    Log.e(javaClass.simpleName,t.stackTraceToString())
+                }
+
+            })
+
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -112,19 +144,43 @@ class ChattingActivity : BaseActivity() {
                             val path = it.getString(columnIndex) //获取照片路径
                             it.close()
                             val bitmap = BitmapFactory.decodeFile(path)
-                            chattingMsgList.add(
-                                ChattingMsg("https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",
+                            val apiService = ServiceCreator.create(ApiService::class.java)
+                            apiService.sendChattingMsg(ChatMessageVo("https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",
                                 PictureUtils.bitmap2String(bitmap,100),
-                                    ChattingMsg.TYPE_SEND_PICTURE,FlowerSupplierApplication.userAccount.userId,bid,FlowerSupplierApplication.userInfo.nickName,false)
-                            )
-                            adapter.notifyItemInserted(chattingMsgList.size-1)
-                            binding.chattingRecyclerView.smoothScrollToPosition(chattingMsgList.size-1)
-                            db.insert("chats",null, contentValuesOf(
-                                "a_id" to FlowerSupplierApplication.userAccount.userId,"b_id" to bid, "content" to PictureUtils.bitmap2String(bitmap,100),
-                                "type" to ChattingMsg.TYPE_SEND_PICTURE, "created_time" to DateTimeUtils.toStrFromLong(System.currentTimeMillis()),
-                                "head_image_link" to "https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",
-                                "nick_name" to FlowerSupplierApplication.userInfo.nickName, "is_text" to 1)
-                            )
+                                ChatMessageVo.TYPE_RECEIVE_PICTURE,bid.toInt(),FlowerSupplierApplication.userAccount.userId,FlowerSupplierApplication.userInfo.name,0)
+                            ).enqueue(object : Callback<ApiResponse<Any>>{
+                                override fun onResponse(
+                                    call: Call<ApiResponse<Any>>,
+                                    response: Response<ApiResponse<Any>>
+                                ) {
+                                    val apiResponse = response.body() as ApiResponse<Any>
+                                    if (apiResponse.success){
+                                        chattingMsgList.add(
+                                            ChatMessageVo("https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",
+                                                PictureUtils.bitmap2String(bitmap,100),
+                                                ChatMessageVo.TYPE_SEND_PICTURE,FlowerSupplierApplication.userAccount.userId,bid.toInt(),FlowerSupplierApplication.userInfo.name,0)
+                                        )
+                                        adapter.notifyItemInserted(chattingMsgList.size-1)
+                                        binding.chattingRecyclerView.smoothScrollToPosition(chattingMsgList.size-1)
+                                        db.insert("chats",null, contentValuesOf(
+                                            "a_id" to FlowerSupplierApplication.userAccount.userId,"b_id" to bid, "content" to PictureUtils.bitmap2String(bitmap,100),
+                                            "type" to ChatMessageVo.TYPE_SEND_PICTURE, "created_time" to DateTimeUtils.toStrFromLong(System.currentTimeMillis()),
+                                            "head_image_link" to "https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",
+                                            "nick_name" to FlowerSupplierApplication.userInfo.name, "is_text" to 0)
+                                        )
+                                    } else {
+                                        Log.e(javaClass.simpleName,apiResponse.message)
+                                    }
+                                }
+
+                                override fun onFailure(call: Call<ApiResponse<Any>>, t: Throwable) {
+                                    Log.e(javaClass.simpleName,"发送图片信息失败")
+                                    Log.e(javaClass.simpleName,t.stackTraceToString())
+                                }
+
+                            })
+
+
                         }
                     }
                 } catch (e: Exception) {
@@ -157,36 +213,15 @@ class ChattingActivity : BaseActivity() {
 
     private fun initChatMsgList(){
 
-//        val random = Random(System.currentTimeMillis())
-//        repeat(30){
-//            if (random.nextInt(3)==2){
-//                chattingMsgList.add(
-//                    ChattingMsg("https://cdn2.jianshu.io/assets/default_avatar/12-aeeea4bedf10f2a12c0d50d626951489.jpg",
-//                    "hi ${random.nextInt()}".randomTimes(20).toByteArray(), ChattingMsg.TYPE_RECEIVE_TEXT)
-//                )
-//                chattingMsgList.add(
-//                    ChattingMsg("https://cdn2.jianshu.io/assets/default_avatar/12-aeeea4bedf10f2a12c0d50d626951489.jpg",
-//                    "https://cdn2.jianshu.io/assets/default_avatar/12-aeeea4bedf10f2a12c0d50d626951489.jpg".toByteArray(), ChattingMsg.TYPE_RECEIVE_PICTURE)
-//                )
-//            } else {
-//                chattingMsgList.add(
-//                    ChattingMsg("https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",
-//                    "hi ${random.nextInt()}".randomTimes(20).toByteArray(), ChattingMsg.TYPE_SEND_TEXT)
-//                )
-//                chattingMsgList.add(
-//                    ChattingMsg("https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",
-//                    "https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg".toByteArray(), ChattingMsg.TYPE_SEND_PICTURE)
-//                )
-//            }
-//        }
         chattingMsgList.clear()
         Log.d(javaClass.simpleName,"bid: $bid")
         db.let {
             it.query("chats",null,"b_id = ?", arrayOf("$bid"),null,null,"created_time").let {
                 while (it.moveToNext()){
-                    chattingMsgList.add(ChattingMsg(it.getString(it.getColumnIndexOrThrow("head_image_link")),
+                    chattingMsgList.add(ChatMessageVo(it.getString(it.getColumnIndexOrThrow("head_image_link")),
                     it.getString(it.getColumnIndexOrThrow("content")),it.getInt(it.getColumnIndexOrThrow("type")),
-                        it.getLong(it.getColumnIndexOrThrow("a_id")),it.getLong(it.getColumnIndexOrThrow("b_id")),it.getString(it.getColumnIndexOrThrow("nick_name")),it.getInt(it.getColumnIndexOrThrow("is_text"))==1
+                        it.getLong(it.getColumnIndexOrThrow("a_id")).toInt(),it.getLong(it.getColumnIndexOrThrow("b_id")).toInt(),
+                        it.getString(it.getColumnIndexOrThrow("nick_name")),it.getInt(it.getColumnIndexOrThrow("is_text"))
                         ))
                 }
             }

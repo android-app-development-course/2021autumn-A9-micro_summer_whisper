@@ -7,13 +7,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.micro_summer_whisper.flower_supplier.common.pojo.ChatMessageVo
 import com.micro_summer_whisper.flower_supplier.common.pojo.ChattingMsg
+import com.micro_summer_whisper.flower_supplier.common.util.PictureUtils
 import java.lang.RuntimeException
 
-class ChattingMsgAdapter(val msgList:ArrayList<ChattingMsg>): RecyclerView.Adapter<ChattingMsgViewHolder>() {
+class ChattingMsgAdapter(val msgList:ArrayList<ChatMessageVo>): RecyclerView.Adapter<ChattingMsgViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
-        val msg: ChattingMsg = msgList[position]
+        val msg: ChatMessageVo = msgList[position]
         return msg.msgType
     }
 
@@ -43,7 +45,7 @@ class ChattingMsgAdapter(val msgList:ArrayList<ChattingMsg>): RecyclerView.Adapt
     }
 
     override fun onBindViewHolder(holder: ChattingMsgViewHolder, position: Int) {
-        val msg: ChattingMsg = msgList[position]
+        val msg: ChatMessageVo = msgList[position]
         when(holder){
             is ChattingRightTextViewHolder -> {
                 Glide.with(holder.itemView).load(msg.headImageLink).into(holder.headImage)

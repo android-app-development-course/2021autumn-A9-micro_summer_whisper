@@ -32,11 +32,11 @@ interface ApiService {
     fun removeGood(@Path("id") id: Int): Call<ApiResponse<Any>>
 
 
-    @GET("getChattingMsgxx")
-    fun getChattingMsg(): Call<ArrayList<ChattingMsg>>
+    @GET("chat/getMessage/{userId}")
+    fun getChattingMsg(@Path("userId") userId: Int): Call<ApiResponse<ArrayList<ChatMessageVo>>>
 
-    @POST("sendChattingMsg")
-    fun sendChattingMsg(@Body body: ChattingMsg): Call<Int>
+    @POST("chat/sendMessage")
+    fun sendChattingMsg(@Body body: ChatMessageVo): Call<ApiResponse<Any>>
 
     @POST("productOrder/getOrderList")
     fun getOrderList(@Body orderCondition: OrderCondition): Call<ApiResponse<List<OrderVo>>>
@@ -44,10 +44,10 @@ interface ApiService {
     @POST("productOrder/updateOrder")
     fun updateOrder(@Query("orderId") orderId: Int, @Query("orderState") orderState: Int?, @Query("logisticsOrderNumber") logisticsOrderNumber: String?): Call<ApiResponse<OrderVo>>
 
-    @POST("login")
+    @POST("account/login")
     fun login(@Body body: Account): Call<ApiResponse<Person>>
 
-    @POST("register")
+    @POST("account/register")
     fun register(@Body body: Account): Call<ApiResponse<Person>>
 
     @GET("getUserInfo/{userId}")

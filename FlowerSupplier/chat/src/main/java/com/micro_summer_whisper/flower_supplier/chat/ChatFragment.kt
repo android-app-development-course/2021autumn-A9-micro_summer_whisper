@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.micro_summer_whisper.flower_supplier.chat.databinding.FragmentChatBinding
 import com.micro_summer_whisper.flower_supplier.common.MyDatabaseHelper
+import com.micro_summer_whisper.flower_supplier.common.pojo.ChatMessageVo
 import com.micro_summer_whisper.flower_supplier.common.pojo.ChattingMsg
 import com.micro_summer_whisper.flower_supplier.common.randomTimes
 import kotlinx.android.synthetic.main.fragment_chat.*
@@ -26,13 +27,13 @@ class ChatFragment : Fragment() {
 
     private var _binding: FragmentChatBinding? = null
     private val binding get() = _binding!!
-    private val chatMsgList = LinkedList<ChattingMsg>()
+    private val chatMsgList = LinkedList<ChatMessageVo>()
     private val receiver = object : BroadcastReceiver(){
         @RequiresApi(Build.VERSION_CODES.N)
         override fun onReceive(p0: Context?, p1: Intent?) {
             p1?.let {
                 if (it.action==UPDATE_CHAT_MSG_ACTION){
-                    val serializableExtra = it.getSerializableExtra("chattingMsgList") as ArrayList<ChattingMsg>
+                    val serializableExtra = it.getSerializableExtra("chattingMsgList") as ArrayList<ChatMessageVo>
                     for (chattingMsg in serializableExtra) {
                         chatMsgList.removeIf { chatMsg ->
                             chatMsg.nickName.equals(chattingMsg.nickName)
@@ -75,28 +76,22 @@ class ChatFragment : Fragment() {
 
     private fun initChatMsgList(){
 
-//        val uriL = arrayListOf(
-//            "https://cdn2.jianshu.io/assets/default_avatar/12-aeeea4bedf10f2a12c0d50d626951489.jpg",
-//            "https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",
-//            "https://cdn2.jianshu.io/assets/default_avatar/8-a356878e44b45ab268a3b0bbaaadeeb7.jpg"
-//            )
-//        val titL = arrayListOf("米拉~~","咕咕笼","美食大叔")
-//        repeat(30){
-//            val i = Random.nextInt(3)
-//            chatMsgList.add(ChatMsg(uriL[i], titL[i], "hello $i".randomTimes(20)))
-//        }
         chatMsgList.clear()
         val db = this.context?.let { MyDatabaseHelper(it,"flower_supplier",1).readableDatabase }
         db?.let {
             it.query(true,"latest_chats", null,null,null,null,null,null,null).let {
                 while (it.moveToNext()){
                     val type = it.getInt(it.getColumnIndexOrThrow("is_text"))
-                    chatMsgList.add(
-                        ChattingMsg(it.getString(it.getColumnIndexOrThrow("head_image_link")),
-                            it.getString(it.getColumnIndexOrThrow("content")),it.getInt(it.getColumnIndexOrThrow("type")),
-                            it.getLong(it.getColumnIndexOrThrow("a_id")),it.getLong(it.getColumnIndexOrThrow("b_id")),it.getString(it.getColumnIndexOrThrow("nick_name")),it.getInt(it.getColumnIndexOrThrow("is_text"))==1
-                        )
+                    val chatMessageVo = ChatMessageVo(
+                        it.getString(it.getColumnIndexOrThrow("head_image_link")),
+                        it.getString(it.getColumnIndexOrThrow("content")),
+                        it.getInt(it.getColumnIndexOrThrow("type")),
+                        it.getLong(it.getColumnIndexOrThrow("a_id")).toInt(),
+                        it.getLong(it.getColumnIndexOrThrow("b_id")).toInt(),
+                        it.getString(it.getColumnIndexOrThrow("nick_name")),
+                        it.getInt(it.getColumnIndexOrThrow("is_text"))
                     )
+                    chatMsgList.add(chatMessageVo)
                 }
             }
 
