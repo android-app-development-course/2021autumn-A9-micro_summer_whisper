@@ -18,6 +18,7 @@ import com.micro_summer_whisper.flower_supplier.common.network.ServiceCreator
 import com.micro_summer_whisper.flower_supplier.common.pojo.Account
 import com.micro_summer_whisper.flower_supplier.common.pojo.OrderVo
 import com.micro_summer_whisper.flower_supplier.common.pojo.Person
+import com.micro_summer_whisper.flower_supplier.common.pojo.PersonVo
 import com.micro_summer_whisper.flower_supplier.common.shortToast
 import com.micro_summer_whisper.flower_supplier.login.databinding.ActivityResignBinding
 import retrofit2.Call
@@ -93,26 +94,24 @@ class ResignActivity : BaseActivity() {
 
         //916819054@qq.com
         binding.resignGetVerification.setOnClickListener {
-            val ac = mapOf("userName" to binding.resignEmail.text.toString())
-            apiService.getCode(ac).enqueue(object :
-                Callback<ApiResponse<Person>> {
+            val email =binding.resignEmail.text.toString()
+            apiService.getCode(email).enqueue(object :
+                Callback<ApiResponse<Any>> {
                 override fun onResponse(
-                    call: Call<ApiResponse<Person>>,
-                    response: Response<ApiResponse<Person>>
+                    call: Call<ApiResponse<Any>>,
+                    response: Response<ApiResponse<Any>>
                 ) {
-                    val apiResponse = response.body() as ApiResponse<Person>
+                    val apiResponse = response.body() as ApiResponse<Any>
                     if (apiResponse.success) {
-                        apiResponse.data?.let {
-                            Log.d(javaClass.simpleName, "获取验证码成功 ${it.toString()}")
-                            "获取验证码成功".shortToast()
-                        }
+                        Log.d(javaClass.simpleName, "获取验证码成功 ${it.toString()}")
+                        "获取验证码成功".shortToast()
 
                     } else {
                         Log.d(javaClass.simpleName, apiResponse.message)
                     }
                 }
 
-                override fun onFailure(call: Call<ApiResponse<Person>>, t: Throwable) {
+                override fun onFailure(call: Call<ApiResponse<Any>>, t: Throwable) {
                     "获取验证码失败".shortToast()
                     Log.e(javaClass.simpleName, t.stackTraceToString())
                 }
@@ -199,35 +198,31 @@ class ResignActivity : BaseActivity() {
 
         //注册按钮
         binding.resignResign.setOnClickListener {
-            val ac = mapOf(
-                "userName" to binding.resignEmail.text.toString(),
-                "cd" to binding.resignVerification.text.toString(),
-                "password" to binding.resignPassword.text.toString()
-            )
-            apiService.register(ac).enqueue(object :
-                Callback<ApiResponse<Person>> {
+            val personVo = PersonVo()
+            personVo.userName = binding.resignEmail.text.toString()
+            personVo.code = binding.resignVerification.text.toString()
+            personVo.password = binding.resignPassword.text.toString()
+            apiService.register(personVo).enqueue(object :
+                Callback<ApiResponse<PersonVo>> {
                 override fun onResponse(
-                    call: Call<ApiResponse<Person>>,
-                    response: Response<ApiResponse<Person>>
+                    call: Call<ApiResponse<PersonVo>>,
+                    response: Response<ApiResponse<PersonVo>>
                 ) {
-                    val apiResponse = response.body() as ApiResponse<Person>
+                    val apiResponse = response.body() as ApiResponse<PersonVo>
                     if (apiResponse.success) {
-                        apiResponse.data?.let {
-                            Log.d(javaClass.simpleName, "获取验证码成功 ${it.toString()}")
-//                            "获取验证码成功".shortToast()
-                        }
-
+                        "注册成功".shortToast()
+                        finish()
                     } else {
-                        Log.d(javaClass.simpleName, apiResponse.message)
+                        Log.e(javaClass.simpleName, apiResponse.message)
                     }
                 }
 
-                override fun onFailure(call: Call<ApiResponse<Person>>, t: Throwable) {
-                    "获取验证码失败".shortToast()
+                override fun onFailure(call: Call<ApiResponse<PersonVo>>, t: Throwable) {
+                    "注册失败".shortToast()
                     Log.e(javaClass.simpleName, t.stackTraceToString())
                 }
             })
-            finish()
+
         }
     }
 }

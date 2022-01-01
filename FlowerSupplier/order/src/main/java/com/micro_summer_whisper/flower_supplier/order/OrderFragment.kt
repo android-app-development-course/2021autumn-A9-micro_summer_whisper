@@ -143,41 +143,9 @@ class OrderFragment : Fragment()
                 hideAndShow(4, fragmentTran)
             }
         }
-        testGertOrderList();
         return view
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun testGertOrderList(){
-        val apiService = ServiceCreator.create(ApiService::class.java)
-        val oc = OrderCondition()
-        oc.shopId = 12
-        apiService.getOrderList(oc).enqueue(object : Callback<ApiResponse<List<OrderVo>>> {
-            override fun onResponse(
-                call: Call<ApiResponse<List<OrderVo>>>,
-                response: Response<ApiResponse<List<OrderVo>>>
-            ) {
-                val apiResponse = response.body() as ApiResponse<List<OrderVo>>
-                if (apiResponse.success){
-                    apiResponse.data?.let {
-                        //更新ui
-
-                        Log.d(javaClass.simpleName, it.toString())
-                    }
-                } else {
-                    Log.d(javaClass.simpleName,apiResponse.message)
-                }
-            }
-
-            override fun onFailure(call: Call<ApiResponse<List<OrderVo>>>, t: Throwable) {
-                Log.e(javaClass.simpleName,"获取订单失败")
-                Log.e(javaClass.simpleName,t.stackTraceToString())
-            }
-
-
-        })
-
-    }
 
 
     private fun initFragment(){

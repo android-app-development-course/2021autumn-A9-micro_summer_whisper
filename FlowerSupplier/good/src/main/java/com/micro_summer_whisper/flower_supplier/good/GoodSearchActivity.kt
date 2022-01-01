@@ -68,6 +68,7 @@ class GoodSearchActivity : BaseActivity() {
                 goodList.clear()
                 val proCondition = ProductCondition()
                 proCondition.productName = searchInput.text.toString()
+                proCondition.shopId = FlowerSupplierApplication.store.shopId
                 apiService.getGoodList(proCondition).enqueue(object : Callback<ApiResponse<List<ProductVo>>> {
                     @RequiresApi(Build.VERSION_CODES.O)
                     override fun onResponse(

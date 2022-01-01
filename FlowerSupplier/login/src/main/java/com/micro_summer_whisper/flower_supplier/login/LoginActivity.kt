@@ -24,6 +24,7 @@ import com.micro_summer_whisper.flower_supplier.common.network.ApiResponse
 import com.micro_summer_whisper.flower_supplier.common.network.ApiService
 import com.micro_summer_whisper.flower_supplier.common.network.ServiceCreator
 import com.micro_summer_whisper.flower_supplier.common.pojo.Person
+import com.micro_summer_whisper.flower_supplier.common.pojo.PersonVo
 import com.micro_summer_whisper.flower_supplier.common.shortToast
 import com.micro_summer_whisper.flower_supplier.login.databinding.ActivityLoginBinding
 import retrofit2.Call
@@ -126,23 +127,22 @@ class LoginActivity : BaseActivity() {
         //916819054@qq.com
         //登录按钮
         binding.loginLogin.setOnClickListener {
-            val ac = mapOf(
-                "userName" to binding.loginEmail.text.toString(),
-                "password" to binding.loginPassword.text.toString()
-            )
-            apiService.login(ac).enqueue(object :
-                Callback<ApiResponse<Person>> {
+            val personVo = PersonVo()
+            personVo.userName = binding.loginEmail.text.toString()
+            personVo.password = binding.loginPassword.text.toString()
+            apiService.login(personVo).enqueue(object :
+                Callback<ApiResponse<PersonVo>> {
                 override fun onResponse(
-                    call: Call<ApiResponse<Person>>,
-                    response: Response<ApiResponse<Person>>
+                    call: Call<ApiResponse<PersonVo>>,
+                    response: Response<ApiResponse<PersonVo>>
                 ) {
-                    val apiResponse = response.body() as ApiResponse<Person>
+                    val apiResponse = response.body() as ApiResponse<PersonVo>
                     if (apiResponse.success) {
                         apiResponse.data?.let {
                             FlowerSupplierApplication.userInfo = it
                             FlowerSupplierApplication.UserId = it.userId
                             FlowerSupplierApplication.isLogin = true
-
+                            FlowerSupplierApplication.TOKEN = it.token
                             /*val db = dbHelper.writableDatabase
                             val value = ContentValues().apply {
                                 put("userid", it.userId.toString())
@@ -150,10 +150,13 @@ class LoginActivity : BaseActivity() {
                             db.insert("USERID", null, value)*/
                             val editor = getSharedPreferences("data", Context.MODE_PRIVATE).edit()
                             editor.putInt("userid", it.userId)
+                            editor.putString("token", FlowerSupplierApplication.TOKEN)
                             editor.apply()
 
-                            Log.d(javaClass.simpleName, "获取验证码成功 ${it.toString()}")
-                            "获取验证码成功".shortToast()
+                            Log.d(javaClass.simpleName, "登录成功 ${it.toString()}")
+                            "登录成功".shortToast()
+                            finish()
+                            ARouter.getInstance().build("/app/MainActivity").navigation();
                         }
 
                     } else {
@@ -161,8 +164,8 @@ class LoginActivity : BaseActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<ApiResponse<Person>>, t: Throwable) {
-                    "获取验证码失败".shortToast()
+                override fun onFailure(call: Call<ApiResponse<PersonVo>>, t: Throwable) {
+                    "登录失败".shortToast()
                     Log.e(javaClass.simpleName, t.stackTraceToString())
                 }
             })
@@ -183,7 +186,6 @@ class LoginActivity : BaseActivity() {
             "去注册".shortToast()
             val intent = Intent(this, ResignActivity::class.java)
             startActivity(intent)
-            finish()
         }
     }
 }

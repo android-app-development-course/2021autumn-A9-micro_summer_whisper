@@ -37,6 +37,7 @@ class GoodAdapter(val context: Context, val goodList: ArrayList<ProductVo>) :
         val imageView: ImageView = itemView.findViewById(R.id.good_cover_image)
         val titleTV: TextView = itemView.findViewById(R.id.good_title)
         val priceTV: TextView = itemView.findViewById(R.id.good_price)
+        val stockTV: TextView = itemView.findViewById(R.id.good_stock)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GoodViewHolder {
@@ -51,6 +52,7 @@ class GoodAdapter(val context: Context, val goodList: ArrayList<ProductVo>) :
         holder.titleTV.setText(good.productName)
         val money = Money((good.normalPrice / 100).toLong(), good.normalPrice % 100)
         holder.priceTV.setText(money.toString())
+        holder.stockTV.setText(good.stock.toString())
         holder.itemView.setOnClickListener {
             context.let {
                 GoodDetailActivity.actionStart(it, true, good)

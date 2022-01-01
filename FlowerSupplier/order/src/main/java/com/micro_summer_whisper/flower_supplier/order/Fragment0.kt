@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication
 import com.micro_summer_whisper.flower_supplier.common.conditon.OrderCondition
 import com.micro_summer_whisper.flower_supplier.common.longToast
 import com.micro_summer_whisper.flower_supplier.common.network.ApiResponse
@@ -60,9 +61,17 @@ class Fragment0 : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
-        initOrders()
+        if (FlowerSupplierApplication.isLogin){
+            initOrders()
+        }
     }
-
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if(!hidden&&FlowerSupplierApplication.isLogin){
+            initOrders()
+        }
+    }
     companion object {
 
         @JvmStatic
@@ -77,7 +86,7 @@ class Fragment0 : Fragment() {
     private fun initOrders() {
         orderList.clear()
         val oc = OrderCondition()
-        oc.shopId = 12
+        oc.shopId = FlowerSupplierApplication.store.shopId
         apiService.getOrderList(oc).enqueue(object : Callback<ApiResponse<List<OrderVo>>> {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onResponse(

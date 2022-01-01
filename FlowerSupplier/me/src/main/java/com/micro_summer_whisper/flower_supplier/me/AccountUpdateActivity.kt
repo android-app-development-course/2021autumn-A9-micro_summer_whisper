@@ -48,25 +48,22 @@ class AccountUpdateActivity : BaseActivity() {
             val newName = binding.meNewName.text.toString()
 
             FlowerSupplierApplication.userInfo.name = newName
-
+            FlowerSupplierApplication.userInfo.password = null
             apiService.update(FlowerSupplierApplication.userInfo).enqueue(object :
-                Callback<ApiResponse<String>> {
+                Callback<ApiResponse<Any>> {
                 override fun onResponse(
-                    call: Call<ApiResponse<String>>,
-                    response: Response<ApiResponse<String>>
+                    call: Call<ApiResponse<Any>>,
+                    response: Response<ApiResponse<Any>>
                 ) {
-                    val apiResponse = response.body() as ApiResponse<String>
+                    val apiResponse = response.body() as ApiResponse<Any>
                     if (apiResponse.success) {
-                        apiResponse.data?.let {
-                            Log.d(javaClass.simpleName,"修改信息成功 ${it.toString()}")
-                            "修改信息成功".shortToast()
-                        }
-
+                        Log.d(javaClass.simpleName,"修改信息成功 ${it.toString()}")
+                        "修改信息成功".shortToast()
                     } else {
-                        Log.d(javaClass.simpleName,apiResponse.message)
+                        Log.e(javaClass.simpleName,apiResponse.message)
                     }
                 }
-                override fun onFailure(call: Call<ApiResponse<String>>, t: Throwable) {
+                override fun onFailure(call: Call<ApiResponse<Any>>, t: Throwable) {
                     "修改信息失败".shortToast()
                     Log.e(javaClass.simpleName,t.stackTraceToString())
                 }

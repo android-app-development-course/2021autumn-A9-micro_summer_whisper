@@ -11,11 +11,14 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.micro_summer_whisper.flower_supplier.chat.databinding.FragmentChatBinding
+import com.micro_summer_whisper.flower_supplier.common.DataHelper
+import com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication
 import com.micro_summer_whisper.flower_supplier.common.MyDatabaseHelper
 import com.micro_summer_whisper.flower_supplier.common.pojo.ChatMessageVo
 import com.micro_summer_whisper.flower_supplier.common.pojo.ChattingMsg
 import kotlinx.android.synthetic.main.fragment_chat.*
 import java.util.*
+import java.util.concurrent.Flow
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 
@@ -30,7 +33,7 @@ class ChatFragment : Fragment() {
         override fun onReceive(p0: Context?, p1: Intent?) {
             p1?.let {
                 if (it.action==UPDATE_CHAT_MSG_ACTION){
-                    val serializableExtra = it.getSerializableExtra("chattingMsgList") as ArrayList<ChatMessageVo>
+                    val serializableExtra = DataHelper.getInstance().removeData<ArrayList<ChatMessageVo>>("chattingMsgList")
                     for (chattingMsg in serializableExtra) {
                         chatMsgList.removeIf { chatMsg ->
                             chatMsg.nickName.equals(chattingMsg.nickName)
@@ -51,7 +54,6 @@ class ChatFragment : Fragment() {
         _binding = FragmentChatBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        initChatMsgList()
         activity?.let {
             adapter = ChatMsgAdapter( binding.chatRecycleView ,this ,chatMsgList)
             binding.chatRecycleView.adapter = adapter
@@ -76,7 +78,7 @@ class ChatFragment : Fragment() {
         chatMsgList.clear()
         val db = this.context?.let { MyDatabaseHelper(it,"flower_supplier",1).readableDatabase }
         db?.let {
-            it.query(true,"latest_chats", null,null,null,null,null,null,null).let {
+            it.query(true,"latest_chats", null,"a_id = ?", arrayOf("${FlowerSupplierApplication.userInfo.userId.toLong()}"),null,null,null,null).let {
                 while (it.moveToNext()){
                     val type = it.getInt(it.getColumnIndexOrThrow("is_text"))
                     val chatMessageVo = ChatMessageVo(
@@ -108,6 +110,12 @@ class ChatFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (FlowerSupplierApplication.isLogin&&FlowerSupplierApplication.curBottomNavIndex==FlowerSupplierApplication.CHAT_INDEX){
+            initChatMsgList()
+        }
+    }
 
 
     override fun onDestroyView() {

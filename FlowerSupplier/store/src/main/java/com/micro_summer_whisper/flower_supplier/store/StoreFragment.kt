@@ -59,8 +59,24 @@ class StoreFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
+        if (FlowerSupplierApplication.isLogin&&FlowerSupplierApplication.curBottomNavIndex==FlowerSupplierApplication.STORE_INDEX){
+            initStore()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden&&FlowerSupplierApplication.isLogin){
+            initStore()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun initStore(){
         val thisthis = this
-        apiService.hasStore(FlowerSupplierApplication.userAccount.userId).enqueue(object : Callback<ApiResponse<Shop>>{
+        apiService.hasStore(FlowerSupplierApplication.userInfo.userId).enqueue(object : Callback<ApiResponse<Shop>>{
+            @RequiresApi(Build.VERSION_CODES.O)
             override fun onResponse(
                 call: Call<ApiResponse<Shop>>,
                 response: Response<ApiResponse<Shop>>
@@ -99,8 +115,8 @@ class StoreFragment : Fragment() {
         val shop = Shop()
         shop.priority = 0
         shop.shopName = ""
-        shop.advice = ""
-        shop.ownerId = FlowerSupplierApplication.userAccount.userId
+        shop.shopAddress = ""
+        shop.ownerId = FlowerSupplierApplication.userInfo.userId
         apiService.createStore(shop).enqueue(object : Callback<ApiResponse<Shop>>{
             override fun onResponse(
                 call: Call<ApiResponse<Shop>>,

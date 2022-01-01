@@ -46,7 +46,7 @@ ext {
      *
      * isDebug = false 集成模式
      */
-    isDebug = true
+    isDebug = false
 
     android = [
         compileSdk  : 31,

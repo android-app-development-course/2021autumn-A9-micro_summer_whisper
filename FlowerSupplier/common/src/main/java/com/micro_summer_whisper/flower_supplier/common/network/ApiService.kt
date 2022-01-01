@@ -25,8 +25,8 @@ interface ApiService {
     @POST("shop/updateStoreInfo")
     fun updateStoreInfo(@Body body: Shop): Call<ApiResponse<Shop>>
 
-    @GET("category/getCategoryList")
-    fun getGoodCategoryList(): Call<ApiResponse<List<CategoryVo>>>
+    @POST("category/getCategoryList")
+    fun getGoodCategoryList(@Body categoryCondition: CategoryCondition): Call<ApiResponse<List<CategoryVo>>>
 
     @POST("product/getProductList")
     fun getGoodList(@Body body: ProductCondition): Call<ApiResponse<List<ProductVo>>>
@@ -55,30 +55,20 @@ interface ApiService {
         @Query("logisticsOrderNumber") logisticsOrderNumber: String?
     ): Call<ApiResponse<OrderVo>>
 
-    @POST("account/login")
-    fun login(@Body body: Account): Call<ApiResponse<Person>>
+    @GET("account/tCode")
+    fun getCode(@Query("email") email: String): Call<ApiResponse<Any>>
 
-    @POST("account/register")
-    fun register(@Body body: Account): Call<ApiResponse<Person>>
+    @POST("account/tRegister")
+    fun register(@Body personVo: PersonVo): Call<ApiResponse<PersonVo>>
 
-    @GET("getUserInfo/{userId}")
-    fun getUserInfo(@Path("userId") userId: Int): Call<ApiResponse<Person>>
 
-    @POST("updateUserInfo")
-    fun updateUserInfo(@Body body: Person): Call<ApiResponse<Person>>
+    @POST("account/tLoginByPassword")
+    fun login(@Body personVo: PersonVo): Call<ApiResponse<PersonVo>>
 
-    @POST("account/code")
-    fun getCode(@Body account: Map<String, String>): Call<ApiResponse<Person>>
 
-    @POST("account/register")
-    fun register(@Body account: Map<String, String>): Call<ApiResponse<Person>>
+    @GET("person/tInfo")
+    fun info(@Query("id") id: Int): Call<ApiResponse<PersonVo>>
 
-    @POST("account/login")
-    fun login(@Body account: Map<String, String>): Call<ApiResponse<Person>>
-
-    @GET("person/info")
-    fun info(@Query("id") id: Int): Call<ApiResponse<Person>>
-
-    @POST("person/update")
-    fun update(@Body account: Person): Call<ApiResponse<String>>
+    @POST("person/tUpdate")
+    fun update(@Body personVo: PersonVo): Call<ApiResponse<Any>>
 }

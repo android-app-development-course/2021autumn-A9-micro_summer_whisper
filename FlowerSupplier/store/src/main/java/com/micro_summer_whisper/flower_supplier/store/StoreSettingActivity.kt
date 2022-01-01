@@ -25,6 +25,7 @@ import com.micro_summer_whisper.flower_supplier.store.databinding.ActivityStoreS
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 import java.lang.Exception
 import java.lang.RuntimeException
 
@@ -93,10 +94,8 @@ class StoreSettingActivity : BaseActivity() {
         val thisthis = this
         apiService.getStoreInfo(FlowerSupplierApplication.store.shopId).enqueue(object : Callback<ApiResponse<Shop>> {
             override fun onResponse(call: Call<ApiResponse<Shop>>, response: Response<ApiResponse<Shop>>) {
-                if (FlowerSupplierApplication.isDebug) {
-                    onFailure(call, RuntimeException())
-                } else {
-                    val apiResponse = response.body() as ApiResponse<Shop>
+                val apiResponse = response.body() as ApiResponse<Shop>
+                if (apiResponse.success){
                     val store = apiResponse.data
                     store?.let {
                         FlowerSupplierApplication.store = store
@@ -104,20 +103,18 @@ class StoreSettingActivity : BaseActivity() {
                         binding.storeSettingNameB.setText(store.shopName)
                         binding.storeSettingAddressB.setText(store.shopAddress)
                     }
+
+                } else {
+                    Log.e(javaClass.simpleName,"获取店铺信息失败")
+                    "获取店铺信息失败".shortToast()
                 }
+
             }
 
             override fun onFailure(call: Call<ApiResponse<Shop>>, t: Throwable) {
-                if (FlowerSupplierApplication.isDebug){
-                    val store = FlowerSupplierApplication.store
-                    Glide.with(thisthis).load(store.shopImg).into(binding.storeSettingHeadImageB)
-                    binding.storeSettingNameB.setText(store.shopName)
-                    binding.storeSettingAddressB.setText(store.shopAddress)
-                } else {
-                    Log.e(javaClass.simpleName,"获取店铺信息失败")
-                    Log.e(javaClass.simpleName,t.stackTraceToString())
-                    "获取店铺信息失败".shortToast()
-                }
+                Log.e(javaClass.simpleName,"获取店铺信息失败")
+                Log.e(javaClass.simpleName,t.stackTraceToString())
+                "获取店铺信息失败".shortToast()
             }
 
 

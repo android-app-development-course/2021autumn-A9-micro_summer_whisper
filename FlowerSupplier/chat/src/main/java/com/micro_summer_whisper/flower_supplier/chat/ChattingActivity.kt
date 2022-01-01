@@ -89,8 +89,8 @@ class ChattingActivity : BaseActivity() {
         }
         binding.chattingSendBtn.setOnClickListener {
             val apiService = ServiceCreator.create(ApiService::class.java)
-            apiService.sendChattingMsg(ChatMessageVo("https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",binding.chattingInput.text.toString(),
-                ChatMessageVo.TYPE_RECEIVE_TEXT,bid.toInt(),FlowerSupplierApplication.userAccount.userId,FlowerSupplierApplication.userInfo.name,1)
+            apiService.sendChattingMsg(ChatMessageVo(FlowerSupplierApplication.userInfo.profileImg,binding.chattingInput.text.toString(),
+                ChatMessageVo.TYPE_RECEIVE_TEXT,bid.toInt(),FlowerSupplierApplication.userInfo.userId,FlowerSupplierApplication.userInfo.name,1)
             ).enqueue(object : Callback<ApiResponse<Any>>{
                 override fun onResponse(
                     call: Call<ApiResponse<Any>>,
@@ -98,14 +98,14 @@ class ChattingActivity : BaseActivity() {
                 ) {
                     val apiResponse = response.body() as ApiResponse<Any>
                     if (apiResponse.success){
-                        chattingMsgList.add( ChatMessageVo("https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",binding.chattingInput.text.toString(),
-                            ChatMessageVo.TYPE_SEND_TEXT,FlowerSupplierApplication.userAccount.userId,bid.toInt(),FlowerSupplierApplication.userInfo.name,1))
+                        chattingMsgList.add( ChatMessageVo(FlowerSupplierApplication.userInfo.profileImg,binding.chattingInput.text.toString(),
+                            ChatMessageVo.TYPE_SEND_TEXT,FlowerSupplierApplication.userInfo.userId,bid.toInt(),FlowerSupplierApplication.userInfo.name,1))
                         adapter.notifyItemInserted(chattingMsgList.size-1)
                         binding.chattingRecyclerView.smoothScrollToPosition(chattingMsgList.size-1)
                         db.insert("chats",null, contentValuesOf(
-                            "a_id" to FlowerSupplierApplication.userAccount.userId,"b_id" to bid, "content" to binding.chattingInput.text.toString(),
+                            "a_id" to FlowerSupplierApplication.userInfo.userId,"b_id" to bid, "content" to binding.chattingInput.text.toString(),
                             "type" to ChatMessageVo.TYPE_SEND_TEXT, "created_time" to DateTimeUtils.toStrFromLong(System.currentTimeMillis()),
-                            "head_image_link" to "https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg"
+                            "head_image_link" to FlowerSupplierApplication.userInfo.profileImg
                             , "nick_name" to FlowerSupplierApplication.userInfo.name, "is_text" to 1)
                         )
                     } else {
@@ -145,9 +145,9 @@ class ChattingActivity : BaseActivity() {
                             it.close()
                             val bitmap = BitmapFactory.decodeFile(path)
                             val apiService = ServiceCreator.create(ApiService::class.java)
-                            apiService.sendChattingMsg(ChatMessageVo("https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",
+                            apiService.sendChattingMsg(ChatMessageVo(FlowerSupplierApplication.userInfo.profileImg,
                                 PictureUtils.bitmap2String(bitmap,100),
-                                ChatMessageVo.TYPE_RECEIVE_PICTURE,bid.toInt(),FlowerSupplierApplication.userAccount.userId,FlowerSupplierApplication.userInfo.name,0)
+                                ChatMessageVo.TYPE_RECEIVE_PICTURE,bid.toInt(),FlowerSupplierApplication.userInfo.userId,FlowerSupplierApplication.userInfo.name,0)
                             ).enqueue(object : Callback<ApiResponse<Any>>{
                                 override fun onResponse(
                                     call: Call<ApiResponse<Any>>,
@@ -156,16 +156,16 @@ class ChattingActivity : BaseActivity() {
                                     val apiResponse = response.body() as ApiResponse<Any>
                                     if (apiResponse.success){
                                         chattingMsgList.add(
-                                            ChatMessageVo("https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",
+                                            ChatMessageVo(FlowerSupplierApplication.userInfo.profileImg,
                                                 PictureUtils.bitmap2String(bitmap,100),
-                                                ChatMessageVo.TYPE_SEND_PICTURE,FlowerSupplierApplication.userAccount.userId,bid.toInt(),FlowerSupplierApplication.userInfo.name,0)
+                                                ChatMessageVo.TYPE_SEND_PICTURE,FlowerSupplierApplication.userInfo.userId,bid.toInt(),FlowerSupplierApplication.userInfo.name,0)
                                         )
                                         adapter.notifyItemInserted(chattingMsgList.size-1)
                                         binding.chattingRecyclerView.smoothScrollToPosition(chattingMsgList.size-1)
                                         db.insert("chats",null, contentValuesOf(
-                                            "a_id" to FlowerSupplierApplication.userAccount.userId,"b_id" to bid, "content" to PictureUtils.bitmap2String(bitmap,100),
+                                            "a_id" to FlowerSupplierApplication.userInfo.userId,"b_id" to bid, "content" to PictureUtils.bitmap2String(bitmap,100),
                                             "type" to ChatMessageVo.TYPE_SEND_PICTURE, "created_time" to DateTimeUtils.toStrFromLong(System.currentTimeMillis()),
-                                            "head_image_link" to "https://cdn2.jianshu.io/assets/default_avatar/1-04bbeead395d74921af6a4e8214b4f61.jpg",
+                                            "head_image_link" to FlowerSupplierApplication.userInfo.profileImg,
                                             "nick_name" to FlowerSupplierApplication.userInfo.name, "is_text" to 0)
                                         )
                                     } else {

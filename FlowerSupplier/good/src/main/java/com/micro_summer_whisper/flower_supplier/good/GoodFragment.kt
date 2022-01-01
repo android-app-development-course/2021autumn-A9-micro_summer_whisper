@@ -13,15 +13,18 @@ import com.micro_summer_whisper.flower_supplier.good.databinding.FragmentGoodBin
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication
 import com.micro_summer_whisper.flower_supplier.common.conditon.ProductCondition
 import com.micro_summer_whisper.flower_supplier.common.network.ApiResponse
 import com.micro_summer_whisper.flower_supplier.common.network.ApiService
 import com.micro_summer_whisper.flower_supplier.common.network.ServiceCreator
+import com.micro_summer_whisper.flower_supplier.common.pojo.CategoryCondition
 import com.micro_summer_whisper.flower_supplier.common.pojo.CategoryVo
 import com.micro_summer_whisper.flower_supplier.common.pojo.ProductVo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.concurrent.Flow
 
 
 class GoodFragment : Fragment()
@@ -43,7 +46,9 @@ class GoodFragment : Fragment()
                 curCategoryHolder?.nameTV?.setTextColor(Color.parseColor("#000000"))
                 curCategoryHolder = holder
                 holder.nameTV.setTextColor(Color.parseColor("#0000ff"))
-                initGoodList(holder.nameTV.text.toString())
+                initGoodList(if ("全部".equals(holder.nameTV.text.toString())){null} else {
+                    holder.nameTV.text.toString()
+                })
             }
         }
     }
@@ -91,11 +96,6 @@ class GoodFragment : Fragment()
         super.onActivityCreated(savedInstanceState)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onResume() {
-        super.onResume()
-        initGoodCategoryList()
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.good_toolbar,menu);
@@ -126,10 +126,11 @@ class GoodFragment : Fragment()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun initGoodList(category: String){
+    private fun initGoodList(category: String?){
         goodList.clear()
         val proCondition = ProductCondition()
         proCondition.categoryName = category
+        proCondition.shopId = FlowerSupplierApplication.store.shopId
         apiService.getGoodList(proCondition).enqueue(object : Callback<ApiResponse<List<ProductVo>>>{
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onResponse(call: Call<ApiResponse<List<ProductVo>>>, response: Response<ApiResponse<List<ProductVo>>>) {
@@ -154,10 +155,28 @@ class GoodFragment : Fragment()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
+    override fun onResume() {
+        super.onResume()
+        if (FlowerSupplierApplication.isLogin&&FlowerSupplierApplication.curBottomNavIndex==FlowerSupplierApplication.GOOD_INDEX){
+            initGoodCategoryList()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden&&FlowerSupplierApplication.isLogin){
+            initGoodCategoryList()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initGoodCategoryList(){
         goodCategoryList.clear()
         goodCategoryList.add(CategoryVo(null,"全部",null,null,null,null,null,null))
-        apiService.getGoodCategoryList().enqueue(object : Callback<ApiResponse<List<CategoryVo>>>{
+        val categoryCondition = CategoryCondition()
+        categoryCondition.shopId = FlowerSupplierApplication.store.shopId
+        apiService.getGoodCategoryList(categoryCondition).enqueue(object : Callback<ApiResponse<List<CategoryVo>>>{
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onResponse(call: Call<ApiResponse<List<CategoryVo>>>, response: Response<ApiResponse<List<CategoryVo>>>) {
                 val apiResponse = response.body() as ApiResponse<List<CategoryVo>>
@@ -165,7 +184,7 @@ class GoodFragment : Fragment()
                     apiResponse.data?.let {
                         goodCategoryList.addAll(it)
                         goodCategoryAdapter.notifyDataSetChanged()
-                        initGoodList(goodCategoryList[0].categoryName)
+                        initGoodList(null)
                     }
                 } else {
                     Log.d(javaClass.simpleName,apiResponse.message)

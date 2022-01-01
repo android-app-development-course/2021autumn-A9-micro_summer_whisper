@@ -86,6 +86,7 @@ class GoodDetailActivity : BaseActivity() {
             if (isUpdate) {
                 val pv = ProductVo()
                 pv.productId = good.productId
+                pv.shopId = FlowerSupplierApplication.store.shopId
                 pv.categoryName = binding.goodDetailNormalCategoryInput.text.toString()
                 pv.productName = binding.goodDetailNormalTitleInput.text.toString()
                 pv.productDesc = binding.goodDetailNormalDetailInput.text.toString()
@@ -141,6 +142,7 @@ class GoodDetailActivity : BaseActivity() {
                 val pv = ProductVo()
                 pv.categoryName = binding.goodDetailNormalCategoryInput.text.toString()
                 pv.productName = binding.goodDetailNormalTitleInput.text.toString()
+                pv.shopId = FlowerSupplierApplication.store.shopId
                 pv.productDesc = binding.goodDetailNormalDetailInput.text.toString()
                 pv.shopId = FlowerSupplierApplication.store.shopId
                 pv.stock = binding.goodDetailNormalStockInput.text.toString().toInt()

@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.micro_summer_whisper.flower_supplier.chat.ChatFragment
@@ -20,6 +21,7 @@ import com.micro_summer_whisper.flower_supplier.order.OrderFragment
 import com.micro_summer_whisper.flower_supplier.store.StoreFragment
 import com.micro_summer_whisper.flowergiver.databinding.ActivityMainBinding
 
+@Route(path = "/app/MainActivity")
 class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener{
 
     private lateinit var binding: ActivityMainBinding
@@ -43,13 +45,17 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
         binding.navigation.setOnItemSelectedListener(this)
     }
 
+
     private fun initFragment(){
         val fragmentTran = supportFragmentManager.beginTransaction()
         if (fragments[0]==null){
             fragments[0] = StoreFragment.newInstance()
-            fragments[0]?.let { fragmentTran.add(R.id.content, it,"storeModule").commit() }
+            fragments[0]?.let {
+                fragmentTran.add(R.id.content, it,"storeModule")
+                hideAndShow(0,fragmentTran)
+            }
         } else {
-            fragments[0]?.let { fragmentTran.show(it) }
+            hideAndShow(0,fragmentTran)
         }
     }
 
@@ -60,6 +66,10 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
                     return true
                 }
                 val fragmentTran = supportFragmentManager.beginTransaction()
+                if (fragments[0]==null){
+                    fragments[0] = StoreFragment.newInstance()
+                    fragments[0]?.let { fragmentTran.add(R.id.content,it,"storeModule") }
+                }
                 hideAndShow(0,fragmentTran)
                 return true
             }
@@ -109,15 +119,6 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
                     fragments[4]?.let { fragmentTran.add(R.id.content, it,"meModule") }
                 }
                 hideAndShow(4,fragmentTran)
-                if (!FlowerSupplierApplication.isLogin){
-                    val notifyLoginDialog = AlertDialog.Builder(this)
-                    notifyLoginDialog.setPositiveButton("去登录") { dialog, which ->
-                        "登录".shortToast()
-                        ARouter.getInstance().build("/login/login_activity").navigation();
-                    }
-                    notifyLoginDialog.show()
-                }
-
                 return true
             }
             else -> {
@@ -135,5 +136,6 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
         fragments[expectIndex]?.let { transaction.show(it) }
         transaction.commit()
         currentIndex = expectIndex
+        FlowerSupplierApplication.curBottomNavIndex = expectIndex
     }
 }

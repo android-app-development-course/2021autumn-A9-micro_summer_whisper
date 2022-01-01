@@ -18,6 +18,7 @@ import com.micro_summer_whisper.flower_supplier.common.network.ApiResponse
 import com.micro_summer_whisper.flower_supplier.common.network.ApiService
 import com.micro_summer_whisper.flower_supplier.common.network.ServiceCreator
 import com.micro_summer_whisper.flower_supplier.common.pojo.Person
+import com.micro_summer_whisper.flower_supplier.common.pojo.PersonVo
 import com.micro_summer_whisper.flower_supplier.common.shortToast
 import com.micro_summer_whisper.flower_supplier.me.databinding.FragmentMeBinding
 import retrofit2.Call
@@ -121,7 +122,17 @@ class MeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
-        initOrders()
+        if (FlowerSupplierApplication.isLogin&&FlowerSupplierApplication.curBottomNavIndex==FlowerSupplierApplication.ME_INDEX){
+            initOrders()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden&&FlowerSupplierApplication.isLogin){
+            initOrders()
+        }
     }
 
     //獲取用戶信息
@@ -144,22 +155,18 @@ class MeFragment : Fragment() {
         if (prefs != null) {
             userid = prefs.getInt("userid", -1)
         }
-
-        FlowerSupplierApplication.UserId = userid
-
-        if (!FlowerSupplierApplication.isLogin) {
-            "请登录".shortToast()
-           this.activity?.finish()
+        if (userid==-1){
+            userid = FlowerSupplierApplication.UserId
         }
 
-        apiService.info(FlowerSupplierApplication.UserId)
-            .enqueue(object : Callback<ApiResponse<Person>> {
+        apiService.info(userid)
+            .enqueue(object : Callback<ApiResponse<PersonVo>> {
                 @RequiresApi(Build.VERSION_CODES.O)
                 override fun onResponse(
-                    call: Call<ApiResponse<Person>>,
-                    response: Response<ApiResponse<Person>>
+                    call: Call<ApiResponse<PersonVo>>,
+                    response: Response<ApiResponse<PersonVo>>
                 ) {
-                    val apiResponse = response.body() as ApiResponse<Person>
+                    val apiResponse = response.body() as ApiResponse<PersonVo>
                     if (apiResponse.success) {
                         apiResponse.data?.let {
                             FlowerSupplierApplication.userInfo = it
@@ -174,7 +181,7 @@ class MeFragment : Fragment() {
                     }
                 }
 
-                override fun onFailure(call: Call<ApiResponse<Person>>, t: Throwable) {
+                override fun onFailure(call: Call<ApiResponse<PersonVo>>, t: Throwable) {
                     Log.e(javaClass.simpleName, "获取订单失败")
                     Log.e(javaClass.simpleName, t.stackTraceToString())
                 }

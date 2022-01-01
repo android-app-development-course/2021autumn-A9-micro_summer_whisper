@@ -15,10 +15,12 @@ import android.app.PendingIntent
 import android.content.Context
 
 import android.content.IntentFilter
+import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.content.contentValuesOf
 import com.bumptech.glide.Glide
+import com.micro_summer_whisper.flower_supplier.common.DataHelper
 import com.micro_summer_whisper.flower_supplier.common.FlowerSupplierApplication
 import com.micro_summer_whisper.flower_supplier.common.MyDatabaseHelper
 import com.micro_summer_whisper.flower_supplier.common.network.ApiResponse
@@ -90,7 +92,7 @@ class ChatService : Service() {
             if (TEST_ACTION == action) {
                 println("我爱你中国")
                 val apiService = ServiceCreator.create(ApiService::class.java)
-                apiService.getChattingMsg(FlowerSupplierApplication.userAccount.userId).enqueue(object : Callback<ApiResponse<ArrayList<ChatMessageVo>>>{
+                apiService.getChattingMsg(FlowerSupplierApplication.userInfo.userId).enqueue(object : Callback<ApiResponse<ArrayList<ChatMessageVo>>>{
                     override fun onResponse(
                         call: Call<ApiResponse<ArrayList<ChatMessageVo>>>,
                         response: Response<ApiResponse<ArrayList<ChatMessageVo>>>
@@ -99,8 +101,8 @@ class ChatService : Service() {
                         if (apiResponse.success){
                             apiResponse.data?.let {
                                 val chattingMsgList = it
+                                DataHelper.getInstance().saveData("chattingMsgList",chattingMsgList)
                                 val intent = Intent(ChatFragment.UPDATE_CHAT_MSG_ACTION)
-                                intent.putExtra("chattingMsgList",chattingMsgList)
                                 sendBroadcast(intent)
 
                                 val db = MyDatabaseHelper(FlowerSupplierApplication.context,"flower_supplier",1).writableDatabase
