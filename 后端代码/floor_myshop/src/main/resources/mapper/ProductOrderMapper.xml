@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.floor_myshop.mapper.ProductOrderMapper">
+
+    <sql id="BASE_COLUMN">
+        order_id, product_id ,shop_id ,address,logistics_status,logistics_id,user_id,is_deleted,
+        create_time,order_state,amount,receiver_name,receiver_phone,logistics_order_number
+    </sql>
+
+
+    <select id="getProductOrderListByCondition" parameterType="com.example.floor_myshop.conditon.OrderCondition"
+            resultType="productOrder">
+        select
+        <include refid="BASE_COLUMN"></include>
+        from product_order
+        <where>
+            <if test="orderId !=null">
+                order_id = #{orderId, jdbcType=INTEGER}
+            </if>
+            <if test="productId !=null">
+                and product_id = #{productId, jdbcType=INTEGER}
+            </if>
+            <if test="shopId !=null">
+                and shop_id = #{shopId, jdbcType=INTEGER}
+            </if>
+            <if test="logisticsStatus !=null">
+                and logistics_status = #{logisticsStatus, jdbcType=INTEGER}
+            </if>
+            <if test="logisticsId !=null">
+                and logistics_id = #{logisticsId, jdbcType=INTEGER}
+            </if>
+            <if test="userId !=null">
+                and user_id = #{userId, jdbcType=INTEGER}
+            </if>
+            <if test="isDeleted !=null">
+                and is_deleted = #{isDeleted, jdbcType=INTEGER}
+            </if>
+            <if test="minCreateTime != null and maxCreateTime != null">
+                and create_time between #{minCreateTime,jdbcType=DATE} and #{maxCreateTime,jdbcType=DATE }
+            </if>
+            <if test="orderState != null">
+                and order_state = #{orderState,jdbcType=INTEGER}
+            </if>
+            <if test="minAmount != null and maxAmount != null">
+                and amount between #{minAmount, jdbcType=INTEGER} and #{maxAmount, jdbcType=INTEGER}
+            </if>
+            <if test="receiverName != null">
+                and receiver_name = #{receiverName,jdbcType=VARCHAR}
+            </if>
+            <if test="receiverPhone != null">
+                and receiver_phone = #{receiverPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="logisticsOrderNumber != null">
+                and logistics_order_number = #{logisticsOrderNumber,jdbcType=VARCHAR}
+            </if>
+
+        </where>
+    </select>
+
+</mapper>
