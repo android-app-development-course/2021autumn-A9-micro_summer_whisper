@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright 2020 The Android Open Source Project
+
+  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+  in compliance with the License. You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software distributed under the License
+  is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+  or implied. See the License for the specific language governing permissions and limitations under
+  the License.
+  -->
+<resources>
+    <string name="app_name">floor_shop</string>
+    <string name="label_back">Back</string>
+
+    <!-- Home Tabs -->
+    <string name="home_feed">主页</string>
+    <string name="home_search">搜索</string>
+    <string name="home_cart">购物车</string>
+    <string name="home_profile">我的</string>
+    <string name="home_dynamic">花园日记</string>
+
+    <!-- Home -->
+    <string name="label_filters">过滤</string>
+    <string name="label_select_delivery">选择收货地址</string>
+
+<!--    diary-->
+    <string name="cd_crop_square">Crop</string>
+    <string name="cd_done">Done</string>
+    <string name="cd_event">Event</string>
+    <string name="cd_privacy">Privacy</string>
+    <string name="cd_restore">Restore</string>
+
+    <!-- Search -->
+    <string name="search_jetsnack">查找 鲜花</string>
+    <string name="search_no_matches">No matches for “%1s”</string>
+    <string name="search_no_matches_retry">尝试扩大搜索范围</string>
+    <string name="search_count">%1d items</string>
+    <string name="label_add">加入购物车</string>
+    <string name="label_search">Perform search</string>
+
+    <!-- Snack Detail -->
+    <string name="detail_header">细节</string>
+    <string name="detail_placeholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempus, sem vitae convallis imperdiet, lectus nunc pharetra diam, ac rhoncus quam eros eu risus. Nulla pulvinar condimentum erat, pulvinar tempus turpis blandit ut. Etiam sed ipsum sed lacus eleifend hendrerit eu quis quam. Etiam ligula eros, finibus vestibulum tortor ac, ultrices accumsan dolor. Vivamus vel nisl a libero lobortis posuere. Aenean facilisis nibh vel ultrices bibendum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse ac est vitae lacus commodo efficitur at ut massa. Etiam vestibulum sit amet sapien sed varius. Aliquam non ipsum imperdiet, pulvinar enim nec, mollis risus. Fusce id tincidunt nisl.</string>
+    <string name="ingredients">花材信息</string>
+    <string name="ingredients_list">红玫瑰，红豆，白色相识梅，白色满天星，串灯</string>
+    <string name="quantity">数量</string>
+    <string name="add_to_cart">加入购物车</string>
+
+    <!-- Cart -->
+    <string name="cart_order_header">订单 (%1s)</string>
+    <plurals name="cart_order_count">
+        <item quantity="one">%1d item</item>
+        <item quantity="other">%1d items</item>
+    </plurals>
+    <string name="cart_summary_header">总计</string>
+    <string name="cart_subtotal_label">小记</string>
+    <string name="cart_shipping_label">总优惠</string>
+    <string name="cart_total_label">总价</string>
+    <string name="cart_checkout">结算</string>
+    <string name="cart_increase_error">There was an error and the quantity couldn\'t be increased. Please try again.</string>
+    <string name="cart_decrease_error">There was an error and the quantity couldn\'t be decreased. Please try again.</string>
+    <string name="label_remove">Remove item</string>
+
+    <!-- Quantity Selector -->
+    <string name="label_increase">增加</string>
+    <string name="label_decrease">减少</string>
+    <string name="work_in_progress">This is currently work in progress</string>
+    <string name="grab_beverage">Grab a beverage and check back later!</string>
+    <string name="see_more">SEE MORE</string>
+    <string name="see_less">SEE LESS</string>
+    <string name="remove_item">Remove Item</string>
+    <string name="reset">Reset</string>
+    <string name="sort">Sort</string>
+    <string name="price">Price</string>
+    <string name="category">Category</string>
+    <string name="max_calories">Max Calories</string>
+    <string name="lifestyle">生活方式</string>
+    <string name="per_serving">per serving</string>
+    <string name="android_favorites">智能推荐 (default)</string>
+    <string name="rating">评分</string>
+    <string name="alphabetical">字母排序</string>
+    <string name="close">Close</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_first">FirstActivity</string>
+
+</resources>

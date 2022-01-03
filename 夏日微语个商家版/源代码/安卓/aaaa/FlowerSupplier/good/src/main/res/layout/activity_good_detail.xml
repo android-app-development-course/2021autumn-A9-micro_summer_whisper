@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GoodDetailActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/good_detail_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/good_detail_toolbar"
+        app:layout_constraintBottom_toTopOf="@id/good_detail_update_good_btn">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+<!--            cover part-->
+            <com.micro_summer_whisper.flower_supplier.common.QMUIRoundConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/good_detail_cover_part"
+                app:qmui_backgroundColor="@color/white"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_margin="20dp"
+                app:qmui_radius="10dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="封面"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/good_detail_cover_text"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    />
+
+                <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/good_detail_cover_image"
+                    android:src="@drawable/add"
+                    app:qmui_corner_radius="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/good_detail_cover_text"
+                    app:layout_constraintLeft_toRightOf="@id/good_detail_cover_text"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="10dp"
+                    />
+
+
+            </com.micro_summer_whisper.flower_supplier.common.QMUIRoundConstraintLayout>
+
+<!--            picture part-->
+            <com.micro_summer_whisper.flower_supplier.common.QMUIRoundConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                app:layout_constraintTop_toBottomOf="@id/good_detail_cover_part"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="20dp"
+                android:id="@+id/good_detail_showpicture_part"
+                app:qmui_radius="10dp"
+                android:padding="20dp"
+                app:qmui_backgroundColor="@color/white"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:text="展示图片"
+                    android:id="@+id/good_detail_showpicture_text"
+                    android:textSize="20sp"/>
+
+                <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:qmui_corner_radius="10dp"
+                    android:id="@+id/good_detail_showpicture_item_image1"
+                    app:layout_constraintTop_toBottomOf="@id/good_detail_showpicture_text"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/add"
+                    />
+
+
+                <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:qmui_corner_radius="10dp"
+                    android:id="@+id/good_detail_showpicture_item_image2"
+                    android:layout_marginLeft="40dp"
+                    app:layout_constraintTop_toBottomOf="@id/good_detail_showpicture_text"
+                    app:layout_constraintLeft_toRightOf="@id/good_detail_showpicture_item_image1"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/add"
+                    />
+
+
+
+
+                <!--    the second row-->
+                <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:qmui_corner_radius="10dp"
+                    android:id="@+id/good_detail_showpicture_item_image3"
+                    app:layout_constraintTop_toBottomOf="@id/good_detail_showpicture_item_image1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/add"
+                    />
+
+
+                <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:qmui_corner_radius="10dp"
+                    android:id="@+id/good_detail_showpicture_item_image4"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/good_detail_showpicture_item_image2"
+                    app:layout_constraintLeft_toRightOf="@id/good_detail_showpicture_item_image3"
+                    android:src="@drawable/add"
+                    />
+
+
+
+                <!--    the third row-->
+                <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:qmui_corner_radius="10dp"
+                    android:id="@+id/good_detail_showpicture_item_image5"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/good_detail_showpicture_item_image3"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:src="@drawable/add"
+                    />
+
+
+
+                <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:qmui_corner_radius="10dp"
+                    android:id="@+id/good_detail_showpicture_item_image6"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toRightOf="@id/good_detail_showpicture_item_image5"
+                    app:layout_constraintTop_toBottomOf="@id/good_detail_showpicture_item_image4"
+                    android:src="@drawable/add"
+                    />
+
+
+
+
+            </com.micro_summer_whisper.flower_supplier.common.QMUIRoundConstraintLayout>
+
+
+<!--            normal part-->
+            <com.micro_summer_whisper.flower_supplier.common.QMUIRoundConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/good_detail_showpicture_part"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="20dp"
+                app:qmui_radius="10dp"
+                android:padding="20dp"
+                app:qmui_backgroundColor="@color/white"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="标题"
+                    android:id="@+id/good_detail_normal_title"
+                    app:layout_constraintRight_toLeftOf="@id/good_detail_normal_title_input"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginHorizontal="20dp"
+                    app:layout_constraintBaseline_toBaselineOf="@id/good_detail_normal_title_input"
+                    />
+
+
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题"
+                    app:layout_constraintLeft_toRightOf="@id/good_detail_normal_title"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:id="@+id/good_detail_normal_title_input"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="价格"
+                    android:id="@+id/good_detail_normal_price"
+                    app:layout_constraintRight_toLeftOf="@id/good_detail_normal_price_input"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginHorizontal="20dp"
+                    app:layout_constraintBaseline_toBaselineOf="@id/good_detail_normal_price_input"
+                    />
+
+
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="价格"
+                    app:layout_constraintLeft_toRightOf="@id/good_detail_normal_price"
+                    app:layout_constraintTop_toBottomOf="@id/good_detail_normal_title_input"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:id="@+id/good_detail_normal_price_input"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="库存"
+                    android:id="@+id/good_detail_normal_stock"
+                    app:layout_constraintRight_toLeftOf="@id/good_detail_normal_stock_input"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginHorizontal="20dp"
+                    app:layout_constraintBaseline_toBaselineOf="@id/good_detail_normal_stock_input"
+                    />
+
+
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="库存"
+                    app:layout_constraintLeft_toRightOf="@id/good_detail_normal_stock"
+                    app:layout_constraintTop_toBottomOf="@id/good_detail_normal_price_input"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:id="@+id/good_detail_normal_stock_input"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="详情"
+                    android:id="@+id/good_detail_normal_detail"
+                    app:layout_constraintRight_toLeftOf="@id/good_detail_normal_detail_input"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginHorizontal="20dp"
+                    app:layout_constraintBaseline_toBaselineOf="@id/good_detail_normal_detail_input"
+                    />
+
+
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="详情"
+                    app:layout_constraintLeft_toRightOf="@id/good_detail_normal_detail"
+                    app:layout_constraintTop_toBottomOf="@id/good_detail_normal_stock_input"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:id="@+id/good_detail_normal_detail_input"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="分类"
+                    android:id="@+id/good_detail_normal_category"
+                    app:layout_constraintRight_toLeftOf="@id/good_detail_normal_category_input"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginHorizontal="20dp"
+                    app:layout_constraintBaseline_toBaselineOf="@id/good_detail_normal_category_input"
+                    />
+
+
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="详情"
+                    app:layout_constraintLeft_toRightOf="@id/good_detail_normal_category"
+                    app:layout_constraintTop_toBottomOf="@id/good_detail_normal_detail_input"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:id="@+id/good_detail_normal_category_input"
+                    />
+
+            </com.micro_summer_whisper.flower_supplier.common.QMUIRoundConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/good_detail_update_good_btn"
+        android:text="发布商品"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        app:qmui_backgroundColor="@color/colorPrimary"
+        app:qmui_radius="10dp"
+        android:padding="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="10dp"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
